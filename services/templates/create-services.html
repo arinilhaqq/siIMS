@@ -2,168 +2,152 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
-            font-family: 'Poppins';
+            font-family: 'Nunito';
+        }
+        
+        h1 {
+          font-weight: bolder;
         }
 
-        .navbar {
-            overflow: hidden;
-            background-color: #333;
+        p {
+          font-size: large;
         }
 
-        .navbar a {
-            float: left;
-            font-size: 16px;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
+        .navbar-brand {
+          color: red;
         }
 
-        .dropdown {
-            float: left;
-            overflow: hidden;
-        }
-
-        .dropdown .dropbtn {
-            font-size: 16px;  
-            border: none;
-            outline: none;
-            color: white;
-            padding: 14px 16px;
-            background-color: inherit;
-            font-family: inherit;
-            margin: 0;
-        }
-
-        .navbar a:hover, .dropdown:hover .dropbtn {
-            background-color: black;
-        }
-
-        .navbar a.active {
-            background-color: #d92518;
-            font-weight: bold;
-            color: white;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            float: none;
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .button1 {
-          background-color: #3895d3;
-          border-radius: 10px;
-          border: none;
-          font-family: 'Poppins';
-          font-size: 15px;
-          color: white;
-          padding: 12px 32px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          margin: 4px 2px;
-          cursor: pointer;
-        }
-
-        .center {
-          text-align: center;
+        form {
+          margin-left: 5%;
+          margin-right: 5%;
         }
     </style>
-  <title>Homepage | si-IMS</title>
+  <title>Services | si-IMS</title>
 </head>
 
 <body>
-    <div class="navbar">
-        <a class="active" href="/">si-IMS</a>
-
-        <div class="dropdown">
-            <button class="dropbtn">Appointment 
-              <i class="fa fa-caret-down"></i>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a href="/" class="navbar-brand">si-IMS</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="dropdown-content">
-              <a href="#">Add Appointment</a>
-              <a href="#">List Appointment</a>
-            </div>
+            <div id="navbarCollapse" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Appointment</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Add Appointment</a>
+                            <a href="#" class="dropdown-item">List Appointment</a>
+                        </div>
+                    </li>
+                </ul>
 
+                <ul class="nav navbar-nav">
+                  <li class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pelanggan</a>
+                      <div class="dropdown-menu">
+                          <a href="/create-pelanggan/" class="dropdown-item">Add Pelanggan</a>
+                          <a href="#" class="dropdown-item">List Pelanggan</a>
+                      </div>
+                  </li>
+                </ul>
+
+                <ul class="nav navbar-nav">
+                  <li class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Karyawan</a>
+                      <div class="dropdown-menu">
+                          <a href="/create-karyawan/" class="dropdown-item">Add Karyawan</a>
+                          <a href="#" class="dropdown-item">List Karyawan</a>
+                      </div>
+                  </li>
+              ` </ul>
+
+                <ul class="nav navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Spare Part</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Add Spare Part</a>
+                            <a href="#" class="dropdown-item">List Spare Part</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                        <div class="dropdown-menu">
+                            <a href="/create-services/" class="dropdown-item">Add Services</a>
+                            <a href="#" class="dropdown-item">List Services</a>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <ul class="nav navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">User</a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a href="#" class="dropdown-item">Reports</a>
+                            <a href="#" class="dropdown-item">Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">Logout</a>
+                        </div>
+                    </li>
+                </ul> -->
+            </div>
         </div>
-
-        <div class="dropdown">
-            <button class="dropbtn">Pelanggan 
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="/create-pelanggan/">Add Pelanggan</a>
-              <a href="#">List Pelanggan</a>
-            </div>
-        </div> 
-
-        <div class="dropdown">
-            <button class="dropbtn">Karyawan 
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="/create-karyawan/">Add Karyawan</a>
-              <a href="#">List Karyawan</a>
-            </div>
-
-        </div>
-
-        <div class="dropdown">
-            <button class="dropbtn">Spare Part 
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="#">Add Spare Part</a>
-              <a href="#">List Spare Part</a>
-            </div>
-
-        </div>
-
-        <div class="dropdown">
-            <button class="dropbtn">Service 
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="/create-services/">Add Service</a>
-              <a href="#">List Service</a>
-            </div>
-
-        </div>
-    </div>
+    </nav>  
     <br>
-    <h1 align="center">Jenis Service: {{jenis_services}}</h1>
-
-    <div class="center">
-      <button class="button button1" onclick="history.back()">Kembali</button>
-    </div>
+    <h1 align="center">Add Jenis Services</h1>
+    <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
     
+    <br> 
+
+    <form action="/action_page.php">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="namas">Nama Jenis Services:</label>
+          <input type="text" class="form-control" id="namas" placeholder="cth: Ganti Oli" name="namas" required>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="hargas">Harga:</label>
+          <input type="number" class="form-control" id="hargas" placeholder="cth: Rp150.000,-" name="hargas" required>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="estimasi">Estimasi Pengerjaan:</label>
+          <input type="number" class="form-control" id="estimasi" placeholder="cth: 3 Hari" name="estimasi" required>
+        </div>
+      </div>
+      <br>
+      <div class="form-group col-md-12">
+        <label for="arum">Alamat Rumah:</label>
+        <input type="text" class="form-control" id="arum" placeholder="Alamat" name="arum" required>
+      </div>
+      <br>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="sparepart">Kebutuhan Spare Part:</label>
+          <select class="form-select" required>
+            <option selected>Pilih kebutuhan spare part berikut..</option>
+            <option value="1">Busi</option>
+            <option value="2">Baut</option>
+            <option value="3">Oli</option>
+          </select>
+        </div>
+      </div>
+      <br>
+      <div class="bs-example">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+      </div>
+    </form>
 </body>
 
 </html> 
-<!DOCTYPE html>
-<html>

@@ -6,5 +6,6 @@ class ServiceForm(forms.ModelForm):
         model = Service
         fields = ['nama',
                   'harga',
-                  'estimasi_pengerjaan'
+                  'estimasi_pengerjaan',
+                  'kebutuhan_spare_part'
                   ]

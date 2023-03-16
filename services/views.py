@@ -14,7 +14,7 @@ def add_service(request):
     form = ServiceForm(request.POST or None)
     if (form.is_valid() and request.method == 'POST'):
         form.save()
-        return redirect('/services')
+        return redirect('/list-services')
 
     context['form'] = form
-    return render(request, 'service_form.html', context)
+    return render(request, 'create-services.html', context)

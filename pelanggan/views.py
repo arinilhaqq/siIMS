@@ -1,13 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from .models import Pelanggan
+from .forms import PelangganForm
 
 def create_pelanggan(request):
-    first_name = 'Hideng'
-    last_name = 'Cihahem'
+    context = {}
 
-    context = {
-        'first_name':first_name,
-        'last_name':last_name,
-    }
+    form = PelangganForm(request.POST or None)
+    if (form.is_valid() and request.method == 'POST'):
+        form.save()
+        return redirect('/')
 
-    return render(request, "create-pelanggan.html", context)
+    context['form'] = form
+    return render(request, 'create-pelanggan.html', context)

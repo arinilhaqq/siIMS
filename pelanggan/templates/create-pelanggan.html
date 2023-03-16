@@ -89,7 +89,7 @@
                             <a href="#" class="dropdown-item">List Services</a>
                         </div>
                     </li>
-                </ul>
+                </ul> 
                 <!-- <ul class="nav navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">User</a>
@@ -105,52 +105,53 @@
         </div>
     </nav>  
     <br>
-    <h1 align="center">Add Pelanggan</h1>
-    <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
+    <h1 class="text-center">Add Pelanggan</h1>
+    <p class="text-center">Pastikan seluruh data sudah terisi dengan benar!</p>
     
     <br> 
 
-    <form action="/action_page.php">
+    <form action="" method="POST">
+      <input type="hidden" name="csrfmiddlewaretoken" value="kCP16eITs3aEZ5QB9RqWYHgxAu3lmVjLD9O8pwyylk5qNHHnb2zxIFXuOBW8fWcd">
       <div class="row">
         <div class="form-group col-md-4">
-          <label for="namap">Nama Pelanggan:</label>
-          <input type="text" class="form-control" id="namap" placeholder="Nama Pelanggan" name="namap" required>
+          <label for="id_nama_pelanggan">Nama pelanggan:</label> 
+          <input type="text" class="form-control" name="nama_pelanggan" maxlength="30" required="" id="id_nama_pelanggan">
         </div>
         <div class="form-group col-md-4">
-          <label for="notelp">Nomor Telepon:</label>
-          <input type="text" class="form-control" id="notelp" placeholder="Nomor Telepon" name="notelp" required>
-        </div>
+          <label for="id_telepon_pelanggan">Telepon pelanggan:</label> 
+          <input type="number" class="form-control" name="telepon_pelanggan" min="-9223372036854775808" max="9223372036854775807" required="" id="id_telepon_pelanggan">
+          </div>
         <div class="form-group col-md-4">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" placeholder="example@gmail.com" name="email" required>
+          <label for="id_email">Email:</label> 
+          <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email">
         </div>
       </div>
       <br>
       <div class="form-group col-md-12">
-        <label for="arum">Alamat Rumah:</label>
-        <input type="text" class="form-control" id="arum" placeholder="Alamat" name="arum" required>
+        <label for="id_alamat_pelanggan">Alamat pelanggan:</label> 
+        <textarea name="alamat_pelanggan" class="form-control" cols="10" rows="5" required="" id="id_alamat_pelanggan"></textarea>
       </div>
       <br>
       <div class="row">
         <div class="form-group col-md-6">
-          <label for="jmob">Jenis Mobil:</label>
-          <input type="text" class="form-control" id="jmob" placeholder="cth: Sedan" name="jmob" required>
+          <label for="id_jenis_mobil">Jenis mobil:</label> 
+          <input type="text" class="form-control" name="jenis_mobil" maxlength="30" required="" id="id_jenis_mobil">
         </div>
         <br>
         <div class="form-group col-md-6">
-          <label for="namam">Nama Mobil:</label>
-          <input type="text" class="form-control" id="namam" placeholder="cth: Honda Jazz" name="namam" required>
+          <label for="id_nama_mobil">Nama mobil:</label> 
+          <input type="text" class="form-control" name="nama_mobil" maxlength="30" required="" id="id_nama_mobil">
         </div>
       </div>
       <br>
       <div class="row">
         <div class="form-group col-md-6">
-          <label for="nopol">Nomor Polisi:</label>
-          <input type="text" class="form-control" id="nopol" placeholder="cth: B 123 AA" name="nopol" required>
+          <label for="id_nomor_polisi">Nomor polisi:</label> 
+          <input type="text" class="form-control" name="nomor_polisi" maxlength="10" required="" id="id_nomor_polisi">
         </div>
         <div class="form-group col-md-6">
-          <label for="nopkb">Nomor PKB:</label>
-          <input type="text" class="form-control" id="nopkb" placeholder="cth: 1234567" name="nopkb" required>
+          <label for="id_nomor_pkb">Nomor pkb:</label> 
+          <input type="number" class="form-control" name="nomor_pkb" required="" id="id_nomor_pkb">
         </div>
       </div>
       <br>
@@ -160,5 +161,4 @@
       </div>
     </form>
 </body>
-
 </html> 

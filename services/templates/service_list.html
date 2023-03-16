@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Service List</title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>Nama Jenis Service</th>
+        <th>Harga</th>
+        <th>Estimasi Pengerjaan</th>
+      </tr>
+      <tr>
+        {% for s in services %}
+          <td>{{ s.nama }}</td>
+          <td>{{ s.harga }}</td>
+          <td>{{ s.estimasi_pengerjaan }}</td>
+      </tr>
+      {% endfor %}
+           <!-- EXAMPLE SECTION -->
+      <tr>
+        <td>Ganti Ban</td>
+        <td>2000000</td>
+        <td>1 Hari</td>
+      </tr>
+      <tr>
+        <td>Ganti Oli</td>
+        <td>3000000</td>
+        <td>2 Hari</td>
+      </tr>
+      <!-- END SECTION -->
+    </table>
+  </body>
 </html>

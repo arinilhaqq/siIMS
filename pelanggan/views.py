@@ -10,4 +10,5 @@ def create_pelanggan(request):
         'last_name':last_name,
     }
 
+
     return render(request, "create-pelanggan.html", context)

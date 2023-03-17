@@ -1,11 +1,20 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from .models import Service
+from .forms import ServiceForm
 
-def create_services(request):
-    jenis_services = 'Ganti Oli'
 
-    context = {
-        'jenis_services': jenis_services
-    }
+def services_list(request):
+    services = Service.objects.all().values()  # TODO Implement this
+    response = {'services': services}
+    return render(request, 'service_list.html', response)
 
-    return render(request, "create-services.html", context)
+def add_service(request):
+    context = {}
+
+    form = ServiceForm(request.POST or None)
+    if (form.is_valid() and request.method == 'POST'):
+        form.save()
+        return redirect('/list-services')
+
+    context['form'] = form
+    return render(request, 'create-services.html', context)

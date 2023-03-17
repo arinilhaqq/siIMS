@@ -12,7 +12,6 @@
         body {
             font-family: 'Nunito';
         }
-        
         h1 {
           font-weight: bolder;
         }
@@ -90,64 +89,31 @@
                         </div>
                     </li>
                 </ul>
-                <!-- <ul class="nav navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">User</a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a href="#" class="dropdown-item">Reports</a>
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">Logout</a>
-                        </div>
-                    </li>
-                </ul> -->
             </div>
         </div>
-    </nav>  
+    </nav>
     <br>
     <h1 align="center">Add Jenis Services</h1>
     <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
-    
-    <br> 
 
-    <form action="/action_page.php">
-      <div class="row">
-        <div class="form-group col-md-4">
-          <label for="namas">Nama Jenis Services:</label>
-          <input type="text" class="form-control" id="namas" placeholder="cth: Ganti Oli" name="namas" required>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="hargas">Harga:</label>
-          <input type="number" class="form-control" id="hargas" placeholder="cth: Rp150.000,-" name="hargas" required>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="estimasi">Estimasi Pengerjaan:</label>
-          <input type="number" class="form-control" id="estimasi" placeholder="cth: 3 Hari" name="estimasi" required>
-        </div>
-      </div>
-      <br>
-      <div class="form-group col-md-12">
-        <label for="arum">Alamat Rumah:</label>
-        <input type="text" class="form-control" id="arum" placeholder="Alamat" name="arum" required>
-      </div>
-      <br>
-      <div class="row">
-        <div class="form-group col-md-12">
-          <label for="sparepart">Kebutuhan Spare Part:</label>
-          <select class="form-select" required>
-            <option selected>Pilih kebutuhan spare part berikut..</option>
-            <option value="1">Busi</option>
-            <option value="2">Baut</option>
-            <option value="3">Oli</option>
-          </select>
-        </div>
-      </div>
+    <br>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+<!--        {% for value, text in form.providers.field.choices %}-->
+<!--                <div class="ui slider checkbox">-->
+<!--                    <input id="id_providers_{{ forloop.counter0 }}" name="{{ form.providers.name }}" type="checkbox" value="{{ value }}"{% if value in checked_providers %} checked="checked"{% endif %}>-->
+<!--                    <label>{{ text }}</label>-->
+<!--                </div>-->
+<!--            {% endfor %}-->
       <br>
       <div class="bs-example">
-        <button type="submit" class="btn btn-primary">Submit</button>
+          <input type='submit' class="btn btn-outline-primary" value='Submit'/>
+<!--        <button type="submit" value='Submit' class="btn btn-primary">Submit</button>-->
         <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
       </div>
     </form>
 </body>
 
-</html> 
+</html>

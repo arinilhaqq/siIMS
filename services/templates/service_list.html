@@ -97,10 +97,12 @@
 
     <table>
       <tr>
-        <th>Nama Jenis Service</th>
-        <th>Harga</th>
-        <th>Estimasi Pengerjaan</th>
-        <th>Kebutuhan Spare Part</th>
+          <th>Nama Jenis Service</th>
+          <th>Harga</th>
+          <th>Estimasi Pengerjaan</th>
+          <th>Kebutuhan Spare Part</th>
+          <th>Kuantitas Spare Part</th>
+          <th>Action</th>
       </tr>
       <tr>
         {% for s in services %}
@@ -108,22 +110,12 @@
           <td>{{ s.harga }}</td>
           <td>{{ s.estimasi_pengerjaan }}</td>
           <td>{{ s.kebutuhan_spare_part }}</td>
+          <td>{{ s.kuantitas_spare_part }}</td>
+          <td><a href="{{ s.id }}"><button>Detail</button></a></td>
+          <td><a href="{{ s.id }}/delete"><button>Delete</button></a></td>
+          <td><a href="{{ s.id }}/update"><button>Update</button></a></td>
       </tr>
       {% endfor %}
-           <!-- EXAMPLE SECTION -->
-      <tr>
-        <td>Ganti Ban</td>
-        <td>2000000</td>
-        <td>1 Hari</td>
-        <td>Besi</td>
-      </tr>
-      <tr>
-        <td>Ganti Oli</td>
-        <td>3000000</td>
-        <td>2 Hari</td>
-        <td>Baut</td>
-      </tr>
-      <!-- END SECTION -->
     </table>
   </body>
 </html>

@@ -7,5 +7,6 @@ class ServiceForm(forms.ModelForm):
         fields = ['nama',
                   'harga',
                   'estimasi_pengerjaan',
-                  'kebutuhan_spare_part'
+                  'kebutuhan_spare_part',
+                  'kuantitas_spare_part'
                   ]

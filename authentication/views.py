@@ -6,7 +6,7 @@ from .forms import LoginForm
 from django.db import connection
 
 def home(request):
-    return render(request, "login.html", context=dict(request.session))
+    return render(request, "homepage.html", context=dict(request.session))
 
 def login(request) :
     cursor = connection.cursor()
@@ -16,14 +16,14 @@ def login(request) :
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             cursor.execute("SET search_path TO public")
-            cursor.execute('SELECT * FROM public."auth_user" WHERE "auth_user"."username"=%s AND "auth_user"."password"=%s', [username, password])
+            cursor.execute('SELECT * FROM public."karyawan_karyawan" WHERE "karyawan_karyawan"."username"=%s AND "karyawan_karyawan"."password"=%s', [username, password])
             user = cursor.fetchall()
             print(user)
             if len(user) > 0:
-                request.session["username"] = user[0][4]
+                request.session["username"] = user[0][9]
                 request.session["email"] = user[0][7]
-                # request.session["role"] = user[0][6]
-                return redirect('/')
+                request.session["jabatan"] = user[0][4]
+                return redirect(home)
             else:
                 form.add_error(None, "Invalid username or password")
     else:

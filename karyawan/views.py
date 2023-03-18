@@ -10,7 +10,7 @@ def create_karyawan(request):
     form = KaryawanForm(request.POST or None)
     if (form.is_valid() and request.method == 'POST'):
         form.save()
-        return redirect('/')
+        return redirect('/list-karyawan/')
     
     context['form'] = form
 
@@ -19,4 +19,17 @@ def create_karyawan(request):
 def karyawan_list(request):
     karyawan = Karyawan.objects.all().values()
     response = {'karyawan': karyawan}
-    return render(request, 'karyawan_list.html', response)
+    return render(request, 'karyawan-list.html', response)
+
+def detail_karyawan(request, id):
+    karyawan_by_id = Karyawan.objects.get(id=id)
+    response = {'karyawan': karyawan_by_id}
+    return render(request, 'detail-karyawan.html', response)
+
+def delete_karyawan(request, id):
+    karyawan_by_id = Karyawan.objects.get(id=id)
+    karyawan_by_id.delete()
+
+    karyawan = Karyawan.objects.all().values()
+    response = {'karyawan': karyawan}
+    return render(request, 'karyawan-list.html', response)

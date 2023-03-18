@@ -17,6 +17,7 @@
                 <th>Jabatan</th>
                 <th>Kehadiran</th>
                 <th>Total Keaktifan</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +31,7 @@
                 <td>{{ k.jabatan }}</td>
                 <td>{{ k.kehadiran }}</td>
                 <td>{{ k.total_keaktifan }}</td>
+                <td><a class="btn btn-dark" href="/detail-karyawan/{{ k.id }}">Detail</a></td>
             </tr>
             {% endfor %}
         </tbody>

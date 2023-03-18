@@ -1,0 +1,81 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Karyawan | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+    <h1 class="text-center">Detail Karyawan</h1>
+    <p align="center">Berikut adalah daftar karyawan di PT Inter Motor Sport!</p>
+
+    <br> 
+
+    <h3>Nama Karyawan<h3>
+    <p>{{ karyawan.nama_karyawan }}</p>
+    <br>
+
+    <h3>Username Karyawan<h3>
+    <p>{{ karyawan.username }}</p>
+    <br>
+
+    <h3>Nomor Telepon</h3>
+    <p>{{ karyawan.telepon_karyawan }}</p>
+    <br>
+
+    <h3>Email</h3>
+    <p>{{ karyawan.email }}</p>
+    <br>
+
+    <h3>Alamat Karyawan</h3>
+    <p>{{ karyawan.alamat_karyawan }}</p>
+    <br>
+
+    <h3>Jabatan</h3>
+    <p>{{ karyawan.jabatan }}</p>
+    <br>
+
+    <h3>Kehadiran</h3>
+    <p>{{ karyawan.kehadiran }}</p>
+    <br>
+
+    <h3>Total Keaktifan</h3>
+    <p>{{ karyawan.total_keaktifan }}</p>
+    <br>
+
+    <div class="bs-example">
+        <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+        <a class="btn btn-danger show-modal" href="/delete-karyawan/{{ karyawan.id }}">Detele</a>
+        <!-- <section>
+            <button class="btn btn-danger show-modal">Delete</button>
+            <span class="overlay"></span>
+
+            <div class="modal-box">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h2>Are You Sure?</h2>
+                <h3>Menghapus karyawan {{ karyawan.nama_karyawan }}</h3>
+        
+                <div class="buttons">
+                  <button class="close-btn">Tidak</button>
+                  <button>Ya, hapus</button>
+                </div>
+              </div>
+            </section>
+
+        </section> -->
+    </div>
+
+    <!-- <script>
+        const section = document.querySelector("section"),
+          overlay = document.querySelector(".overlay"),
+          showBtn = document.querySelector(".show-modal"),
+          closeBtn = document.querySelector(".close-btn");
+  
+        showBtn.addEventListener("click", () => section.classList.add("active"));
+  
+        overlay.addEventListener("click", () =>
+          section.classList.remove("active")
+        );
+  
+        closeBtn.addEventListener("click", () =>
+          section.classList.remove("active")
+        );
+      </script> -->
+
+{% endblock content %}

@@ -6,11 +6,11 @@ KEHADIRAN_CHOICES = (
 )
 
 JABATAN_CHOICES = (
-    ('owner', 'Owner'),
-    ('akuntan', 'Akuntan'),
-    ('inventori', 'Inventori'),
-    ('service_advisor', 'Service Advisor'),
-    ('teknisi', 'Teknisi'),
+    ('Owner', 'Owner'),
+    ('Akuntan', 'Akuntan'),
+    ('Inventori', 'Inventori'),
+    ('Service Advisor', 'Service Advisor'),
+    ('Teknisi', 'Teknisi'),
 )
 
 # Create your models here.

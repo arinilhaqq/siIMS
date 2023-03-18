@@ -5,8 +5,18 @@ from django.http import JsonResponse, HttpResponse
 from .forms import LoginForm
 from django.db import connection
 
+def is_authenticated(request):
+    try:
+        request.session['username']
+        return True
+    except:
+        return False
+
 def home(request):
-    return render(request, "homepage.html", context=dict(request.session))
+    if is_authenticated(request):
+        return render(request, "homepage.html", context=dict(request.session))
+    else:
+        return HttpResponseRedirect("/login")
 
 def login(request) :
     cursor = connection.cursor()

@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 #!/bin/sh
 '''exec' "/Users/arinilhaq/Documents/Semester 6/Propensi/siIMS/d06-siims/env/bin/python3" "$0" "$@"
 ' '''
+=======
+#!/Users/pavitamaheswariiswandaruputri/Documents/propensi/d06-siims/env/bin/python3
+>>>>>>> 2ab9dc214f7f944aa2d8ff95f8c3a5da31f050d3
 # -*- coding: utf-8 -*-
 import re
 import sys

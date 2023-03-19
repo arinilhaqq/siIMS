@@ -13,6 +13,6 @@ class Service(models.Model):
     nama = models.CharField(max_length=30)
     harga = models.IntegerField()
     estimasi_pengerjaan = models.CharField(max_length=10)
-    kebutuhan_spare_part = MultiSelectField(choices=MY_CHOICES2, default='')
+    kebutuhan_spare_part = MultiSelectField(choices=MY_CHOICES2, default='', max_length=50)
     kuantitas_spare_part = models.CharField(max_length=255, default='')
 

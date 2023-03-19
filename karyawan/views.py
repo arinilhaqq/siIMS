@@ -68,16 +68,22 @@ def delete_karyawan(request, id):
         return HttpResponseRedirect("/login")
 
 def update_karyawan(request, id):
-    context = {}
-    karyawan = Karyawan.objects.get(id=id)
-    context['karyawan']=karyawan
-    
-    form = KaryawanForm(request.POST, instance=karyawan)
-    print(form.is_valid()) # False
-    if (form.is_valid() and request.method == 'POST'):
-        form.save()
-        return redirect('/list-karyawan/')
-    context['form'] = form
-    context['username'] = request.session['username']
-    context['jabatan'] = request.session['jabatan']
-    return render(request, 'update-karyawan.html', context)
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] !='Service Advisor':
+            context = {}
+            karyawan = Karyawan.objects.get(id=id)
+            context['karyawan']=karyawan
+            
+            form = KaryawanForm(request.POST, instance=karyawan)
+            print(form.is_valid()) # False
+            if (form.is_valid() and request.method == 'POST'):
+                form.save()
+                return redirect('/list-karyawan/')
+            context['form'] = form
+            context['username'] = request.session['username']
+            context['jabatan'] = request.session['jabatan']
+            return render(request, 'update-karyawan.html', context)
+        else:
+            return HttpResponseRedirect("/")
+    else:
+        return HttpResponseRedirect("/login")

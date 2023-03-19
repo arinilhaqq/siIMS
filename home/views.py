@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from karyawan.models import Karyawan
 from django.contrib.auth import update_session_auth_hash
+from django.db import connection
 
 def is_authenticated(request):
     try:
@@ -16,7 +17,7 @@ def homepage(request):
         context = {}
         context['nama_karyawan'] = request.session['nama_karyawan']
         context['username'] = request.session['username']
-        if request.session['jabatan'] =='Owner'|request.session['jabatan'] =='Akuntan'|request.session['jabatan'] =='Inventori'|request.session['jabatan'] =='Teknisi'|request.session['jabatan'] =='Service Advisor':
+        if request.session['jabatan'] =='Admin'| request.session['jabatan'] =='Owner'|request.session['jabatan'] =='Akuntan'|request.session['jabatan'] =='Inventori'|request.session['jabatan'] =='Teknisi'|request.session['jabatan'] =='Service Advisor':
             return render(request, 'homepage.html', context)
     else:
         return HttpResponseRedirect("/login")
@@ -51,3 +52,24 @@ def change_password(request):
             context["msz"] = "Incorrect Current Password"
             context["col"] = "alert-danger"
     return render(request,"change-password.html",context)
+
+def update_password(request, username):
+    context= {}
+    cursor = connection.cursor()
+    if request.method=="POST":
+        new_pas = request.POST["npwd"]
+        cursor.execute("SET search_path TO public")
+        cursor.execute('SELECT username FROM public."karyawan_karyawan" WHERE "karyawan_karyawan"."username"=username')
+        user = Karyawan.objects.get(username=username)
+        un = user.username
+        user.password = new_pas
+        user.save()
+        context["msz"] = "Password Updated Successfully!!!"
+        context["col"] = "alert-success"
+        user = Karyawan.objects.get(username=un)
+        # login(request,user)
+        # update_session_auth_hash(request, user)
+        request.session.clear()
+        return redirect('/login')
+    return render(request,"update-password.html",context)
+

@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+<<<<<<< HEAD
 class Pelanggan(models.Model):
     nama_pelanggan = models.CharField(max_length=30)
     telepon_pelanggan = models.CharField(max_length=15)
@@ -11,3 +12,5 @@ class Pelanggan(models.Model):
     nomor_polisi = models.CharField(max_length=10)
     email = models.EmailField()
 
+=======
+>>>>>>> 79e180fa5d32da73d97f852db285b72c1061b136

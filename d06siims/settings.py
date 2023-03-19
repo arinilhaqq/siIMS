@@ -37,12 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
+=======
+    'multiselectfield',
+>>>>>>> 79e180fa5d32da73d97f852db285b72c1061b136
     # OUR APPS:
     'home',
     'pelanggan',
     'karyawan',
     'services',
+<<<<<<< HEAD
     'authentication',
+=======
+>>>>>>> 79e180fa5d32da73d97f852db285b72c1061b136
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/arinilhaq/Documents/Semester 6/Propensi/siIMS/d06-siims/env/bin/python3" "$0" "$@"
+'''exec' "/Users/arinilhaq/Documents/Semester 6/Propensi/SIIMS new/d06-siims/env/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

@@ -1,47 +1,50 @@
 {% extends 'main.html' %} {% load static %} {% block meta %}
-<title>Service | si-IMS</title>
+<title>Services | si-IMS</title>
 {% endblock meta %} {% block content %}
-  <h1 align="center">Add Jenis Services</h1>
-  <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
 
-  <br> 
+    <h1 align="center">Add Jenis Services</h1>
+    <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
 
-  <form action="/action_page.php">
-    <div class="row">
-      <div class="form-group col-md-4">
-        <label for="namas">Nama Jenis Services:</label>
-        <input type="text" class="form-control" id="namas" placeholder="cth: Ganti Oli" name="namas" required>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="hargas">Harga:</label>
-        <input type="number" class="form-control" id="hargas" placeholder="cth: Rp150.000,-" name="hargas" required>
-      </div>
-      <div class="form-group col-md-4">
-        <label for="estimasi">Estimasi Pengerjaan:</label>
-        <input type="number" class="form-control" id="estimasi" placeholder="cth: 3 Hari" name="estimasi" required>
-      </div>
-    </div>
     <br>
-    <div class="form-group col-md-12">
-      <label for="arum">Alamat Rumah:</label>
-      <input type="text" class="form-control" id="arum" placeholder="Alamat" name="arum" required>
-    </div>
-    <br>
-    <div class="row">
-      <div class="form-group col-md-12">
-        <label for="sparepart">Kebutuhan Spare Part:</label>
-        <select class="form-select" required>
-          <option selected>Pilih kebutuhan spare part berikut..</option>
-          <option value="1">Busi</option>
-          <option value="2">Baut</option>
-          <option value="3">Oli</option>
-        </select>
-      </div>
-    </div>
-    <br>
-    <div class="bs-example">
-      <button type="submit" class="btn btn-primary">Submit</button>
-      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
-    </div>
-  </form>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="id_nama">Nama:</label>
+                <input type="text" class="form-control" name="nama" maxlength="30" required id="id_nama"
+                oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="id_harga">Harga:</label> 
+                <input type="text" class="form-control" name="harga" maxlength="10" required id="id_harga"
+                oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="id_estimasi_pengerjaan">Estimasi pengerjaan:</label> 
+                <input type="text" class="form-control" name="estimasi_pengerjaan" maxlength="10" required id="id_estimasi_pengerjaan"
+                oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <label>Kebutuhan spare part:</label>
+            {{ form.kebutuhan_spare_part }}
+        </div>
+        <br>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="id_kuantitas_spare_part">Kuantitas spare part:</label> 
+                <input type="text" class="form-control" name="kuantitas_spare_part" maxlength="255" required id="id_kuantitas_spare_part"
+                oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
+            </div>
+        </div>
+        
+        <br>
+        <div class="bs-example">
+            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?')"";>Submit</button>
+            <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+        </div>
+    </form>
+
 {% endblock content %}

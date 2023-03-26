@@ -6,6 +6,7 @@ KEHADIRAN_CHOICES = (
 )
 
 JABATAN_CHOICES = (
+    ('Admin', 'Admin'),
     ('Owner', 'Owner'),
     ('Akuntan', 'Akuntan'),
     ('Inventori', 'Inventori'),
@@ -13,14 +14,13 @@ JABATAN_CHOICES = (
     ('Teknisi', 'Teknisi'),
 )
 
-# Create your models here.
 class Karyawan(models.Model):
     nama_karyawan = models.CharField(max_length=30)
-    telepon_karyawan = models.BigIntegerField()
+    telepon_karyawan = models.CharField(max_length=15)
     alamat_karyawan = models.TextField()
     jabatan = models.CharField(max_length=15, choices=JABATAN_CHOICES, default='')
     kehadiran = models.CharField(max_length=15, choices=KEHADIRAN_CHOICES, default='0')
-    total_keaktifan = models.IntegerField()
+    total_keaktifan = models.IntegerField(default='0')
     email = models.EmailField()
-    username = models.CharField(max_length=50, default='user')
+    username = models.CharField(max_length=50)
     password = models.CharField(max_length=50, default='0000')

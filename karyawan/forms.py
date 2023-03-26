@@ -10,5 +10,7 @@ class KaryawanForm(forms.ModelForm):
                   'jabatan',
                   'kehadiran',
                   'total_keaktifan',
-                  'email'
+                  'email',
+                  'username',
+                  'password'
                   ]

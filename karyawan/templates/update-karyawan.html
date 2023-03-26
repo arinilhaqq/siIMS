@@ -1,0 +1,76 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Karyawan | si-IMS</title>
+{% endblock meta %} {% block content %}
+    <h1 align="center">Update Karyawan</h1>
+    <p align="center">Update data karyawan PT Inter Motor Sport</p>
+
+    <br> 
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <!-- <input type="hidden" name="csrfmiddlewaretoken" value="kCP16eITs3aEZ5QB9RqWYHgxAu3lmVjLD9O8pwyylk5qNHHnb2zxIFXuOBW8fWcd"> -->
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="id_username">Username:</label> 
+            <input type="text" class="form-control" name="username" maxlength="30" required="" id="id_username" value="{{ karyawan.username }}" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <!-- <label for="id_password">Password Karyawan:</label>  -->
+            <input type="password" class="form-control" name="password" id="id_password" value="{{ karyawan.password }}" hidden>
+          </div>
+        <br>
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="id_nama_karyawan">Nama karyawan:</label> 
+            <input type="text" class="form-control" name="nama_karyawan" maxlength="30" required="" id="id_nama_karyawan" value="{{ karyawan.nama_karyawan }}">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="id_telepon_karyawan">Telepon karyawan:</label> 
+            <input type="tel" class="form-control" name="telepon_karyawan" inputmode="tel" pattern="[0-9()+-]*" maxlength="20" id="id_telepon_karyawan" value="{{ karyawan.telepon_karyawan }}">
+            </div>
+          <div class="form-group col-md-4">
+            <label for="id_email">Email:</label> 
+            <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email" placeholder="example@gmail.com" value="{{ karyawan.email }}">
+          </div>
+        </div>
+        <br>
+        <div class="form-group col-md-12">
+          <label for="id_alamat_karyawan">Alamat:</label>
+          <textarea name="alamat_karyawan" class="form-control" cols="10" rows="5" id="id_alamat_karyawan"></textarea>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="id_jabatan">Jabatan:</label>
+            {{ form.jabatan }}
+            <!-- <input type="text" class="form-control" id="id_jabatan" placeholder="cth: Admin" name="jabatan" value="{{ karyawan.jabatan }}"> -->
+          </div>
+          <div class="form-group col-md-6">
+              <label for="id_total_keaktifan">Total Keaktifan:</label>
+              <input type="number" class="form-control" id="id_total_keaktifan" placeholder="cth: 0" name="total_keaktifan" value="{{ karyawan.total_keaktifan }}">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="id_kehadiran">Kehadiran:</label>
+            {{ form.kehadiran }}
+            <!-- <input type="text" class="form-control" id="id_kehadiran" placeholder="cth: Hadir" name="kehadiran" value="{{ karyawan.kehadiran }}"> -->
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="bs-example">
+          <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Update</button>
+          <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+        </div>
+    </form>
+
+    <script>
+        var id_alamat_karyawan = document.getElementById("id_alamat_karyawan").value = "{{ karyawan.alamat_karyawan }}";
+        var id_jabatan = document.getElementById("id_jabatan").value = "{{ karyawan.jabatan }}";
+        var id_kehadiran = document.getElementById("id_kehadiran").value = "{{ karyawan.kehadiran }}";
+    </script>
+
+{% endblock content %}

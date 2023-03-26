@@ -23,7 +23,7 @@
         <tbody>
             {% for k in karyawan %}
             <tr>
-                <td>{{ forloop.counter }}</td>
+                <td>{{ forloop.counter }}.</td>
                 <td>{{ k.nama_karyawan }}</td>
                 <td>{{ k.email }}</td>
                 <td>{{ k.telepon_karyawan }}</td>
@@ -31,9 +31,82 @@
                 <td>{{ k.jabatan }}</td>
                 <td>{{ k.kehadiran }}</td>
                 <td>{{ k.total_keaktifan }}</td>
-                <td><a class="btn btn-dark" href="/detail-karyawan/{{ k.id }}">Detail</a></td>
+                <td>
+                    <button type="button" class="btn btn-dark"
+                    data-bs-toggle="modal" data-bs-target="#Modal{{ k.id }}">
+                    Detail
+                    </button>
+                    <div class="modal fade" id="Modal{{ k.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="cardModalLabel">
+                              Detail Pelanggan
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="col-md-7 px-3">
+                              <div class="card-block px-6">                                             
+                                <div class="card-body">
+                                  <h5 class="card-title">
+                                  </h5>
+                                  <p class="card-text text-left">
+                                  <div class="row">
+                                    <div class="form-group col-md-12">
+                                      <label for="id_nama_karyawan">Nama karyawan:</label> 
+                                      <p>{{ k.nama_karyawan }}</p>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="form-group col-md-8">
+                                      <label for="id_telepon_karyawan">Telepon karyawan:</label> 
+                                      <p>{{ k.telepon_karyawan }}</p>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="id_email">Email:</label> 
+                                          <p>{{ k.email }}</p>
+                                    </div>
+                                  </div>
+                                  <div class="form-group col-md-12">
+                                    <label for="id_alamat_karyawan">Alamat karyawan:</label> 
+                                    <p>{{ k.alamat_karyawan }}</p>
+                                  </div>
+                                  <div class="row">
+                                    <div class="form-group col-md-6">
+                                      <label for="id_jabatan">Jabatan:</label> 
+                                      <p>{{ k.jabatan }}</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="id_kehadiran">Kehadiran:</label> 
+                                      <p>{{ k.kehadiran }}</p>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="form-group col-md-12">
+                                      <label for="id_total_keaktifan">Total Keaktifan:</label> 
+                                      <p>{{ k.total_keaktifan }}</p>
+                                    </div>
+                                  </div></p>
+                                </div>
+                              </div>   
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <a class="btn btn-warning" href="/update-karyawan/{{ k.id }}">Update</a>
+                            <a class="btn btn-danger" href="/delete-karyawan/{{ k.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Kembali</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>            
+                  </td>
+                <!-- <td><a class="btn btn-dark" href="/detail-karyawan/{{ k.id }}">Detail</a></td> -->
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <div class="bs-example">
+      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    </div>
 {% endblock content %}

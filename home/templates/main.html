@@ -19,20 +19,61 @@
           margin-top: 5%;
         }
 
-        p {
+        /* p {
           font-size: large;
-        }
+        } */
 
         .navbar-brand {
-          color: red;
+          color: #f7725a;
+        }
+
+        .navbar .nav li.active {
+            background-color: #414141;  
+            border-radius: 5px; 
         }
 
         form {
           margin-left: 5%;
           margin-right: 5%;
         }
+
+        h4 {
+          font-weight: bolder;
+          margin-left: 5%;
+        }
+
+        img {
+          display: block;
+          height: 45%;
+          width: 45%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        input:read-only {
+            background-color: rgb(236, 236, 236);
+        }
+
+        .bs-example{
+            margin-bottom: 5%;
+        }
+
+        .background-image {
+            background-image: url("https://cdn.discordapp.com/attachments/1079064412645773366/1087101887142187129/security.png");
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            margin-left: -35%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+        } 
     </style>
-  <title>Pelanggan | si-IMS</title>
+  <!-- <title>si-IMS</title> -->
   {% block meta %} {% endblock meta %}
 </head>
 
@@ -44,8 +85,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div id="navbarCollapse" class="collapse navbar-collapse">
+                
                 <ul class="nav navbar-nav">
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" >
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Appointment</a>
                         <div class="dropdown-menu">
                             <a href="#" class="dropdown-item">Add Appointment</a>
@@ -53,27 +95,33 @@
                         </div>
                     </li>
                 </ul>
+                
 
+                {% if jabatan == 'Admin' or jabatan == 'Owner' or jabatan == 'Service Advisor' %}
                 <ul class="nav navbar-nav">
-                  <li class="nav-item dropdown">
+                  <li class="nav-item dropdown {% if request.path == '/create-pelanggan/' or request.path == '/list-pelanggan/' %} active{% endif %}">
                       <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pelanggan</a>
                       <div class="dropdown-menu">
                           <a href="/create-pelanggan/" class="dropdown-item">Add Pelanggan</a>
-                          <a href="#" class="dropdown-item">List Pelanggan</a>
+                          <a href="/list-pelanggan/" class="dropdown-item">List Pelanggan</a>
                       </div>
                   </li>
                 </ul>
+                {% endif %}
 
+                {% if jabatan == 'Admin' or jabatan == 'Owner' %}
                 <ul class="nav navbar-nav">
-                  <li class="nav-item dropdown">
+                  <li class="nav-item dropdown {% if request.path == '/create-karyawan/' or request.path == '/list-karyawan/' %} active{% endif %}">
                       <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Karyawan</a>
                       <div class="dropdown-menu">
                           <a href="/create-karyawan/" class="dropdown-item">Add Karyawan</a>
                           <a href="/list-karyawan/" class="dropdown-item">List Karyawan</a>
                       </div>
                   </li>
-              ` </ul>
-
+                </ul>
+                {% endif %}
+                
+                {% if jabatan == 'Admin' or jabatan == 'Owner' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
                 <ul class="nav navbar-nav">
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Spare Part</a>
@@ -83,24 +131,28 @@
                         </div>
                     </li>
                 </ul>
+                {% endif %}
 
+                {% if jabatan == 'Admin' or jabatan == 'Owner' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
                 <ul class="nav navbar-nav">
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown {% if request.path == '/create-services/' or request.path == '/list-services/' %} active{% endif %}">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
                         <div class="dropdown-menu">
                             <a href="/create-services/" class="dropdown-item">Add Services</a>
-                            <a href="#" class="dropdown-item">List Services</a>
+                            <a href="/list-services/" class="dropdown-item">List Services</a>
                         </div>
                     </li>
                 </ul>
+                {% endif %}
+
                 <ul class="nav navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">User</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{username}}</a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a href="#" class="dropdown-item">Reports</a>
-                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="/change-password" class="dropdown-item">Change Password</a>
                             <div class="dropdown-divider"></div>
-                            <a href="logout/" class="dropdown-item">Logout</a>
+                            <a href="/logout/" class="dropdown-item">Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -109,4 +161,26 @@
     </nav>  
     {% block content %} {% endblock content %}
 </body>
+<script>
+        // Get the container element
+    var btnContainer = document.getElementById("navbarCollapse");
+
+    // Get all buttons with class="btn" inside the container
+    var btns = btnContainer.getElementsByClassName("btn");
+
+    // Loop through the buttons and add the active class to the current/clicked button
+    for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+
+        // If there's no active class
+        if (current.length > 0) { 
+        current[0].className = current[0].className.replace(" active", "");
+        }
+
+        // Add the active class to the current/clicked button
+        this.className += " active";
+    });
+    }
+</script>
 </html>

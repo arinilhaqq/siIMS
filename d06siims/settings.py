@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # OUR APPS:
     'home',
     'pelanggan',
     'karyawan',
     'services',
-    'authentication'
+    'authentication',
 ]
 
 MIDDLEWARE = [

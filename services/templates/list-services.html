@@ -1,0 +1,108 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Services | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+  <h1 align="center">List Jenis Services</h1>
+  <p align="center">List layanan yang disajikan PT Inter Motor Sport</p>
+
+  <br> 
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Nama Jenis Service</th>
+        <th>Harga (Rp)</th>
+        <th>Estimasi Pengerjaan</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% load humanize %}
+      <tr>
+        {% for s in services %}
+          <td>{{ forloop.counter }}.</td>
+          <td>{{ s.nama }}</td>
+          <td>{{ s.harga|intcomma }}</td>
+          <td>{{ s.estimasi_pengerjaan }}</td>
+          <td>
+            <button type="button" class="btn btn-dark"
+            data-bs-toggle="modal" data-bs-target="#Modal{{ s.id }}">
+            Detail
+            </button>
+            <div class="modal fade" id="Modal{{ s.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="cardModalLabel">
+                      Detail Jenis Service
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-md-7 px-3">
+                      <div class="card-block px-6">                                             
+                        <div class="card-body">
+                          <h5 class="card-title">
+                          </h5>
+                          <p class="card-text text-left">
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label for="id_nama">Nama Jenis Service:</label> 
+                              <p>{{ s.nama }}</p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label for="id_harga">Harga (Rp):</label> 
+                                <p>{{ s.harga|intcomma }}</p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="form-group col-md-12">
+                            <label for="id_estimasi_pengerjaan">Estimasi Pengerjaan:</label> 
+                            <p>{{ s.estimasi_pengerjaan }}</p>
+                          </div>
+                            <br>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label for="id_kebutuhan_spare_part">Kebutuhan Spare Part:</label> 
+                              <p>{{ s.kebutuhan_spare_part }}</p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label for="id_kuantitas_spare_part">Kuantitas Spare Part:</label> 
+                              <p>{{ s.kuantitas_spare_part }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>   
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <a class="btn btn-warning" href="/update-services/{{ s.id }}">Update</a>
+                    <a class="btn btn-danger" href="/delete-services/{{ s.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                      Kembali
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>            
+          </td>
+          <!-- <td><a href="{{ s.id }}"><button>Detail</button></a></td>
+          <td><a href="{{ s.id }}/delete"><button>Delete</button></a></td>
+          <td><a href="{{ s.id }}/update"><button>Update</button></a></td> -->
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+
+{% endblock content %}

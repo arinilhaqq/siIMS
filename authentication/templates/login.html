@@ -1,6 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <style>
         body{
             margin: 0;
@@ -10,16 +14,15 @@
             align-items: center;
             min-height: 100vh;
             font-family: 'Nunito';
-            background: linear-gradient(to bottom, #000000, #2c2c2c, #2d2d2d);
+            background: whitesmoke;
         }
         .main{
             width: 350px;
             height: 500px;
-            background: red;
+            background: linear-gradient(to bottom, #1a1a1a, #2c2c2c, #2d2d2d);
             overflow: hidden;
-            background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
             border-radius: 10px;
-            box-shadow: 5px 20px 50px #000;
+            box-shadow: 5px 20px 50px #c0c0c0;
         }
         #chk{
             display: none;
@@ -28,6 +31,7 @@
             position: relative;
             width:100%;
             height: 100%;
+            text-align: center;
         }
         label{
             color: #fff;
@@ -50,6 +54,7 @@
             border: none;
             outline: none;
             border-radius: 5px;
+            font-family: 'Nunito';
         }
         button{
             width: 60%;
@@ -58,7 +63,8 @@
             justify-content: center;
             display: block;
             color: #fff;
-            background: #620e0e;
+            background: #f7725a;
+            font-family: 'Nunito';
             font-size: 1em;
             font-weight: bold;
             margin-top: 20px;
@@ -87,23 +93,56 @@
             transform: translateY(-500px);
         }
         #chk:checked ~ .login label{
-            transform: scale(1);	
+            transform: scale(.8);
+            transform: translateY(40px);	
         }
         #chk:checked ~ .signup label{
             transform: scale(.6);
+            transform: translateY(60px);
+        }
+
+        #chk:checked ~ .signup h1{
+            transform: translateY(-200px);
+            transition: .8s ease-in-out;
+        }
+
+        .siims{
+            color: #f7725a;
+            font-size: 40pt;
+            font-weight: 0;
+        }
+
+        .background-image {
+            background-image: url("https://cdn.discordapp.com/attachments/1079064412645773366/1087101797837062264/mobil-login.png");
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+        }   
+
+        a {
+            text-align: center;
+            color: #f7725a;
+            padding-left: 31%;
+            padding-right: 31%;
         }
     </style>
-	<title>Slide Navbar</title>
+	<title>Login | si-IMS</title>
 	<link rel="stylesheet" type="text/css" href="slide navbar style.css">
-<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 </head>
 <body>
 	<div class="main">  	
 		<input type="checkbox" id="chk" aria-hidden="true">
 			<div class="signup">
-				<form>
-                    <label for="chk" aria-hidden="true">Selamat Datang di SI-IMS</label>
-				</form>
+                <label for="chk" aria-hidden="true" class="welcome">Selamat Datang di</label>
+                <h1 for="chk" aria-hidden="true" class="siims">si-IMS!</h1>
 			</div>
 			<div class="login">
 				<form class="user" method="POST">
@@ -121,19 +160,22 @@
                                         <div class="form-group">
                                             <div class="row mt-4">
                                                 <div class="col-sm-8">
-                                                    <input type="text" name="{{ form.username.name }}" class="form-control" id="username" placeholder="Username" required>
+                                                    <input type="text" name="{{ form.username.name }}" class="form-control" id="username" placeholder="Username"
+                                                    required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row mt-4">
                                                 <div class="col-sm-8">
-                                                    <input type="password" name="{{ form.password.name }}" class="form-control" id="password" placeholder="Password" required>
+                                                    <input type="password" name="{{ form.password.name }}" class="form-control" id="password" placeholder="Password" 
+                                                    required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mt-5 text-center">
-                                            <button class="btn btn-primary px-4" type="submit" value="Login">Login</button>
+                                            <button class="btn btn-primary px-4" type="submit" value="Login">Masuk</button>
+                                            <a href="/forgot-password/">Forgot password?</a>
                                         </div>
                                     </form>
                                 </div>
@@ -154,5 +196,8 @@
 				</form>
 			</div>
 	</div>
+    <div class="background-image">
+        <!-- <img src="../static/images/mobil-login.png" alt="Gambar Mobil">  -->
+    </div>
 </body>
 </html>

@@ -1,6 +1,14 @@
-{% extends 'main.html' %} {% load static %} {% block meta %}
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
 <title>Pelanggan | si-IMS</title>
 {% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
   <h1 class="text-center">Add Pelanggan</h1>
   <p class="text-center">Pastikan seluruh data sudah terisi dengan benar!</p>
 
@@ -11,37 +19,37 @@
     {% csrf_token %}
     <div class="row">
       <div class="form-group col-md-4">
-        <label for="id_nama_pelanggan">Nama pelanggan:</label> 
+        <label class="required" for="id_nama_pelanggan">Nama:</label> 
         <input type="text" class="form-control" name="nama_pelanggan" maxlength="30" id="id_nama_pelanggan"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
       <div class="form-group col-md-4">
-        <label for="id_telepon_pelanggan">Telepon pelanggan:</label> 
+        <label class="required" for="id_telepon_pelanggan">Telepon:</label> 
         <input type="tel" class="form-control" name="telepon_pelanggan" id="id_telepon_pelanggan" inputmode="tel" pattern="[0-9()+-]*" maxlength="20"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu atau tidak sesuai')" oninput="setCustomValidity('')">
         </div>
       <div class="form-group col-md-4">
-        <label for="id_email">Email:</label> 
+        <label class="required" for="id_email">Email:</label> 
         <input type="email" class="form-control" name="email" maxlength="254" id="id_email"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
     </div>
     <br>
     <div class="form-group col-md-12">
-      <label for="id_alamat_pelanggan">Alamat pelanggan:</label> 
+      <label class="required" for="id_alamat_pelanggan">Alamat:</label> 
       <textarea name="alamat_pelanggan" class="form-control" cols="10" rows="5" id="id_alamat_pelanggan"
       required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')"></textarea>
     </div>
     <br>
     <div class="row">
       <div class="form-group col-md-6">
-        <label for="id_jenis_mobil">Jenis mobil:</label> 
+        <label class="required" for="id_jenis_mobil">Jenis mobil:</label> 
         <input type="text" class="form-control" name="jenis_mobil" maxlength="30" id="id_jenis_mobil"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
       <br>
       <div class="form-group col-md-6">
-        <label for="id_nama_mobil">Nama mobil:</label> 
+        <label class="required" for="id_nama_mobil">Nama mobil:</label> 
         <input type="text" class="form-control" name="nama_mobil" maxlength="30" id="id_nama_mobil"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
@@ -49,12 +57,12 @@
     <br>
     <div class="row">
       <div class="form-group col-md-6">
-        <label for="id_nomor_polisi">Nomor polisi:</label> 
+        <label class="required" for="id_nomor_polisi">Nomor polisi:</label> 
         <input type="text" class="form-control" name="nomor_polisi" maxlength="10" id="id_nomor_polisi"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
       <div class="form-group col-md-6">
-        <label for="id_nomor_pkb">Nomor pkb:</label> 
+        <label class="required" for="id_nomor_pkb">Nomor pkb:</label> 
         <input type="number" class="form-control" name="nomor_pkb" id="id_nomor_pkb"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Karyawan
@@ -14,16 +15,18 @@ def create_karyawan(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] !='Service Advisor':
             context = {}
-            context['username'] = request.session['username']
-
-            form = KaryawanForm(request.POST or None)
-            if (form.is_valid() and request.method == 'POST'):
-                form.save()
-                return redirect('/list-karyawan/')
-        
-            context['form'] = form
+            username = request.session['username']
             context['username'] = request.session['username']
             context['jabatan'] = request.session['jabatan']
+            form = KaryawanForm(request.POST or None)
+            context['form'] = form
+            if (form.is_valid() and request.method == 'POST'):
+                username = request.POST['username']
+                if Karyawan.objects.filter(username=username).exists():
+                    messages.error(request, 'Username sudah dipakai')
+                else:
+                    form.save()
+                    return redirect('/list-karyawan/')
             return render(request, "create-karyawan.html", context)
         else:
             return HttpResponseRedirect("/")

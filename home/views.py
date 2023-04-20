@@ -45,7 +45,6 @@ def change_password(request):
             context["msz"] = "Password Changed Successfully!!!"
             context["col"] = "alert-success"
             user = Karyawan.objects.get(username=un)
-            # login(request,user)
             update_session_auth_hash(request, user)
             return redirect('/')
         else:

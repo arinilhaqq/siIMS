@@ -1,6 +1,14 @@
-{% extends 'main.html' %} {% load static %} {% block meta %}
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
 <title>Karyawan | si-IMS</title>
 {% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
   <h1 align="center">Add Karyawan</h1>
   <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
 
@@ -11,57 +19,80 @@
     <!-- <input type="hidden" name="csrfmiddlewaretoken" value="kCP16eITs3aEZ5QB9RqWYHgxAu3lmVjLD9O8pwyylk5qNHHnb2zxIFXuOBW8fWcd"> -->
     <div class="row">
       <div class="form-group col-md-4">
-        <label for="id_username">Username karyawan:</label> 
+        <label class="required" for="id_username">Username: </label> 
         <input type="text" class="form-control" name="username" maxlength="30" id="id_username"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
       </div>
       <div class="form-group col-md-4">
-        <label for="id_password">Password Karyawan:</label> 
+        <label class="required" for="id_password">Password:</label> 
         <input type="password" class="form-control" name="password" id="id_password"
-        required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
+        placeholder="Minimal 8 karakter mengandung huruf dan angka"
+        required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+        oninput="
+        setCustomValidity('');
+        checkValidity();
+        // console.log(validity);
+        if (validity.patternMismatch) {
+            setCustomValidity('Password harus mengandung minimal delapan karakter, satu huruf, dan satu angka');
+        }
+        else if (validity.valueMissing) {
+            setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu');
+        }
+        else if (validity.valid) {
+            setCustomValidity('');
+        }
+        // allow default validation message to appear for other validation failures
+        ">
         </div>
     </div>
     <br>
     <div class="row">
       <div class="form-group col-md-4">
-        <label for="id_nama_karyawan">Nama karyawan:</label> 
+        <label class="required" for="id_nama_karyawan">Nama:</label> 
         <input type="text" class="form-control" name="nama_karyawan" maxlength="30" id="id_nama_karyawan"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
       <div class="form-group col-md-4">
-        <label for="id_telepon_karyawan">Telepon karyawan:</label> 
+        <label class="required" for="id_telepon_karyawan">Telepon:</label> 
         <input type="tel" class="form-control" name="telepon_karyawan" inputmode="tel" pattern="[0-9()+-]*" id="id_telepon_karyawan"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu atau tidak sesuai')" oninput="setCustomValidity('')">
         </div>
       <div class="form-group col-md-4">
-        <label for="id_email">Email:</label> 
+        <label class="required" for="id_email">Email:</label> 
         <input type="email" class="form-control" name="email" maxlength="254" id="id_email" placeholder="example@gmail.com" 
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
     </div>
     <br>
     <div class="form-group col-md-12">
-      <label for="id_alamat_karyawan">Alamat Rumah:</label>
-      <input type="text" name="alamat_karyawan" class="form-control" cols="10" rows="5" id="id_alamat_karyawan"
-      required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')"></input>
+      <label class="required" for="id_alamat_karyawan">Alamat:</label>
+      <textarea name="alamat_karyawan" class="form-control" cols="10" rows="5" id="id_alamat_karyawan"
+      required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')"></textarea>
     </div>
     <br>
     <br>
     <div class="row">
       <div class="form-group col-md-6">
-        <label for="id_jabatan">Jabatan:</label>
+        <label class="required" for="id_jabatan">Jabatan:</label>
         {{ form.jabatan }}
       </div>
-      <div class="form-group col-md-6">
+      <!-- <div class="form-group col-md-6">
           <label for="id_total_keaktifan">Total Keaktifan:</label>
           <input type="number" class="form-control" id="id_total_keaktifan" placeholder="cth: 0" name="total_keaktifan" 
           required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
-      </div>
+      </div> -->
     </div>
     <br>
     <div class="row">
       <div class="form-group col-md-6">
-        <label for="id_kehadiran">Kehadiran:</label>
+        <label class="required" for="id_kehadiran">Kehadiran:</label>
         {{ form.kehadiran }}
         <!-- <input type="text" class="form-control" id="id_kehadiran" placeholder="cth: Hadir" name="kehadiran" required> -->
       </div>
@@ -73,5 +104,6 @@
       <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
     </div>
   </form>
+
 {% endblock content %}
 

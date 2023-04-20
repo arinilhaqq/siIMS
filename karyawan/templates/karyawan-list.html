@@ -12,11 +12,8 @@
                 <th>No.</th>
                 <th>Nama Karyawan</th>
                 <th>Email</th>
-                <th>No Telp</th>
-                <th>Alamat</th>
                 <th>Jabatan</th>
                 <th>Kehadiran</th>
-                <th>Total Keaktifan</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -26,11 +23,8 @@
                 <td>{{ forloop.counter }}.</td>
                 <td>{{ k.nama_karyawan }}</td>
                 <td>{{ k.email }}</td>
-                <td>{{ k.telepon_karyawan }}</td>
-                <td>{{ k.alamat_karyawan }}</td>
                 <td>{{ k.jabatan }}</td>
                 <td>{{ k.kehadiran }}</td>
-                <td>{{ k.total_keaktifan }}</td>
                 <td>
                     <button type="button" class="btn btn-dark"
                     data-bs-toggle="modal" data-bs-target="#Modal{{ k.id }}">

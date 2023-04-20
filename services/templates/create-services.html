@@ -1,6 +1,12 @@
 {% extends 'main.html' %} {% load static %} {% block meta %}
 <title>Services | si-IMS</title>
 {% endblock meta %} {% block content %}
+    <style>
+      .required:after {
+        content:" *";
+        color: red;
+      }
+    </style>
 
     <h1 align="center">Add Jenis Services</h1>
     <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
@@ -11,30 +17,30 @@
         {% csrf_token %}
         <div class="row">
             <div class="form-group col-md-4">
-                <label for="id_nama">Nama:</label>
+                <label class="required" for="id_nama">Nama:</label>
                 <input type="text" class="form-control" name="nama" maxlength="30" required id="id_nama"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label for="id_harga">Harga:</label> 
+                <label class="required" for="id_harga">Harga:</label> 
                 <input type="text" class="form-control" name="harga" maxlength="10" required id="id_harga"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label for="id_estimasi_pengerjaan">Estimasi pengerjaan:</label> 
+                <label class="required" for="id_estimasi_pengerjaan">Estimasi pengerjaan:</label> 
                 <input type="text" class="form-control" name="estimasi_pengerjaan" maxlength="10" required id="id_estimasi_pengerjaan"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
         </div>
         <br>
         <div class="row">
-            <label>Kebutuhan spare part:</label>
+            <label class="required" >Kebutuhan spare part:</label>
             {{ form.kebutuhan_spare_part }}
         </div>
         <br>
         <div class="row">
             <div class="form-group col-md-12">
-                <label for="id_kuantitas_spare_part">Kuantitas spare part:</label> 
+                <label class="required" for="id_kuantitas_spare_part">Kuantitas spare part:</label> 
                 <input type="text" class="form-control" name="kuantitas_spare_part" maxlength="255" required id="id_kuantitas_spare_part"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>

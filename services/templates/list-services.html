@@ -18,11 +18,12 @@
       </tr>
     </thead>
     <tbody>
+      {% load humanize %}
       <tr>
         {% for s in services %}
           <td>{{ forloop.counter }}.</td>
           <td>{{ s.nama }}</td>
-          <td>{{ s.harga }}</td>
+          <td>{{ s.harga|intcomma }}</td>
           <td>{{ s.estimasi_pengerjaan }}</td>
           <td>
             <button type="button" class="btn btn-dark"
@@ -54,7 +55,7 @@
                           <div class="row">
                             <div class="form-group col-md-12">
                               <label for="id_harga">Harga (Rp):</label> 
-                                <p>{{ s.harga }}</p>
+                                <p>{{ s.harga|intcomma }}</p>
                             </div>
                           </div>
                           <br>

@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'karyawan',
     'services',
     'authentication',
+    'appointment',
+    'initialinspection',
 ]
 
 MIDDLEWARE = [

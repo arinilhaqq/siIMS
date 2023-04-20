@@ -23,4 +23,6 @@ urlpatterns = [
     path('', include('pelanggan.urls')),
     path('', include('karyawan.urls')),
     path('', include('services.urls')),
+    path('', include('appointment.urls')),
+    path('', include('initialinspection.urls')),
 ]

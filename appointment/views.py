@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from initialinspection.models import InitialInspection
 from .models import Appointment, Pelanggan, Karyawan
-from .forms import AppointmentForm
+from .forms import AppointmentForm, AppointmentSearchForm
 
 def is_authenticated(request):
     try:
@@ -56,7 +56,23 @@ def list_appointment(request):
         if request.session['jabatan'] != 'Teknisi':
             appointment = Appointment.objects.all()
 
+            form = AppointmentSearchForm(request.GET)
+
             context = {
+                'appointment': appointment,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+                'initial': initial_inspection
+            }
+
+            if form.is_valid():
+                search_query = form.cleaned_data.get('search_query')
+                
+                if search_query:
+                    appointment = appointment.filter(pelanggan__nama_pelanggan__icontains=search_query) | appointment.filter(status__icontains=search_query)
+                    
+            context = {
+                "form": form,
                 'appointment': appointment,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
@@ -67,7 +83,22 @@ def list_appointment(request):
         elif request.session['jabatan'] == 'Teknisi':
             appointment = Appointment.objects.filter(teknisi__nama_karyawan=request.session['nama_karyawan'])
 
+            form = AppointmentSearchForm(request.GET)
+
             context = {
+                'appointment': appointment,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
+
+            if form.is_valid():
+                search_query = form.cleaned_data.get('search_query')
+                
+                if search_query:
+                    appointment = appointment.filter(pelanggan__nama_pelanggan__icontains=search_query) | appointment.filter(status__icontains=search_query)
+                    
+            context = {
+                "form": form,
                 'appointment': appointment,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],

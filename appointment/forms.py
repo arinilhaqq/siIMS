@@ -28,3 +28,6 @@ class AppointmentForm(forms.ModelForm):
             appointment.save()
             
         return appointment
+    
+class AppointmentSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False)

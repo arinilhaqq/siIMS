@@ -13,3 +13,6 @@ class PelangganForm(forms.ModelForm):
                   'nomor_polisi',
                   'email'
                   ]
+
+class PelangganSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False)

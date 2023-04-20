@@ -14,3 +14,6 @@ class KaryawanForm(forms.ModelForm):
                   'username',
                   'password'
                   ]
+
+class KaryawanSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False)

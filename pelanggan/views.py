@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Pelanggan
-from .forms import PelangganForm
+from .forms import PelangganForm, PelangganSearchForm
 from django.http import HttpResponseRedirect
 
 def is_authenticated(request):
@@ -14,7 +14,24 @@ def pelanggan_list(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
             pelanggan = Pelanggan.objects.all().values()  
+
+            form = PelangganSearchForm(request.GET)
+            
             response = {'pelanggan': pelanggan, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+
+            if form.is_valid():
+                search_query = form.cleaned_data.get('search_query')
+                
+                if search_query:
+                    pelanggan = pelanggan.filter(nama_pelanggan__icontains=search_query) | pelanggan.filter(__icontains=search_query)
+                    
+            response = {
+                "form": form,
+                "pelanggan": pelanggan,
+                'username':request.session['username'], 
+                'jabatan':request.session['jabatan']
+            }
+
             return render(request, 'pelanggan_list.html', response)
         else:
             return HttpResponseRedirect ("/")

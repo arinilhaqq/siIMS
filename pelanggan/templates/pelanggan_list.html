@@ -1,0 +1,114 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Pelanggan | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+  <h1 class="text-center">List Pelanggan</h1>
+  <p class="text-center">List pelanggan yang terdaftar di PT Inter Motor Sport</p>
+
+  <br> 
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Nama Pelanggan</th>
+        <th>Nomor Telepon</th>
+        <th>Email</th>
+        <th>Nomor Polisi</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {% for p in pelanggan %}
+          <td>{{ forloop.counter }}.</td>
+          <td>{{ p.nama_pelanggan }}</td>
+          <td>{{ p.telepon_pelanggan }}</td>
+          <td>{{ p.email }}</td>
+          <td>{{ p.nomor_polisi }}</td>
+          <td>
+            <button type="button" class="btn btn-dark"
+            data-bs-toggle="modal" data-bs-target="#Modal{{ p.id }}">
+            Detail
+            </button>
+            <div class="modal fade" id="Modal{{ p.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="cardModalLabel">
+                      Detail Pelanggan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-md-7 px-3">
+                      <div class="card-block px-6">                                             
+                        <div class="card-body">
+                          <h5 class="card-title">
+                          </h5>
+                          <p class="card-text text-left">
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="id_nama_pelanggan">Nama pelanggan:</label> 
+                              <p>{{ p.nama_pelanggan }}</p>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="id_telepon_pelanggan">Telepon pelanggan:</label> 
+                              <p>{{ p.telepon_pelanggan }}</p>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label for="id_email">Email:</label> 
+                              <p>{{ p.email }}</p>
+                          </div>
+                          <br>
+                          <div class="form-group col-md-12">
+                            <label for="id_alamat_pelanggan">Alamat pelanggan:</label> 
+                            <p>{{ p.alamat_pelanggan }}</p>
+                          </div>
+                            <br>
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="id_jenis_mobil">Jenis mobil:</label> 
+                              <p>{{ p.jenis_mobil }}</p>
+                            </div>
+                            <br>
+                            <div class="form-group col-md-6">
+                              <label for="id_nama_mobil">Nama mobil:</label> 
+                              <p>{{ p.nama_mobil }}</p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="id_nomor_polisi">Nomor polisi:</label> 
+                              <p>{{ p.nomor_polisi }}</p>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="id_nomor_pkb">Nomor pkb:</label> 
+                              <p>{{ p.nomor_pkb }}</p>
+                            </div>
+                          </div></p>
+                        </div>
+                      </div>   
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <a class="btn btn-warning" href="/update-pelanggan/{{ p.id }}">Update</a>
+                    <a class="btn btn-danger" href="/delete-pelanggan/{{ p.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                      Kembali
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>            
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+{% endblock content %}

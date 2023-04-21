@@ -1,18 +1,25 @@
 from django.db import models
-from multiselectfield import MultiSelectField
-# from jsonfield import JSONField
+# from multiselectfield import MultiSelectField
+# from sparepart.models import SparePart
 
-
-MY_CHOICES2 = ((1, 'Baut'),
-               (2, 'Oli'),
-               (3, 'Besi'),
-               (4, 'Bamper'),
-               (5, 'Ban'))
+SATUAN_WAKTU = (('Menit', 'Menit'),
+               ('Jam', 'Jam'),
+               ('Hari', 'Hari'),
+               ('Minggu', 'Minggu'),
+               ('Bulan', 'Bulan'))
 
 class Service(models.Model):
-    nama = models.CharField(max_length=30)
-    harga = models.IntegerField()
-    estimasi_pengerjaan = models.CharField(max_length=10)
-    kebutuhan_spare_part = MultiSelectField(choices=MY_CHOICES2, default='', max_length=50)
-    kuantitas_spare_part = models.CharField(max_length=255, default='')
 
+    nama = models.CharField(max_length=30, unique=True)
+    harga = models.IntegerField()
+    jumlah_estimasi_pengerjaan = models.IntegerField()
+    satuan_waktu = models.CharField(max_length=30, choices=SATUAN_WAKTU, default='')
+    kebutuhan_spare_parts = models.ManyToManyField('sparepart.SparePart', through='ServicePart')
+
+    def __str__(self):
+        return self.nama
+
+class ServicePart(models.Model):
+    service = models.ForeignKey('services.Service', on_delete=models.CASCADE)
+    part = models.ForeignKey('sparepart.SparePart', on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)

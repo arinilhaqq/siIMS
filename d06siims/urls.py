@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('pelanggan.urls')),
     path('', include('karyawan.urls')),
     path('', include('services.urls')),
+    path('', include('sparepart.urls')),
 ]

@@ -28,22 +28,17 @@
             </div>
         </div>
         <br>
-        <div class="form-group col-md-6">
-            <label for="id_kebutuhan_spare_part">Kebutuhan Spare Part:</label>
-            {{ form.kebutuhan_spare_part }}
+        <div class="form-group">
+            <label>Kebutuhan Spare Parts:</label>
+                {{ form.kebutuhan_spare_parts }}
         </div>
-        <br>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label for="id_kuantitas_spare_part">Kuantitas spare part:</label> 
-                <input type="text" class="form-control" name="kuantitas_spare_part" value="{{ service.kuantitas_spare_part }}"maxlength="255" required id="id_kuantitas_spare_part"
-                oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
-            </div>
+        <div class="form-group">
+            <label>Kuantitas:</label>
+            {{ form.quantities }}
         </div>
-        
         <br>
         <div class="bs-example">
-            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');"">Update</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Update</button>
             <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
         </div>
     </form>

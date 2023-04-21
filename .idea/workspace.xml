@@ -26,27 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1416bcd4-9d4c-422f-bd36-b8452dacc108" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sparepart/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sparepart/templates/create-spare-part.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sparepart/templates/list-spare-part.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sparepart/templates/update-spare-part.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sparepart/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/d06siims/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/d06siims/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/d06siims/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/d06siims/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/home/templates/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/migrations/0002_service_kebutuhan_spare_part.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/migrations/0003_auto_20230318_1912.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/migrations/0004_alter_service_harga.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/templates/create-services.html" beforeDir="false" afterPath="$PROJECT_DIR$/services/templates/create-services.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/templates/list-services.html" beforeDir="false" afterPath="$PROJECT_DIR$/services/templates/list-services.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/templates/service_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/templates/service_list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/templates/update-services.html" beforeDir="false" afterPath="$PROJECT_DIR$/services/templates/update-services.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

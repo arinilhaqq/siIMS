@@ -13,7 +13,8 @@
         <th>No.</th>
         <th>Nama Jenis Service</th>
         <th>Harga (Rp)</th>
-        <th>Estimasi Pengerjaan</th>
+        <th>Jumlah Estimasi Pengerjaan</th>
+        <th>Satuan Waktu</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -23,8 +24,9 @@
         {% for s in services %}
           <td>{{ forloop.counter }}.</td>
           <td>{{ s.nama }}</td>
-          <td>{{ s.harga|intcomma }}</td>
-          <td>{{ s.estimasi_pengerjaan }}</td>
+          <td>{{ s.harga }}</td>
+          <td>{{ s.jumlah_estimasi_pengerjaan }}</td>
+          <td>{{ s.satuan_waktu }}</td>
           <td>
             <button type="button" class="btn btn-dark"
             data-bs-toggle="modal" data-bs-target="#Modal{{ s.id }}">
@@ -48,35 +50,42 @@
                           <p class="card-text text-left">
                           <div class="row">
                             <div class="form-group col-md-12">
-                              <label for="id_nama">Nama Jenis Service:</label> 
+                              <label>Nama Jenis Service:</label>
                               <p>{{ s.nama }}</p>
                             </div>
                           </div>
                           <div class="row">
                             <div class="form-group col-md-12">
-                              <label for="id_harga">Harga (Rp):</label> 
-                                <p>{{ s.harga|intcomma }}</p>
+                              <label>Harga (Rp):</label>
+                                <p>{{ s.harga }}</p>
                             </div>
                           </div>
                           <br>
-                          <div class="form-group col-md-12">
-                            <label for="id_estimasi_pengerjaan">Estimasi Pengerjaan:</label> 
-                            <p>{{ s.estimasi_pengerjaan }}</p>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label>Jumlah Estimasi Pengerjaan:</label>
+                              <p>{{ s.jumlah_estimasi_pengerjaan }}</p>
+                            </div>
                           </div>
                             <br>
                           <div class="row">
                             <div class="form-group col-md-12">
-                              <label for="id_kebutuhan_spare_part">Kebutuhan Spare Part:</label> 
-                              <p>{{ s.kebutuhan_spare_part }}</p>
+                              <label>Satuan Waktu:</label>
+                              <p>{{ s.satuan_waktu }}</p>
                             </div>
                           </div>
-                          <br>
+                            <br>
                           <div class="row">
                             <div class="form-group col-md-12">
-                              <label for="id_kuantitas_spare_part">Kuantitas Spare Part:</label> 
-                              <p>{{ s.kuantitas_spare_part }}</p>
+                              <label>Kebutuhan Spare Part:</label>
+                              <p>
+                                {% for sparepart in s.kebutuhan_spare_parts.all %}
+                                  <li>{{ sparepart.part }}</li>
+                                {% endfor %}
+                              </p>
                             </div>
                           </div>
+<!--                          <br>-->
                         </div>
                       </div>   
                     </div>

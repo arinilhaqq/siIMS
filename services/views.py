@@ -27,8 +27,6 @@ def add_service(request):
 
             form = ServiceForm(request.POST or None)
             if (form.is_valid() and request.method == 'POST'):
-                # kebutuhan_spare_part = form.cleaned_data['kebutuhan_spare_part']
-                # kuantitas_spare_part = form.cleaned_data['kuantitas_spare_part']
                 form.save()
                 return redirect('/list-services')
 

@@ -19,6 +19,7 @@
       </tr>
     </thead>
     <tbody>
+      {% load humanize %}
       <tr>
         {% for s in services %}
           <td>{{ forloop.counter }}.</td>

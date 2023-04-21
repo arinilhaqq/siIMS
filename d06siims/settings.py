@@ -37,12 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # OUR APPS:
     'home',
     'pelanggan',
     'karyawan',
     'services',
     'authentication',
+<<<<<<< HEAD
+=======
+    'appointment',
+    'initialinspection',
+>>>>>>> 7b487576cf1a33fc113f8dcb2b183e6141b6487c
     'sparepart',
 ]
 

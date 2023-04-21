@@ -11,12 +11,12 @@
       {% csrf_token %}
       <div class="row">
         <div class="form-group col-md-4">
-          <label for="id_nama_pelanggan">Nama pelanggan:</label> 
+          <label for="id_nama_pelanggan">Nama:</label> 
           <input type="text" class="form-control" name="nama_pelanggan" value="{{pelanggan.nama_pelanggan}}" maxlength="30" id="id_nama_pelanggan"
           required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
         </div>
         <div class="form-group col-md-4">
-            <label for="id_telepon_pelanggan">Telepon pelanggan:</label> 
+            <label for="id_telepon_pelanggan">Telepon:</label> 
             <input type="tel" class="form-control" name="telepon_pelanggan" id="id_telepon_pelanggan" value="{{pelanggan.telepon_pelanggan}}" inputmode="tel" pattern="[0-9()+-]*" maxlength="20"
             required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu atau tidak sesuai')" oninput="setCustomValidity('')">
         </div>       
@@ -28,7 +28,7 @@
       </div>
       <br>
       <div class="form-group col-md-12">
-        <label for="id_alamat_pelanggan">Alamat pelanggan:</label> 
+        <label for="id_alamat_pelanggan">Alamat:</label> 
         <input type="text" name="alamat_pelanggan" class="form-control" cols="10" rows="5" value="{{pelanggan.alamat_pelanggan}}" id="id_alamat_pelanggan" 
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>

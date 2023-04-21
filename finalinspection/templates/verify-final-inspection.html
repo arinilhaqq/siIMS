@@ -1,0 +1,395 @@
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
+<title>Initial Inspection | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
+  <h1 class="text-center">Final Inspection</h1>
+  <br>
+  <div class="container">
+    <h3>Informasi Kendaraan Akhir</h3>
+    <img src="https://cdn.discordapp.com/attachments/896935170333081613/1097355208859852832/Initial_Inspection.png" alt="Gambar Report Mobil"> 
+    <div class="row">
+      <div class="col-md-6">
+      <table class="table">
+      <h5><strong>Front Side</strong></h5>
+      <tbody>
+        <tr>
+          <td>1.</td>
+          {% if inspection.front_1 %}
+            <td>Rusak</td>
+          {% else %}
+            <td>Ada</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>2.</td>
+          {% if inspection.front_2 %}
+            <td>Rusak</td>
+          {% else %}
+            <td>Ada</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>3.</td>
+          {% if inspection.front_3 %}
+            <td>Rusak</td>
+          {% else %}
+            <td>Ada</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>4.</td>
+          {% if inspection.front_4 %}
+            <td>Rusak</td>
+          {% else %}
+            <td>Ada</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>5.</td>
+          {% if inspection.front_5 %}
+            <td>Rusak</td>
+          {% else %}
+            <td>Ada</td>
+          {% endif %}
+        </tr>
+        </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <table class="table">
+        <h5><strong>Back Side</strong></h5>
+        <tbody>
+          <tr>
+            <td>6.</td>
+            {% if inspection.front_6 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>7.</td>
+            {% if inspection.front_7 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>8.</td>
+            {% if inspection.front_8 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>9.</td>
+            {% if inspection.front_9 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>10.</td>
+            {% if inspection.front_10 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+      <table class="table">
+        <h5><strong>Passenger Side</strong></h5>
+        <tbody>
+          <tr>
+            <td>11.</td>
+            {% if inspection.passenger_11 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>12.</td>
+            {% if inspection.passenger_12 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>13.</td>
+            {% if inspection.passenger_13 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>14.</td>
+            {% if inspection.passenger_14 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>15.</td>
+            {% if inspection.passenger_15 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>16.</td>
+            {% if inspection.passenger_16 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>17.</td>
+            {% if inspection.passenger_17 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>18.</td>
+            {% if inspection.passenger_18 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <td>19.</td>
+            {% if inspection.passenger_19 %}
+              <td>Rusak</td>
+            {% else %}
+              <td>Ada</td>
+            {% endif %}
+          </tr>
+        </tbody>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <table class="table">
+          <h5><strong>Top Side</strong></h5>
+          <tbody>
+            <tr>
+              <td>20.</td>
+              {% if inspection.top_20 %}
+                <td>Rusak</td>
+              {% else %}
+                <td>Ada</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>21.</td>
+              {% if inspection.top_21 %}
+                <td>Rusak</td>
+              {% else %}
+                <td>Ada</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>22.</td>
+              {% if inspection.top_22 %}
+                <td>Rusak</td>
+              {% else %}
+                <td>Ada</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>23.</td>
+              {% if inspection.top_23 %}
+                <td>Rusak</td>
+              {% else %}
+                <td>Ada</td>
+              {% endif %}
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      <div class="col-md-4">
+        <table class="table">
+          <h5><strong>Driver Side</strong></h5>
+            <tbody>
+              <tr>
+                <td>24.</td>
+                {% if inspection.driver_24 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>25.</td>
+                {% if inspection.driver_25 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>26.</td>
+                {% if inspection.driver_26 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>27.</td>
+                {% if inspection.driver_27 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>28.</td>
+                {% if inspection.driver_28 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>29.</td>
+                {% if inspection.driver_29 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>30.</td>
+                {% if inspection.driver_30 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>31.</td>
+                {% if inspection.driver_31 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td>32.</td>
+                {% if inspection.driver_32 %}
+                  <td>Rusak</td>
+                {% else %}
+                  <td>Ada</td>
+                {% endif %}
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    <tr>
+    <br>
+    <td>Catatan: </td>
+    {% if inspection.catatan %}
+      <td>{{ inspection.catatan }}</td>
+    {% else %}
+      <td>Tidak ada</td>
+    {% endif %}
+    <br>
+    <br>
+    <h3>Kondisi Interior Mobil</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Komponen</th>
+          <th>Kondisi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1.</td>
+          <td>Karpet</td>
+          {% if inspection.karpet %}
+            <td>{{ inspection.karpet }}</td>
+          {% else %}
+            <td>Normal</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>2.</td>
+          <td>Kursi</td>
+          {% if inspection.kursi %}
+            <td>{{ inspection.kursi }}</td>
+          {% else %}
+            <td>Normal</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Headliner</td>
+          {% if inspection.headliner %}
+            <td>{{ inspection.headliner }}</td>
+          {% else %}
+            <td>Normal</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>4.</td>
+          <td>Door Panels</td>
+          {% if inspection.door_panels %}
+            <td>{{ inspection.door_panels }}</td>
+          {% else %}
+            <td>Normal</td>
+          {% endif %}
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <h3>Verifikasi Final Inspection</h3>
+    <br>
+    <div class="form-group col-md-2">
+      <p><strong>Diperiksa:</strong></p>
+      <label for="id_front_1">Teknisi Final Inspector</label>
+      <input type="checkbox" name="checked" id="inspectionchecked" {% if jabatan != 'Teknisi' %}disabled>
+    </div>
+    <br>
+    <div class="form-group col-md-2">
+      <p><strong>Disetujui:</strong></p>
+      <label for="id_front_2">Service Advisor</label>
+      <input type="checkbox" name="approved" id="inspection.approved"{% if jabatan != 'Service Advisor' %}disabled>
+    </div>
+    <br>
+    <!-- <div class="form-group col-md-2">
+      <p><strong>Mengetahui:</strong></p>
+      <label for="id_front_3">Pemilik/Kuasa Kendaraan</label>
+      <input type="checkbox" name="front_3" id="id_front_3">
+    </div> -->
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+{% endblock content %}

@@ -25,4 +25,5 @@ urlpatterns = [
     path('', include('services.urls')),
     path('', include('appointment.urls')),
     path('', include('initialinspection.urls')),
+    path('', include('finalinspection.urls')),
 ]

@@ -23,10 +23,7 @@ urlpatterns = [
     path('', include('pelanggan.urls')),
     path('', include('karyawan.urls')),
     path('', include('services.urls')),
-<<<<<<< HEAD
-=======
     path('', include('appointment.urls')),
     path('', include('initialinspection.urls')),
->>>>>>> 7b487576cf1a33fc113f8dcb2b183e6141b6487c
     path('', include('sparepart.urls')),
 ]

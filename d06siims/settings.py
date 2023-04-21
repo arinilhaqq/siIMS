@@ -44,11 +44,8 @@ INSTALLED_APPS = [
     'karyawan',
     'services',
     'authentication',
-<<<<<<< HEAD
-=======
     'appointment',
     'initialinspection',
->>>>>>> 7b487576cf1a33fc113f8dcb2b183e6141b6487c
     'sparepart',
 ]
 

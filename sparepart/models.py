@@ -4,9 +4,9 @@ from django.db import models
 # Create your models here.
 
 class SparePart(models.Model):
-    nama = models.CharField(max_length=30)
-    variasi = models.CharField(max_length=30)
-    harga = models.IntegerField(default='')
+    nama = models.CharField(max_length=70)
+    variasi = models.CharField(max_length=70)
+    harga = models.BigIntegerField(default='')
     stok = models.IntegerField(default='')
     services = models.ManyToManyField('services.Service')
 

@@ -35,7 +35,7 @@ def create_initial_inspection(request, id):
 
 def detail_initial_inspection(request, id):
     if is_authenticated(request):
-        initial_inspection = InitialInspection.objects.get(appointment=id)
+        initial_inspection = InitialInspection.objects.get(id=id)
 
         context = {
             'inspection': initial_inspection,

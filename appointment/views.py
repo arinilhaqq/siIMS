@@ -88,3 +88,16 @@ def teknisi_finished_appointment(request, id):
         return redirect('/list-appointment/')
     else:
         return HttpResponseRedirect("/login")
+
+def update_appointment(request, id):
+    if is_authenticated(request):
+        appointment = Appointment.objects.get(id=id)
+        response = {'appointment': appointment, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+        if request.method == 'POST':
+            form = AppointmentForm(request.POST, instance=appointment)
+            if form.is_valid():
+                form.save()
+            return redirect('/list-appointment/')
+        return render(request, "update-appointment.html", response)
+    else:
+        return HttpResponseRedirect("/login")

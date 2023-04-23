@@ -1,7 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from initialinspection.models import InitialInspection
-from .models import Appointment, Pelanggan, Karyawan
+from appointment.models import Appointment
+from .models import Pelanggan, Karyawan
 from .forms import AppointmentForm
 
 def is_authenticated(request):
@@ -16,31 +17,53 @@ def create_appointment(request):
         pelanggan = Pelanggan.objects.all()
 
         if request.method == 'POST':
+            # print(request.POST)
             form = AppointmentForm(request.POST)
+            # print(form)
+            print(form.errors)
 
             if form.is_valid():
                 appointment = form.save(commit=False)
-                if appointment.teknisi:
+
+                print(form.cleaned_data)
+                teknisi = form.cleaned_data['teknisi']
+
+                if teknisi:
+                    appointment.teknisi = teknisi
                     appointment.status = 'On going'
                 appointment.save()
+
                 return redirect('/list-appointment/')
         else:
             form = AppointmentForm()
+
+        # # Ambil semua teknisi
+        # listTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir')
         
-        teknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir',
-                    appointment__teknisi__isnull=True) | Karyawan.objects.filter(jabatan='Teknisi',kehadiran='Hadir',
-                    appointment__teknisi__isnull=False).exclude(appointment__status='On going')
-        
-        teknisi_dict = {}
-        unique_teknisi = []
-        for t in teknisi:
-            if t not in teknisi_dict:
-                teknisi_dict[t] = True
-                unique_teknisi.append(t)
+        # # Ambil semua appointment yang berjalan
+        # listAppointment = Appointment.objects.all()
+        # list_ongoing_Appoint = []
+
+        # for appointment in listAppointment:
+        #     if appointment.status == 'On going':
+        #         list_ongoing_Appoint.append(appointment)
+
+        # ongoingTeknisi = set()
+        # finalTeknisi = set()
+
+        # # Ambil teknisi yang punya appointment
+        # for app in list_ongoing_Appoint:
+        #     ongoingTeknisi.add(app.teknisi)
+
+        # # Ambil teknisi yang gapunya appointment
+        # for teknisi in listTeknisi:
+        #     if teknisi not in ongoingTeknisi:
+        #         finalTeknisi.add(teknisi)
+        finalTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir').exclude(appointment__teknisi__isnull=False, appointment__status='On going')
 
         context = {
             'listPelanggan': pelanggan,
-            'listTeknisi': unique_teknisi,
+            'listTeknisi': finalTeknisi,
             'form': form,
             'username': request.session['username'],
             'jabatan': request.session['jabatan']

@@ -1,6 +1,6 @@
 {% extends 'main.html' %} {% load static %} 
 {% block meta %}
-<title>Initial Inspection | si-IMS</title>
+<title>Final Inspection | si-IMS</title>
 {% endblock meta %} {% block content %}
   <style>
     .required:after {
@@ -8,7 +8,8 @@
       color: red;
     }
   </style>
-
+<form action="" method="POST">
+  {% csrf_token %}
   <h1 class="text-center">Final Inspection</h1>
   <br>
   <div class="container">
@@ -374,17 +375,16 @@
   <br>
   <div class="form-group col-md-3">
     <p><strong>Diperiksa:</strong></p>
-    <label for="id_front_1">Teknisi Final Inspector</label>
-    <input type="checkbox" name="checked" id="inspectionchecked" {% if jabatan != 'Teknisi' %}disabled>
-    {% endif %}
+    <label for="checked">Teknisi Final Inspector</label>
+    <input type="checkbox" name="checked" id="checked" {% if jabatan != 'Teknisi' %}disabled {% endif %}>
   </div>
   <br>
   <br>
   <div class="form-group col-md-2">
     <p><strong>Disetujui:</strong></p>
-    <label for="id_front_2">Service Advisor</label>
-    <input type="checkbox" name="approved" id="inspection.approved"{% if jabatan != 'Service Advisor' %}disabled>
-    {% endif %}
+    <label for="approved">Service Advisor</label>
+    <input type="checkbox" name="approved" id="approved" {% if jabatan != 'Service Advisor' %}disabled {% endif %}>
+    
   </div>
   <br>
     <!-- <div class="form-group col-md-2">
@@ -395,6 +395,8 @@
     <br>
     <br>
   <div class="bs-example">
+    <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Verify</button>
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
   </div>
+</form>
 {% endblock content %}

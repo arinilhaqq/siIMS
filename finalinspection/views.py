@@ -1,7 +1,6 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from initialinspection.models import InitialInspection
 from .models import FinalInspection, Appointment
 from .forms import FinalInspectionForm
 from django.contrib.auth.decorators import permission_required
@@ -65,28 +64,66 @@ def update_final_inspection(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor':
             final_inspection = FinalInspection.objects.get(appointment=id)
-            response = {'final_inspection': final_inspection, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
-
-            if request.method == 'POST':
+            print(final_inspection)
+            # final_inspection = get_object_or_404(FinalInspection,id=id)
+            response = {
+            'inspection': final_inspection,
+            'username': request.session['username'],
+            'jabatan': request.session['jabatan'],
+            }
+            # context['inspection']=final_inspection
+            
+            if request.method == "POST":
                 form = FinalInspectionForm(request.POST, instance=final_inspection)
+                print(form.errors)
+                # response['form'] = form
                 if form.is_valid():
                     form.save()
-                return redirect('/update-final-inspection/' + str(final_inspection.id), final_inspection.id)
+                return redirect('/')
+            # context['username'] = request.session['username']
+            # context['jabatan'] = request.session['jabatan']
             return render(request, "update-final-inspection.html", response)
         else:
             return HttpResponseRedirect ("/")
     else:
         return HttpResponseRedirect("/login")
+    
+# def update_karyawan(request, id):
+#     if is_authenticated(request):
+#         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] !='Service Advisor':
+#             context = {}
+#             karyawan = Karyawan.objects.get(id=id)
+#             context['karyawan']=karyawan
+            
+#             form = KaryawanForm(request.POST, instance=karyawan)
+#             print(form.is_valid()) # False
+#             if (form.is_valid() and request.method == 'POST'):
+#                 form.save()
+#                 return redirect('/list-karyawan/')
+#             context['form'] = form
+#             context['username'] = request.session['username']
+#             context['jabatan'] = request.session['jabatan']
+#             return render(request, 'update-karyawan.html', context)
+#         else:
+#             return HttpResponseRedirect("/")
+#     else:
+#         return HttpResponseRedirect("/login")
 
 def verify_final_inspection(request, id):
     if is_authenticated(request):
-        final_inspection = InitialInspection.objects.get(appointment=id)
+        final_inspection = FinalInspection.objects.get(appointment=id)
 
         context = {
             'inspection': final_inspection,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
         }
+        if request.method == 'POST':
+            form = FinalInspectionForm(request.POST)
+            print(form.cleaned_data())
+            if form.is_valid():
+                form.save()
+            return redirect('/')
         return render(request, 'verify-final-inspection.html', context)
     else:
         return HttpResponseRedirect("/login")
@@ -104,4 +141,3 @@ def verify_final_inspection(request, id):
     #         return HttpResponseRedirect ("/")
     # else:
     #     return HttpResponseRedirect("/login")
-    

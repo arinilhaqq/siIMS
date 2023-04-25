@@ -20,64 +20,76 @@
       <div class=" col-md-6">
         <div class="form-group">
           <label for="pelanggan">Pelanggan</label>
-
-          <input type="text" list="pelangganlist" Placeholder="Pilih Pelanggan.." class="form-control" id="pelanggan-input" autocomplete="off" value="{{ appointment.pelanggan.nama_pelanggan }}" readonly>
-          <datalist id="pelangganlist">
-            {% for pelanggan in listPelanggan %}
-              <option value="{{ pelanggan.nama_pelanggan }}" data-pelanggan-id="{{ pelanggan.id }}">{{ pelanggan.nomor_polisi }} {{ pelanggan.nama_mobil }}</option>
-            {% endfor %}
-          </datalist>
+          <input type="text" list="pelangganlist" class="form-control" id="pelanggan-input" autocomplete="off" value="{{ appointment.pelanggan.nama_pelanggan }}" readonly>
           <input type="hidden" name="pelanggan" id="pelanggan-id" value="{{ appointment.pelanggan.id }}">
         </div>
       </div>
-      {% if listTeknisi %}
+      <!-- {% if listTeknisi %}
         <div class=" col-md-6">
           <div class="form-group">
             <label for="teknisi">Teknisi</label>
-            <input type="text" list="teknisilist" Placeholder="Pilih Teknisi.." class="form-control" id="teknisi-input" autocomplete="off" value="{{ appointment.teknisi.nama_karyawan }}">
-            <datalist id="teknisilist">
-              {% for teknisi in listTeknisi %}
-                <option value="{{ teknisi.nama_karyawan }}" data-teknisi-id="{{ teknisi.id }}">
-              {% endfor %}
-            </datalist>
-            <input type="hidden" name="teknisi" id="teknisi-id" value="{{ appointment.teknisi.id }}">
+            {% if appointment.teknisi %}
+              <input type="text" class="form-control" value="{{ appointment.teknisi.nama_karyawan }}" readonly>
+              <input type="hidden" name="teknisi" value="{{ appointment.teknisi.id }}">
+            {% else %}
+              <input type="text" list="teknisilist" Placeholder="Pilih Teknisi.." class="form-control" id="teknisi-input" autocomplete="off">
+              <datalist id="teknisilist">
+                {% for teknisi in listTeknisi %}
+                  <option value="{{ teknisi.nama_karyawan }}" data-teknisi-id="{{ teknisi.id }}"></option>
+                {% endfor %}
+              </datalist>
+              <input type="hidden" name="teknisi" id="teknisi-id">
+            {% endif %}
           </div>
         </div>
-      {% endif %}
+      {% endif %} -->
+      <div class=" col-md-6">
+        <div class="form-group">
+          <label for="teknisi">Teknisi</label>
+          {% if appointment.teknisi %}
+            <input type="text" class="form-control" value="{{ appointment.teknisi.nama_karyawan }}" readonly>
+            <input type="hidden" name="teknisi" value="{{ appointment.teknisi.id }}">
+          
+          {% else %}
+            {% if listTeknisi %}
+            <div class=" col-md-6">
+              <div class="form-group">
+                <input type="text" list="teknisilist" Placeholder="Pilih Teknisi.." class="form-control" id="teknisi-input" autocomplete="off">
+                <datalist id="teknisilist">
+                  {% for teknisi in listTeknisi %}
+                    <option value="{{ teknisi.nama_karyawan }}" data-teknisi-id="{{ teknisi.id }}"></option>
+                  {% endfor %}
+                </datalist>
+                <input type="hidden" name="teknisi" id="teknisi-id">
+              {% else %}
+                <input type="text" list="teknisilist" Placeholder="Tidak ada teknisi tersedia" class="form-control" id="teknisi-input" autocomplete="off" readonly>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
     </div>
-    </div>
-    <div class="row">
-    </div>
-    <br>
-    <div class="form-group col-md-12">
-      <label class="required" for="id_keluhan">Keluhan:</label> 
-      <textarea name="keluhan" class="form-control" cols="10" rows="5" id="id_keluhan"
-      required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">{{ appointment.keluhan }}</textarea>
-    </div>
-    <br>
-    <div class="bs-example">
-      <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Update</button>
-      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
-    </div>
-  </form>
-  <script>
-    const teknisiInput = document.getElementById('teknisi-input');
-    const teknisiIdInput = document.getElementById('teknisi-id');
+  </div>
+  <div class="row">
+  </div>
+  <br>
+  <div class="form-group col-md-12">
+    <label class="required" for="id_keluhan">Keluhan:</label> 
+    <textarea name="keluhan" class="form-control" cols="10" rows="5" id="id_keluhan"
+    required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">{{ appointment.keluhan }}</textarea>  </div>
+  <br>
+  <div class="bs-example">
+    <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Submit</button>
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+</form>
+<script>
+  const teknisiInput = document.getElementById('teknisi-input');
+  const teknisiIdInput = document.getElementById('teknisi-id');
 
-    teknisiInput.addEventListener('change', (event) => {
-      const selectedOption = document.querySelector(`#teknisilist option[value="${event.target.value}"]`);
-      const teknisiId = selectedOption.getAttribute('data-teknisi-id');
-      teknisiIdInput.value = teknisiId;
-    });
-  </script>
-  <script>
-    const pelangganInput = document.getElementById('pelanggan-input');
-    const pelangganIdInput = document.getElementById('pelanggan-id');
-
-    pelangganInput.addEventListener('change', (event) => {
-      const selectedOption = document.querySelector(`#pelangganlist option[value="${event.target.value}"]`);
-      const pelangganId = selectedOption.getAttribute('data-pelanggan-id');
-      pelangganIdInput.value = pelangganId;
-    });
-  </script>
+  teknisiInput.addEventListener('change', (event) => {
+    const selectedOption = document.querySelector(`#teknisilist option[value="${event.target.value}"]`);
+    const teknisiId = selectedOption.getAttribute('data-teknisi-id');
+    teknisiIdInput.value = teknisiId;
+  });
+</script>
 {% endblock %}

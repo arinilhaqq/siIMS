@@ -115,10 +115,18 @@ def teknisi_finished_appointment(request, id):
 def update_appointment(request, id):
     if is_authenticated(request):
         appointment = Appointment.objects.get(id=id)
-        response = {'appointment': appointment, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+        finalTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir').exclude(appointment__teknisi__isnull=False, appointment__status='On going')
+        response = {'appointment': appointment, 'username':request.session['username'], 'jabatan':request.session['jabatan'], 'listTeknisi': finalTeknisi}
         if request.method == 'POST':
             form = AppointmentForm(request.POST, instance=appointment)
             if form.is_valid():
+                appointment = form.save(commit=False) 
+                teknisi_id = request.POST.get('teknisi', None)
+                if teknisi_id:
+                    teknisi = Karyawan.objects.get(id=teknisi_id)
+                    appointment.teknisi = teknisi
+                    appointment.status = 'On going'
+                appointment.save()
                 form.save()
             return redirect('/list-appointment/')
         return render(request, "update-appointment.html", response)

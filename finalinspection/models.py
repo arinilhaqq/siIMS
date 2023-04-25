@@ -10,19 +10,6 @@ KONDISI_INTERIOR = (('W', 'Worn'),
 class FinalInspection(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
 
-    # informasi kepemilikan awal
-    nomor_rangka = models.CharField(max_length=20)
-    model_tipe = models.CharField(max_length=255)
-    nomor_mesin = models.CharField(max_length=20)
-    tahun_kendaraan = models.IntegerField(default=None)
-    warna_kendaraan = models.CharField(max_length=50)
-    sisa_bensin = models.IntegerField(default=None)
-    service_book = models.BooleanField(default=True)
-    spare_wheel = models.BooleanField(default=True)
-    jack = models.BooleanField(default=True)
-    tools = models.BooleanField(default=True)
-    radio_tape = models.BooleanField(default=True)
-
     # informasi kendaraan awal
     front_1 = models.BooleanField(default=False)
     front_2 = models.BooleanField(default=False)

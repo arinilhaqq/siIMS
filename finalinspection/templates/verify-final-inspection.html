@@ -8,8 +8,6 @@
       color: red;
     }
   </style>
-<form action="" method="POST">
-  {% csrf_token %}
   <h1 class="text-center">Final Inspection</h1>
   <br>
   <div class="container">
@@ -373,30 +371,69 @@
     <br>
   <h3>Verifikasi Final Inspection</h3>
   <br>
-  <div class="form-group col-md-3">
-    <p><strong>Diperiksa:</strong></p>
-    <label for="checked">Teknisi Final Inspector</label>
-    <input type="checkbox" name="checked" id="checked" {% if jabatan != 'Teknisi' %}disabled {% endif %}>
-  </div>
-  <br>
-  <br>
-  <div class="form-group col-md-2">
-    <p><strong>Disetujui:</strong></p>
-    <label for="approved">Service Advisor</label>
-    <input type="checkbox" name="approved" id="approved" {% if jabatan != 'Service Advisor' %}disabled {% endif %}>
-    
-  </div>
-  <br>
-    <!-- <div class="form-group col-md-2">
-      <p><strong>Mengetahui:</strong></p>
-      <label for="id_front_3">Pemilik/Kuasa Kendaraan</label>
-      <input type="checkbox" name="front_3" id="id_front_3">
-    </div> -->
+  <form action="" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="appointment" id="appointment" value="{{ appointment.id }}">
+    <input type="hidden" name="front_1" id="id_front_1" value="{{inspection.front_1}}">
+    <input type="hidden" name="front_2" id="id_front_2" value="{{inspection.front_2}}">
+    <input type="hidden" name="front_3" id="id_front_3" value="{{inspection.front_3}}">
+    <input type="hidden" name="front_4" id="id_front_4" value="{{inspection.front_4}}">
+    <input type="hidden" name="front_5" id="id_front_5" value="{{inspection.front_5}}">
+    <input type="hidden" name="back_6" id="id_back_6" value="{{inspection.back_6}}">
+    <input type="hidden" name="back_7" id="id_back_7" value="{{inspection.back_7}}">
+    <input type="hidden" name="back_8" id="id_back_8" value="{{inspection.back_8}}">
+    <input type="hidden" name="back_9" id="id_back_9" value="{{inspection.back_9}}">
+    <input type="hidden" name="back_10" id="id_back_10" value="{{inspection.back_10}}">
+    <input type="hidden" name="passenger_11" id="id_passenger_11" value="{{inspection.passenger_11}}">
+    <input type="hidden" name="passenger_12" id="id_passenger_12" value="{{inspection.passenger_12}}">
+    <input type="hidden" name="passenger_13" id="id_passenger_13" value="{{inspection.passenger_13}}">
+    <input type="hidden" name="passenger_14" id="id_passenger_14" value="{{inspection.passenger_14}}">
+    <input type="hidden" name="passenger_15" id="id_passenger_15" value="{{inspection.passenger_15}}">
+    <input type="hidden" name="passenger_16" id="id_passenger_16" value="{{inspection.passenger_16}}">
+    <input type="hidden" name="passenger_17" id="id_passenger_17" value="{{inspection.passenger_17}}">
+    <input type="hidden" name="passenger_18" id="id_passenger_18" value="{{inspection.passenger_18}}">
+    <input type="hidden" name="passenger_19" id="id_passenger_19" value="{{inspection.passenger_19}}">
+    <input type="hidden" name="top_20" id="id_top_20" value="{{inspection.top_20}}">
+    <input type="hidden" name="top_21" id="id_top_21" value="{{inspection.top_21}}">
+    <input type="hidden" name="top_22" id="id_top_22" value="{{inspection.top_22}}">
+    <input type="hidden" name="top_23" id="id_top_23" value="{{inspection.top_23}}">
+    <input type="hidden" name="driver_24" id="id_driver_24" value="{{inspection.driver_24}}">
+    <input type="hidden" name="driver_25" id="id_driver_25" value="{{inspection.driver_25}}">
+    <input type="hidden" name="driver_26" id="id_driver_26" value="{{inspection.driver_26}}">
+    <input type="hidden" name="driver_27" id="id_driver_27" value="{{inspection.driver_27}}">
+    <input type="hidden" name="driver_28" id="id_driver_28" value="{{inspection.driver_28}}">
+    <input type="hidden" name="driver_29" id="id_driver_29" value="{{inspection.driver_29}}">
+    <input type="hidden" name="driver_30" id="id_driver_30" value="{{inspection.driver_30}}">
+    <input type="hidden" name="driver_31" id="id_driver_31" value="{{inspection.driver_31}}">
+    <input type="hidden" name="driver_32" id="id_driver_32" value="{{inspection.driver_32}}">
+    <input type="hidden" name="karpet" id="id_karpet" value="{{inspection.karpet}}">
+    <input type="hidden" name="kursi" id="id_kursi" value="{{inspection.kursi}}">
+    <input type="hidden" name="headliner" id="id_headliner" value="{{inspection.headliner}}">
+    <input type="hidden" name="door_panels" id="id_door_panels" value="{{inspection.door_panels}}">
+    <div class="form-group col-md-3">
+      <p><strong>Diperiksa:</strong></p>
+      <label for="checked">Teknisi Final Inspector</label>
+      <input type="checkbox" name="checked" value="checked" id="checked" {% if jabatan != 'Teknisi' %}disabled {% endif %}>
+    </div>
     <br>
     <br>
-  <div class="bs-example">
-    <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Verify</button>
-    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
-  </div>
+    <div class="form-group col-md-2">
+      <p><strong>Disetujui:</strong></p>
+      <label for="approved">Service Advisor</label>
+      <input type="checkbox" name="approved" value="approved" id="approved" {% if jabatan != 'Service Advisor' %}disabled {% endif %}>
+      
+    </div>
+    <br>
+      <!-- <div class="form-group col-md-2">
+        <p><strong>Mengetahui:</strong></p>
+        <label for="id_front_3">Pemilik/Kuasa Kendaraan</label>
+        <input type="checkbox" name="front_3" id="id_front_3">
+      </div> -->
+      <br>
+      <br>
+    <div class="bs-example">
+      <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Verify</button>
+      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    </div>
 </form>
 {% endblock content %}

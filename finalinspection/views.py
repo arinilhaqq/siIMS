@@ -70,14 +70,17 @@ def update_final_inspection(request, id):
             'inspection': final_inspection,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
+            'appointment': Appointment.objects.get(id=id),
             }
             # context['inspection']=final_inspection
             
             if request.method == "POST":
                 form = FinalInspectionForm(request.POST, instance=final_inspection)
                 print(form.errors)
+                print ('xoxoxoxoxo')
                 # response['form'] = form
                 if form.is_valid():
+                    print (form.cleaned_data)
                     form.save()
                 return redirect('/')
             # context['username'] = request.session['username']
@@ -117,11 +120,12 @@ def verify_final_inspection(request, id):
             'inspection': final_inspection,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
+            'appointment': Appointment.objects.get(id=id),
         }
         if request.method == 'POST':
-            form = FinalInspectionForm(request.POST)
-            print(form.cleaned_data())
+            form = FinalInspectionForm(request.POST, instance=final_inspection)
             if form.is_valid():
+                print(form.cleaned_data)
                 form.save()
             return redirect('/')
         return render(request, 'verify-final-inspection.html', context)

@@ -308,7 +308,7 @@
     
     <div class="form-group col-md-12">
       <label for="id_catatan">Catatan:</label>
-      <textarea name="catatan" class="form-control" cols="40" rows="5" value="id_catatan" id="id_catatan"></textarea>
+      <textarea name="catatan" class="form-control" cols="40" rows="5" value="id_catatan" id="id_catatan">{{inspection.catatan}}</textarea>
     </div>
     <br>
     <hr>
@@ -319,23 +319,23 @@
       <div class="form-group col-md-6">
         <label for="id_karpet">Karpet:</label>
         <select class="form-control" name="karpet" value="id_karpet" id="id_karpet">
-          <option value="">-----</option>
-          <option value="W">Worn</option>
-          <option value="B">Burns</option>
-          <option value="R">Ripped</option>
-          <option value="S">Stain</option>
-          <option value="C">Cracked</option>
+            <option value="" {% if inspection.karpet == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.karpet == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.karpet == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.karpet == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.karpet == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.karpet == 'C' %}selected{% endif %}>Cracked</option>
         </select>
       </div>
       <div class="form-group col-md-6">
         <label for="id_kursi">Kursi:</label>
           <select class="form-control" name="kursi" value="id_kursi" id="id_kursi">
-            <option value="">-----</option>
-            <option value="W">Worn</option>
-            <option value="B">Burns</option>
-            <option value="R">Ripped</option>
-            <option value="S">Stain</option>
-            <option value="C">Cracked</option>
+            <option value="" {% if inspection.kursi == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.kursi == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.kursi == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.kursi == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.kursi == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.kursi == 'C' %}selected{% endif %}>Cracked</option>
           </select>
       </div>
     </div>
@@ -343,23 +343,23 @@
       <div class="form-group col-md-6">
         <label for="id_headliner">Headliner:</label>
         <select class="form-control" name="headliner" value="id_headliner" id="id_headliner">
-          <option value="">-----</option>
-          <option value="W">Worn</option>
-          <option value="B">Burns</option>
-          <option value="R">Ripped</option>
-          <option value="S">Stain</option>
-          <option value="C">Cracked</option>
+          <option value="" {% if inspection.karpet == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.headliner == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.headliner == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.headliner == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.headliner == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.headliner == 'C' %}selected{% endif %}>Cracked</option>
         </select>
       </div>
       <div class="form-group col-md-6">
         <label for="id_door_panels">Door panels:</label>
         <select class="form-control" name="door_panels" value="id_door_panels" id="id_door_panels">
-          <option value="">-----</option>
-          <option value="W">Worn</option>
-          <option value="B">Burns</option>  
-          <option value="R">Ripped</option>   
-          <option value="S">Stain</option>   
-          <option value="C">Cracked</option>  
+          <option value="" {% if inspection.door_panels == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.door_panels == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.door_panels == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.door_panels == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.door_panels == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.door_panels == 'C' %}selected{% endif %}>Cracked</option>  
         </select>
       </div>
     </div>

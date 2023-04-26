@@ -21,7 +21,7 @@ def create_final_inspection(request, id):
                 form.appointment = Appointment.objects.get(id=id)
                 final_inspection = form.save()
 
-                return redirect('/verify-final-inspection/' + str(final_inspection.id), final_inspection.id)
+                return redirect('/verify-final-inspection/' + str(id), id)
         else:
             form = FinalInspectionForm()
 
@@ -124,6 +124,7 @@ def verify_final_inspection(request, id):
         }
         if request.method == 'POST':
             form = FinalInspectionForm(request.POST, instance=final_inspection)
+            print(form.errors)
             if form.is_valid():
                 print(form.cleaned_data)
                 form.save()

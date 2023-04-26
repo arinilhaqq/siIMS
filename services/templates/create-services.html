@@ -15,6 +15,7 @@
 
     <form action="" method="POST">
         {% csrf_token %}
+<!--        {{ form.as_p }}-->
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="required" for="id_nama">Nama:</label>
@@ -22,14 +23,14 @@
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label class="required" for="id_harga">Harga:</label> 
+                <label class="required" for="id_harga">Harga:</label>
                 <input type="text" class="form-control" name="harga" maxlength="10" required id="id_harga"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="row">
             <div class="form-group col-md-4">
                 <label for="id_jumlah_estimasi_pengerjaan">Jumlah estimasi Pengerjaan:</label>
-                <input type="text" class="form-control" name="jumlah_estimasi__pengerjaan" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
+                <input type="text" class="form-control" name="jumlah_estimasi_pengerjaan" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <br>
@@ -45,11 +46,7 @@
         <br>
         <div class="form-group">
             <label>Kebutuhan Spare Parts:</label>
-                {{ form.kebutuhan_spare_parts }}
-        </div>
-        <div class="form-group">
-            <label>Kuantitas:</label>
-            {{ form.quantities }}
+                {{ form.kebutuhan_spare_part }}
         </div>
         <br>
         <div class="bs-example">

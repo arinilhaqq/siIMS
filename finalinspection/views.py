@@ -124,6 +124,7 @@ def verify_final_inspection(request, id):
         }
         if request.method == 'POST':
             form = FinalInspectionForm(request.POST, instance=final_inspection)
+            context['form']=form
             print(form.errors)
             if form.is_valid():
                 print(form.cleaned_data)

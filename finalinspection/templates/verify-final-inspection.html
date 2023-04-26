@@ -374,6 +374,7 @@
   <br>
   <form action="" method="POST">
     {% csrf_token %}
+    {{form.as_p}}
     <input type="hidden" name="appointment" id="appointment" value="{{ appointment.id }}">
     <input type="hidden" name="front_1" id="id_front_1" value="{{inspection.front_1}}">
     <input type="hidden" name="front_2" id="id_front_2" value="{{inspection.front_2}}">
@@ -407,19 +408,34 @@
     <input type="hidden" name="driver_30" id="id_driver_30" value="{{inspection.driver_30}}">
     <input type="hidden" name="driver_31" id="id_driver_31" value="{{inspection.driver_31}}">
     <input type="hidden" name="driver_32" id="id_driver_32" value="{{inspection.driver_32}}">
-    <!-- <input type="hidden" name="karpet" id="id_karpet" value="id_karpet">
-    <input type="hidden" name="kursi" id="id_kursi" value="id_kursi">
-    <input type="hidden" name="headliner" id="id_headliner" value="id_headliner">
-    <input type="hidden" name="door_panels" id="id_door_panels" value="id_door_panels"> -->
+    <!-- <input type="hidden" name="karpet" id="id_karpet" value="{{inspection.karpet}}">
+    <input type="hidden" name="kursi" id="id_kursi" value="{{inspection.kursi}}">
+    <input type="hidden" name="headliner" id="id_headliner" value="{{inspection.headliner}}">
+    <input type="hidden" name="door_panels" id="id_door_panels" value="{{inspection.door_panels}}"> -->
     <input type="hidden" name="catatan" id="id_catatan" value="{{inspection.catatan}}">
-    <input type="hidden" name="karpet" id="id_karpet" {% if id_karpet}value="id_karpet"{% else} value=''{%endif}>
-    <input type="hidden" name="kursi" id="id_kursi" {% if id_kursi}value="id_kursi"{% else} value=''{%endif}>
-    <input type="hidden" name="headliner" id="id_headliner"  {% if id_headliner}value="id_headliner"{% else} value=''{%endif}>
-    <input type="hidden" name="door_panels" id="id_door_panels" {% if id_door_panels}value="id_door_panels"{% else} value=''{%endif}>
+    {% if inspection.karpet%}
+      <input type="hidden" name="karpet" id="id_karpet"value="{{inspection.karpet}}">
+    {%endif%}
+    {% if inspection.kursi%}
+      <input type="hidden" name="kursi" id="id_kursi" value="{{inspection.kursi}}">
+    {%endif%}
+    {% if inspection.headliner%}
+      <input type="hidden" name="headliner" id="id_headliner" value="{{inspection.headliner}}">
+    {%endif%}
+    {% if inspection.door_panels%}
+      <input type="hidden" name="door_panels" id="id_door_panels" value="{{inspection.door_panels}}">
+    {%endif%}
+    <!-- <input type="hidden" name="kursi" id="id_kursi" {% if id_kursi!= 'NULL'}value="id_kursi"{%endif}>
+    <input type="hidden" name="headliner" id="id_headliner"  {% if id_headliner!= 'NULL'}value="id_headliner"{%endif}>
+    <input type="hidden" name="door_panels" id="id_door_panels" {% if id_door_panels!= 'NULL'}value="id_door_panels"{%endif}> -->
     <div class="form-group col-md-3">
       <p><strong>Diperiksa:</strong></p>
       <label for="checked">Teknisi Final Inspector</label>
-      <input type="checkbox" name="checked" value="checked" id="checked" {% if jabatan != 'Teknisi' %}disabled {% endif %}>
+      {% if jabatan != 'Teknisi' %}>
+        <input type="checkbox" name="checked" value="checked" id="checked" disabled>
+      {% else %}
+        <input type="checkbox" name="checked" value="checked" id="checked">
+      {% endif %}
     </div>
     <br>
     <br>

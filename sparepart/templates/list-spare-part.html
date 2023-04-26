@@ -13,20 +13,31 @@
         <th>No.</th>
         <th>Nama Spare Part</th>
         <th>Variasi</th>
+<<<<<<< HEAD
         <th>Harga</th>
+=======
+        <th>Harga (Rp)</th>
+>>>>>>> a8a6b82b05b48c3ccf85412e2a6f702ae9c1ebd6
         <th>Stok</th>
 <!--        <th>Kebutuhan Jenis Service</th>-->
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
+<<<<<<< HEAD
       {% load humanize %}
+=======
+>>>>>>> a8a6b82b05b48c3ccf85412e2a6f702ae9c1ebd6
       <tr>
         {% for s in sparepart %}
           <td>{{ forloop.counter }}.</td>
           <td>{{ s.nama }}</td>
           <td>{{ s.variasi }}</td>
+<<<<<<< HEAD
           <td>Rp {{ s.harga|intcomma }}</td>
+=======
+          <td>{{ s.harga }}</td>
+>>>>>>> a8a6b82b05b48c3ccf85412e2a6f702ae9c1ebd6
           <td>{{ s.stok }}</td>
 <!--          <td>-->
 <!--            <ul>-->
@@ -71,8 +82,13 @@
                           <br>
                           <div class="row">
                             <div class="form-group col-md-12">
+<<<<<<< HEAD
                               <label>Harga:</label>
                               <p>Rp {{ s.harga|intcomma }}</p>
+=======
+                              <label>Harga (Rp):</label>
+                              <p>{{ s.harga }}</p>
+>>>>>>> a8a6b82b05b48c3ccf85412e2a6f702ae9c1ebd6
                             </div>
                           </div>
                             <br>

@@ -75,7 +75,7 @@ def delete_sparepart(request, id):
             spareparts = SparePart.objects.all().values()
             response = {'spareparts': spareparts, 'username': request.session['username'],
                         'jabatan': request.session['jabatan']}
-            return render(request, 'list-spare-part.html', response)
+            return redirect('/list-sparepart')
         else:
             return HttpResponseRedirect("/")
     else:

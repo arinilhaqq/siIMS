@@ -1,0 +1,247 @@
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
+<title>Final Inspection | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
+  <h1 align="center">Add Final Inspection</h1>
+  <p align="center">Laporan akhir kondisi kendaraan pelanggan PT Inter Motor Sport</p>
+
+  <br> 
+  <form action="" method="POST">
+    {% csrf_token %}
+    <h5><strong>Informasi Kendaraan Akhir</strong></h5>
+    <p>Checklist apabila ditemukan kerusakan pada bagian yang ditampilkan!</p>
+    <form method="POST">
+      <img src="https://cdn.discordapp.com/attachments/896935170333081613/1097355208859852832/Initial_Inspection.png" alt="Gambar Report Mobil"> 
+      <p><strong>Front Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_front_1">1.</label>
+          <input type="checkbox" name="front_1" id="id_front_1">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_2">2.</label>
+          <input type="checkbox" name="front_2" id="id_front_2">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_3">3.</label>
+          <input type="checkbox" name="front_3" id="id_front_3">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_4">4.</label>
+          <input type="checkbox" name="front_4" id="id_front_4">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_5">5.</label>
+          <input type="checkbox" name="front_5" id="id_front_5">
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Back Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_back_6">6.</label>
+          <input type="checkbox" name="back_6" id="id_back_6">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_7">7.</label>
+          <input type="checkbox" name="back_7" id="id_back_7">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_8">8.</label>
+          <input type="checkbox" name="back_8" id="id_back_8">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_9">9.</label>
+          <input type="checkbox" name="back_9" id="id_back_9">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_10">10.</label>
+          <input type="checkbox" name="back_10" id="id_back_10">
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Passenger Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_passenger_11">11.</label>
+      <input type="checkbox" name="passenger_11" id="id_passenger_11">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_12">12.</label>
+      <input type="checkbox" name="passenger_12" id="id_passenger_12">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_13">13.</label>
+      <input type="checkbox" name="passenger_13" id="id_passenger_13">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_14">14.</label>
+      <input type="checkbox" name="passenger_14" id="id_passenger_14">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_15">15.</label>
+      <input type="checkbox" name="passenger_15" id="id_passenger_15">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_passenger_16">16.</label>
+          <input type="checkbox" name="passenger_16" id="id_passenger_16">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_17">17.</label>
+          <input type="checkbox" name="passenger_17" id="id_passenger_17">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_18">18.</label>
+          <input type="checkbox" name="passenger_18" id="id_passenger_18">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_19">19.</label>
+          <input type="checkbox" name="passenger_19" id="id_passenger_19">
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Top Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_top_20">20.</label>
+          <input type="checkbox" name="top_20" id="id_top_20">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_top_21">21.</label>
+          <input type="checkbox" name="top_21" id="id_top_21">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_top_22">22.</label>
+          <input type="checkbox" name="top_22" id="id_top_22">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_top_23">23.</label>
+          <input type="checkbox" name="top_23" id="id_top_23">
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Driver Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_driver_24">24.</label>
+          <input type="checkbox" name="driver_24" id="id_driver_24">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_25">25.</label>
+          <input type="checkbox" name="driver_25" id="id_driver_25">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_26">26.</label>
+          <input type="checkbox" name="driver_26" id="id_driver_26">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_27">27.</label>
+          <input type="checkbox" name="driver_27" id="id_driver_27">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_28">28.</label>
+          <input type="checkbox" name="driver_28" id="id_driver_28">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_driver_29">29.</label>
+          <input type="checkbox" name="driver_29" id="id_driver_29">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_30">30.</label>
+          <input type="checkbox" name="driver_30" id="id_driver_30">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_31">31.</label>
+          <input type="checkbox" name="driver_31" id="id_driver_31">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_32">32.</label>
+          <input type="checkbox" name="driver_32" id="id_driver_32">
+        </div>
+      </div>
+      <br>
+    
+    <div class="form-group col-md-12">
+      <label for="id_catatan">Catatan:</label>
+      <textarea name="catatan" class="form-control" cols="40" rows="5" id="id_catatan"></textarea>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <h5><strong>Kondisi Interior Akhir</strong></h5>
+    <p>Kosongkan jika tidak ada permasalahan pada interior!</p>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="id_karpet">Karpet:</label>
+        <select class="form-control" name="karpet" id="id_karpet">
+          <option value="">-----</option>
+          <option value="W">Worn</option>
+          <option value="B">Burns</option>
+          <option value="R">Ripped</option>
+          <option value="S">Stain</option>
+          <option value="C">Cracked</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="id_kursi">Kursi:</label>
+          <select class="form-control" name="kursi" id="id_kursi">
+            <option value="">-----</option>
+            <option value="W">Worn</option>
+            <option value="B">Burns</option>
+            <option value="R">Ripped</option>
+            <option value="S">Stain</option>
+            <option value="C">Cracked</option>
+          </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="id_headliner">Headliner:</label>
+        <select class="form-control" name="headliner" id="id_headliner">
+          <option value="">-----</option>
+          <option value="W">Worn</option>
+          <option value="B">Burns</option>
+          <option value="R">Ripped</option>
+          <option value="S">Stain</option>
+          <option value="C">Cracked</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="id_door_panels">Door panels:</label>
+        <select class="form-control" name="door_panels" id="id_door_panels">
+          <option value="">-----</option>
+          <option value="W">Worn</option>
+          <option value="B">Burns</option>  
+          <option value="R">Ripped</option>   
+          <option value="S">Stain</option>   
+          <option value="C">Cracked</option>  
+        </select>
+      </div>
+    </div>
+    <br>
+    <input type="hidden" name="appointment" id="appointment" value="{{ appointment.id }}">
+    <input type="hidden" name="checked" id="checked" value=False>
+    <input type="hidden" name="approved" id="approved" value=False>
+    <div class="bs-example">
+      <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Submit</button>
+      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    </div>
+  </form>
+{% endblock %}

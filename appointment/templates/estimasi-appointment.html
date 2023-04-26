@@ -1,0 +1,138 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Appointment | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+  <h1 class="text-center">Estimasi Appointment</h1>
+  <p class="text-center">Estimasi pengerjaan dan harga pada appointment dengan ID {{ appointment.id }}</p>
+
+  <br>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Service</th>
+        <th>Estimasi Pengerjaan</th>
+        <th>Estimasi Harga</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% load humanize %}
+      <tr>
+        {% for service in services %}
+        <td>{{ forloop.counter }}.</td>
+        <td>{{ service.nama }}</td>
+        <td>{{ service.jumlah_estimasi_pengerjaan }} {{ service.satuan_waktu }}</td>
+        <td>Rp {{ service.harga|intcomma }}</td>
+          <!-- {% if jabatan == 'Service Advisor' and appoint.status == 'Finished' %}
+            <td>
+              <a class="btn btn-primary" href="#">Confirm</a>
+            </td>
+          {% elif jabatan == 'Teknisi' and appoint.status == 'Finished' %}
+            <td>
+              <button type="button" class="btn btn-success" disabled>Done</button>
+            </td>  
+          {% else %}
+            <td>{% if appoint.teknisi %}
+                    {{ appoint.teknisi.nama_karyawan }}
+                {% else %}
+                    Belum Ada        
+                {% endif %}
+            </td>
+          {% endif %} -->
+          <!-- <td>
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal{{ appoint.id }}">Detail</button>
+            <div class="modal fade" id="Modal{{ appoint.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="cardModalLabel">Detail Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-md-7 px-3">
+                      <div class="card-block px-6">                                             
+                        <div class="card-body">
+                          <h5 class="card-title">
+                          </h5>
+                          <p class="card-text text-left">
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="id_tanggal">Tanggal:</label> 
+                              <p>{{ appoint.date }}</p>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="id_waktu">Waktu:</label> 
+                              <p>{{ appoint.time }}</p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="id_nama_pelanggan">Pelanggan:</label> 
+                              <p>{{ appoint.pelanggan.nama_pelanggan }}</p>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="id_telepon_pelanggan">Nomor Polisi:</label> 
+                              <p>{{ appoint.pelanggan.nomor_polisi }}</p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="form-group col-md-6">
+                              <label for="id_jenis_mobil">Jenis mobil:</label> 
+                              <p>{{ appoint.pelanggan.jenis_mobil }}</p>
+                            </div>
+                            <br>
+                            <div class="form-group col-md-6">
+                              <label for="id_nama_mobil">Nama mobil:</label> 
+                              <p>{{ appoint.pelanggan.nama_mobil }}</p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label for="id_keluhan">Keluhan:</label> 
+                              <p>{{ appoint.keluhan }}</p>
+                            </div>
+                          </div></p>
+                        </div>
+                      </div>   
+                    </div>
+                  </div> -->
+          
+                  <!-- <div class="modal-footer">
+                    {% if appoint.teknisi %}
+                      {% for init in initial %}
+                        {% if init.appointment.id == appoint.id %}
+                          <a class="btn btn-success" href="/detail-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
+                        {% else %}
+                          <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
+                      <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
+                      <a class="btn btn-danger" href="/delete-appointment/{{ appoint.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
+                    {% endif %}
+                    <a class="btn btn-warning" href="/possible-service/{{ appoint.id }}">Service</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kembali</button>
+                  </div> -->
+                <!-- </div>
+              </div>
+            </div>            
+          </td>
+          <td>{{ appoint.status }}</td> -->
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="7">Tidak ada service.</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p>Total harga: Rp {{ total_harga|intcomma }}</p>
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+{% endblock content %}

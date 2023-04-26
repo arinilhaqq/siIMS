@@ -6,13 +6,13 @@
   <p class="text-center">List appointment yang terdaftar di PT Inter Motor Sport</p>
   
   <br>
-  
-  <form method='get'>
+
+  <form method='get' name="form_search">
     <div class="row">
       <div class="col-sm-7">
       </div>
       <div class="col-sm-4">
-        <input type="text" class="form-control" name="search_query" maxlength="30" placeholder="Masukkan nama pelanggan atau status">
+        <input type="text" class="form-control" name="search_query" maxlength="30" placeholder="Cari berdasarkan nama pelanggan atau status">
       </div>
       <div class="col-sm-1">
         <input type="submit" class="btn btn-warning" value='Search'/>
@@ -20,7 +20,30 @@
     </div>
 
   </form>
+  
   <br>
+
+  <form method='get' name="form_sort">
+    <div class="row">
+      <div class="col-sm-7">
+      </div>
+      <div class="col-sm-4">
+        <!-- {{ form_sort }} -->
+        <select class="form-select" name="pilihan">
+          <option selected>Urutkan Appointment</option>
+          <option value="Terbaru">Terbaru</option>
+          <option value="Terlama">Terlama</option>
+        </select>
+      </div>
+      <div class="col-sm-1">
+        <input type="submit" class="btn btn-warning" value='Urutkan'/>
+      </div>
+    </div>
+
+
+
+  </form>
+
   <br>
 
   <table class="table">
@@ -139,6 +162,7 @@
                       <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
                       <a class="btn btn-danger" href="/delete-appointment/{{ appoint.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
                     {% endif %}
+                    <a class="btn btn-warning" href="/possible-service/{{ appoint.id }}">Service</a>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kembali</button>
                   </div>
                 </div>

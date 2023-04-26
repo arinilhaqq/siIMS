@@ -1,0 +1,120 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Spare Parts | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+  <h1 align="center">List Spare Parts</h1>
+  <p align="center">List spare parts disajikan PT Inter Motor Sport</p>
+
+  <br>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Nama Spare Part</th>
+        <th>Variasi</th>
+        <th>Harga</th>
+        <th>Stok</th>
+<!--        <th>Kebutuhan Jenis Service</th>-->
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% load humanize %}
+      <tr>
+        {% for s in sparepart %}
+          <td>{{ forloop.counter }}.</td>
+          <td>{{ s.nama }}</td>
+          <td>{{ s.variasi }}</td>
+          <td>Rp {{ s.harga|intcomma }}</td>
+          <td>{{ s.stok }}</td>
+<!--          <td>-->
+<!--            <ul>-->
+<!--              {% for service in s.services.all %}-->
+<!--              <li>{{ service.nama }}</li>-->
+<!--              {% endfor %}-->
+<!--            </ul>-->
+<!--          </td>-->
+          <td>
+            <button type="button" class="btn btn-dark"
+            data-bs-toggle="modal" data-bs-target="#Modal{{ s.id }}">
+            Detail
+            </button>
+            <div class="modal fade" id="Modal{{ s.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="cardModalLabel">
+                      Detail Jenis Service
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-md-7 px-3">
+                      <div class="card-block px-6">
+                        <div class="card-body">
+                          <h5 class="card-title">
+                          </h5>
+                          <p class="card-text text-left">
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label>Nama Spare Part:</label>
+                              <p>{{ s.nama }}</p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label>Variasi:</label>
+                                <p>{{ s.variasi }}</p>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label>Harga:</label>
+                              <p>Rp {{ s.harga|intcomma }}</p>
+                            </div>
+                          </div>
+                            <br>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label>Stok:</label>
+                              <p>{{ s.stok }}</p>
+                            </div>
+                          </div>
+                            <br>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Kebutuhan Jenis Service:</label>
+                              <p>
+                                {% for service in s.services.all %}
+                                  <li>{{ service.nama }}</li>
+                                {% endfor %}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <a class="btn btn-warning" href="/update-sparepart/{{ s.id }}">Update</a>
+                    <a class="btn btn-danger" href="/delete-sparepart/{{ s.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                      Kembali
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+
+{% endblock content %}

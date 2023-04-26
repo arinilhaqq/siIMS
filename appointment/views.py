@@ -1,8 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from initialinspection.models import InitialInspection
-from .models import Appointment, Pelanggan, Karyawan
-from .forms import AppointmentForm, AppointmentSearchForm
+from sparepart.models import SparePart
+from .models import Appointment, Pelanggan, Karyawan, Service
+from .forms import AppointmentForm, AppointmentSearchForm, AppointmentSortForm
 
 def is_authenticated(request):
     try:
@@ -57,6 +58,7 @@ def list_appointment(request):
             appointment = Appointment.objects.all()
 
             form = AppointmentSearchForm(request.GET)
+            form_sort = AppointmentSortForm(request.GET)
 
             context = {
                 'appointment': appointment,
@@ -70,16 +72,28 @@ def list_appointment(request):
                 
                 if search_query:
                     appointment = appointment.filter(pelanggan__nama_pelanggan__icontains=search_query) | appointment.filter(status__icontains=search_query)
-                    
+
+            if form_sort.is_valid():
+                pilihan = form_sort.cleaned_data.get('pilihan')
+
+                if pilihan:
+                    if pilihan == 'Terbaru':
+                        appointment = appointment.order_by("-id")
+                    elif pilihan == 'Terlama':
+                        appointment = appointment.order_by("id")
+
             context = {
                 "form": form,
+                'form_sort': form_sort,
                 'appointment': appointment,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
                 'initial': initial_inspection
             }
-
+            
             return render(request, 'appointment-list.html', context)
+        
+            
         elif request.session['jabatan'] == 'Teknisi':
             appointment = Appointment.objects.filter(teknisi__nama_karyawan=request.session['nama_karyawan'])
 
@@ -132,3 +146,66 @@ def delete_appointment(request, id):
             return HttpResponseRedirect ("/")
     else:
             return HttpResponseRedirect("/login")
+    
+def possible_service(request, id):
+    if is_authenticated(request):
+        appointment = get_object_or_404(Appointment, pk=id)
+        # appointment = Appointment.objects.get(id=id)
+        all_service = Service.objects.all()
+
+        if request.method == 'POST':
+            print(id)
+            service_ids = request.POST.getlist('services')
+            print(service_ids)
+            services = Service.objects.filter(id__in=service_ids)
+            appointment.services.set(services)
+            return redirect(f"/service-appointment/{id}")
+        context = {
+            'appointment': appointment,
+            'listservice': all_service,
+            'username': request.session['username'],
+            'jabatan': request.session['jabatan'],
+        }
+
+        return  render(request, 'service-possible.html', context)
+    else:
+        return HttpResponseRedirect("/login")
+    
+def list_service_appointment(request, id):
+    if is_authenticated(request):
+        appointment = Appointment.objects.get(id=id)
+        # appointment = Appointment.objects.prefetch_related('services').get(id=id)
+        services = appointment.services.all().values()
+        services_cek = appointment.services.all()
+        print(services)
+        # for service in services:
+        #     kuantitas = services_cek.
+        all_sparepart = SparePart.objects.all()
+
+        context = {
+            'appointment': appointment,
+            'services': services,
+            'username': request.session['username'],
+            'jabatan': request.session['jabatan'],
+        }
+        return render(request, 'service-appointment-list.html', context)
+    else:
+        return HttpResponseRedirect("/login")
+
+def estimasi_appointment(request, id):
+    if is_authenticated(request):
+        appointment = Appointment.objects.get(id=id)
+        services = appointment.services.all().values()
+        total_harga = 0
+        for service in services:
+            total_harga += service['harga']
+        context = {
+            'appointment': appointment,
+            'services': services,
+            'total_harga': total_harga,
+            'username': request.session['username'],
+            'jabatan': request.session['jabatan'],
+        }
+        return render(request, 'estimasi-appointment.html', context)
+    else:
+        return HttpResponseRedirect("/login")

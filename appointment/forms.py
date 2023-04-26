@@ -23,6 +23,7 @@ class AppointmentForm(forms.ModelForm):
         appointment = super(AppointmentForm, self).save(commit=False)
         appointment.date = datetime.datetime.today().date()
         appointment.time = datetime.datetime.now().time()
+        appointment.service = None
         
         if commit:
             appointment.save()
@@ -31,3 +32,16 @@ class AppointmentForm(forms.ModelForm):
     
 class AppointmentSearchForm(forms.Form):
     search_query = forms.CharField(max_length=100, required=False)
+
+URUTAN_CHOICES = (
+    ('Terbaru', 'Terbaru'),
+    ('Terlama', 'Terlama'),
+)
+
+class AppointmentSortForm(forms.Form):
+    pilihan = forms.ChoiceField(choices=URUTAN_CHOICES, required=False)
+
+# class AppointmentServiceForm(forms.ModelForm):
+#     class Meta:
+#         model = AppointmentService
+#         fields = ['service', 'appointmennt']

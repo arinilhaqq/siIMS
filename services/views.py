@@ -30,9 +30,9 @@ def add_service(request):
 
             form = ServiceForm(request.POST or None)
             if (form.is_valid() and request.method == 'POST'):
-                form.save()
-                return redirect('/list-services')
-                # return redirect('/add-spareparts')
+                ids = form.save()
+                id_service = ids.id
+                return redirect(f"/add-spareparts/{id_service}")
 
             context['form'] = form
             context['username'] = request.session['username']
@@ -101,6 +101,18 @@ def add_kebutuhan_spare_parts(request, id):
             spare_part_id = []
             for j in range(len(rows)):
                 spare_part_id.append(rows[j][2])
+
+            nama_spare_part = []
+            for h in range(len(spare_part_id)):
+                cursor.execute('SELECT nama  FROM public."sparepart_sparepart" WHERE '
+                               ' "id"=%s', [spare_part_id[h]])
+                rows1 = cursor.fetchall()
+                cursor.execute('SELECT variasi  FROM public."sparepart_sparepart" WHERE '
+                               ' "id"=%s', [spare_part_id[h]])
+                rows2 = cursor.fetchall()
+                nama_fix = rows1[0][0] + " " + rows2[0][0]
+                nama_spare_part.append(nama_fix)
+
             if len(rows) > 0:
                 SparePartFormSet = formset_factory(SparePartItemForm, extra=len(rows))
                 if request.method == 'POST':
@@ -118,7 +130,7 @@ def add_kebutuhan_spare_parts(request, id):
 
                 else:
                     formset = SparePartFormSet
-                    response = {'formset': formset, 'username': request.session['username'],
+                    response = {'formset': formset, 'nama_spare_part': nama_spare_part, 'username': request.session['username'],
                                 'jabatan': request.session['jabatan']}
                     return render(request, "add_kebutuhan_spare_part.html", response)
         else:

@@ -74,7 +74,11 @@ def create_appointment(request):
 
 def list_appointment(request):
     initial_inspection = InitialInspection.objects.all()
-    
+    appointment_initial_inspection = []
+
+    for init in initial_inspection:
+        appointment_initial_inspection.append(init.appointment)
+
     if is_authenticated(request):
         if request.session['jabatan'] != 'Teknisi':
             appointment = Appointment.objects.all()
@@ -83,7 +87,8 @@ def list_appointment(request):
                 'appointment': appointment,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
-                'initial': initial_inspection
+                'initial': initial_inspection,
+                'appointment_initial_inspection': appointment_initial_inspection,
             }
 
             return render(request, 'appointment-list.html', context)

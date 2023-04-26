@@ -332,8 +332,16 @@
         <tr>
           <td>1.</td>
           <td>Karpet</td>
-          {% if inspection.karpet %}
-            <td>{{ inspection.karpet }}</td>
+          {% if inspection.karpet == 'W' %}
+            <td>Worn</td>
+          {% elif inspection.karpet == 'B'%}
+            <td>Burn</td>
+          {% elif inspection.karpet == 'C'%}
+            <td>Cracked</td>
+          {% elif inspection.karpet == 'S'%}
+            <td>Stain</td>
+          {% elif inspection.karpet == 'R'%}
+            <td>Ripped</td>
           {% else %}
             <td>Normal</td>
           {% endif %}
@@ -341,8 +349,16 @@
         <tr>
           <td>2.</td>
           <td>Kursi</td>
-          {% if inspection.kursi %}
-            <td>{{ inspection.kursi }}</td>
+          {% if inspection.kursi == 'W' %}
+            <td>Worn</td>
+          {% elif inspection.kursi == 'B'%}
+            <td>Burn</td>
+          {% elif inspection.kursi == 'C'%}
+            <td>Cracked</td>
+          {% elif inspection.kursi == 'S'%}
+            <td>Stain</td>
+          {% elif inspection.kursi == 'R'%}
+            <td>Ripped</td>
           {% else %}
             <td>Normal</td>
           {% endif %}
@@ -350,18 +366,33 @@
         <tr>
           <td>3.</td>
           <td>Headliner</td>
-          {% if inspection.headliner %}
-            <td>{{ inspection.headliner }}</td>
+          {% if inspection.headliner == 'W' %}
+            <td>Worn</td>
+          {% elif inspection.headliner == 'B'%}
+            <td>Burn</td>
+          {% elif inspection.headliner == 'C'%}
+            <td>Cracked</td>
+          {% elif inspection.headliner == 'S'%}
+            <td>Stain</td>
+          {% elif inspection.headliner == 'R'%}
+            <td>Ripped</td>
           {% else %}
             <td>Normal</td>
-            <td>{{ inspection.headliner }}</td>
           {% endif %}
         </tr>
         <tr>
           <td>4.</td>
           <td>Door Panels</td>
-          {% if inspection.door_panels %}
-            <td>{{ inspection.door_panels }}</td>
+          {% if inspection.door_panels == 'W' %}
+            <td>Worn</td>
+          {% elif inspection.door_panels == 'B'%}
+            <td>Burn</td>
+          {% elif inspection.door_panels == 'C'%}
+            <td>Cracked</td>
+          {% elif inspection.door_panels == 'S'%}
+            <td>Stain</td>
+          {% elif inspection.door_panels == 'R'%}
+            <td>Ripped</td>
           {% else %}
             <td>Normal</td>
           {% endif %}

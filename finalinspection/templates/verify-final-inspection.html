@@ -462,10 +462,19 @@
     <div class="form-group col-md-3">
       <p><strong>Diperiksa:</strong></p>
       <label for="checked">Teknisi Final Inspector</label>
-      {% if jabatan != 'Teknisi' %}>
-        <input type="checkbox" name="checked" value="checked" id="checked" disabled>
+      {% if jabatan != 'Teknisi' %}
+        {% if inspection.checked %}
+          <input type="checkbox" name="checked" value="checked" id="checked" disabled checked>
+          <input type="hidden" name="checked" id="checked" value="checked">
+        {% else %}
+          <input type="checkbox" name="checked" value="checked" id="checked"disabled>
+        {% endif %}
       {% else %}
-        <input type="checkbox" name="checked" value="checked" id="checked">
+        {% if inspection.checked %}
+          <input type="checkbox" name="checked" value="checked" id="checked" checked>
+        {% else %}
+          <input type="checkbox" name="checked" value="checked" id="checked">
+        {% endif %}
       {% endif %}
     </div>
     <br>
@@ -473,8 +482,20 @@
     <div class="form-group col-md-2">
       <p><strong>Disetujui:</strong></p>
       <label for="approved">Service Advisor</label>
-      <input type="checkbox" name="approved" value="approved" id="approved" {% if jabatan != 'Service Advisor' %}disabled {% endif %}>
-      
+      {% if jabatan != 'Service Advisor' %}
+       {% if inspection.approved %}
+          <input type="checkbox" name="approved" value="approved" id="approved" disabled checked>
+          <input type="hidden" name="approved" value="approved" id="approved">
+        {% else %}
+        <input type="checkbox" name="approved" value="approved" id="approved"disabled>
+        {% endif %}
+      {% else %}
+        {% if inspection.approved %}
+          <input type="checkbox" name="approved" value="approved" id="approved" checked>
+        {% else %}
+          <input type="checkbox" name="approved" value="approved" id="approved">
+        {% endif %}
+      {% endif %}
     </div>
     <br>
       <!-- <div class="form-group col-md-2">

@@ -4,6 +4,7 @@ from initialinspection.models import InitialInspection
 from sparepart.models import SparePart
 from .models import Appointment, Pelanggan, Karyawan, Service
 from .forms import AppointmentForm, AppointmentSearchForm, AppointmentSortForm
+from django.db import connection
 
 def is_authenticated(request):
     try:
@@ -176,15 +177,55 @@ def list_service_appointment(request, id):
         appointment = Appointment.objects.get(id=id)
         # appointment = Appointment.objects.prefetch_related('services').get(id=id)
         services = appointment.services.all().values()
-        services_cek = appointment.services.all()
+        service_ids = [item['id'] for item in services]
+
+        spare_part_ids = [] 
+        sparepart_kuantitas = {}
+
+        status_sparepart = {}
+
+        all_cukup = True
+        
+        for service_id in service_ids:
+            cursor = connection.cursor()
+            cursor.execute("SET search_path TO public")
+            cursor.execute(
+                'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+                '"services_service_kebutuhan_spare_part"."service_id"=%s',
+                [service_id])
+            rows = cursor.fetchall()
+            print(rows)
+            for j in range(len(rows)):
+                id_sparepart = rows[j][2]
+                kuantitas_sparepart = rows[j][3]
+                if kuantitas_sparepart == None:
+                    kuantitas_sparepart = 0
+                spare_part_ids.append(rows[j][2])
+                sparepart_ybs = SparePart.objects.get(id=id_sparepart)
+                kuantitas_ybs = sparepart_ybs.stok
+                if kuantitas_ybs >= kuantitas_sparepart:
+                    status_sparepart[service_id] = "Cukup"
+                else:
+                    status_sparepart[service_id] = "Tidak Cukup"
+
+                
+        list_status = list(status_sparepart.values())
+        for status in list_status:
+            if status == "Tidak Cukup":
+                all_cukup == False
+                break
+
         print(services)
-        # for service in services:
-        #     kuantitas = services_cek.
-        all_sparepart = SparePart.objects.all()
+        print(service_ids)
+        print(spare_part_ids)
+        print(sparepart_kuantitas)
+        print(status_sparepart)
 
         context = {
             'appointment': appointment,
             'services': services,
+            'status_sparepart': status_sparepart,
+            'all_cukup': all_cukup,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
         }

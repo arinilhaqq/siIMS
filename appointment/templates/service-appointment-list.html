@@ -12,7 +12,6 @@
       <tr>
         <th>No.</th>
         <th>Service</th>
-        <th>Kebutuhan Sparepart</th>
         <th>Status Sparepart</th>
       </tr>
     </thead>
@@ -21,8 +20,14 @@
         {% for service in services %}
         <td>{{ forloop.counter }}.</td>
         <td>{{ service.nama }}</td>
-        <td>{{ service.kebutuhan_spare_parts }}</td>
-          <td>Ok</td>
+        {% for key, value in status_sparepart.items %}
+        {% if service.id == key %}
+        <td>{{ value }}</td>
+        {% endif %}
+        {% endfor %}
+        <!-- {% for status in status_sparepart %}
+        <td>{{ status.service }}</td>
+        {% endfor %} -->
           <!-- {% if jabatan == 'Service Advisor' and appoint.status == 'Finished' %}
             <td>
               <a class="btn btn-primary" href="#">Confirm</a>
@@ -130,8 +135,13 @@
     {% endfor %}
     </tbody>
   </table>
+  {% if all_cukup == False %}
+  <p>Terdapat stok spare part yang kurang! Appointment dapat dilanjutkan ketika stok spare part mencukupi</p>
+  {% endif %}
   <div class="bs-example">
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    {% if all_cukup %}
     <a class="btn btn-warning" href="/estimasi-appointment/{{ appointment.id }}">Cek Estimasi</a>
+    {% endif %}
   </div>
 {% endblock content %}

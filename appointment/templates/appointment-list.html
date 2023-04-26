@@ -121,9 +121,10 @@
                         <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a> 
                       {% endif %}
                     {% endif %}
-                    
+                    {% if jabatan == 'Admin' and appoint.status != 'Finished' or jabatan == 'Service Advisor' and appoint.status != 'Finished' %}
+                    <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
+                  {% endif %}
                     {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
-                      <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
                       <a class="btn btn-danger" href="/delete-appointment/{{ appoint.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
                     {% endif %}
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kembali</button>

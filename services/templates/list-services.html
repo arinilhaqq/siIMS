@@ -24,7 +24,7 @@
         {% for s in services %}
           <td>{{ forloop.counter }}.</td>
           <td>{{ s.nama }}</td>
-          <td>{{ s.harga|intcomma }}</td>
+          <td>{{ s.harga }}</td>
           <td>{{ s.jumlah_estimasi_pengerjaan }}</td>
           <td>{{ s.satuan_waktu }}</td>
           <td>
@@ -56,8 +56,8 @@
                           </div>
                           <div class="row">
                             <div class="form-group col-md-12">
-                              <label for="id_harga">Harga (Rp):</label> 
-                                <p>{{ s.harga|intcomma }}</p>
+                              <label>Harga (Rp):</label>
+                                <p>{{ s.harga }}</p>
                             </div>
                           </div>
                           <br>
@@ -78,9 +78,11 @@
                           <div class="row">
                             <div class="form-group col-md-12">
                               <label>Kebutuhan Spare Part:</label>
+<!--                              <p>{{ s.kebutuhan_spare_part }}</p>-->
+<!--                              <p>{{ s.satuan_waktu }}</p>-->
                               <p>
-                                {% for sparepart in s.kebutuhan_spare_parts.all %}
-                                  <li>{{ sparepart.part }}</li>
+                                {% for sparepart in s.kebutuhan_spare_part.all %}
+                                  <li>{{ sparepart.nama }} {{ sparepart.variasi }}</li>
                                 {% endfor %}
                               </p>
                             </div>

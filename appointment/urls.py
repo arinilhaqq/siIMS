@@ -7,5 +7,10 @@ urlpatterns = [
     path('list-appointment/', views.list_appointment),
     path('finished-appointment/<int:id>', views.teknisi_finished_appointment),
     path('update-appointment/<int:id>', views.update_appointment),
-
+    path('delete-appointment/<int:id>', views.delete_appointment),
+    path('possible-service/<int:id>', views.possible_service),
+    path('service-appointment/<int:id>', views.list_service_appointment),
+    path('estimasi-appointment/<int:id>', views.estimasi_appointment),
+    path('cancel-appointment/<int:id>', views.cancel_appointment),
+    path('approve-appointment/<int:id>', views.approve_appointment),
 ]

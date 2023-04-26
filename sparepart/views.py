@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from .models import SparePart
 from services.models import Service
 from .forms import SparePartForm
-
+# from django.core.paginator import Paginator
 
 def is_authenticated(request):
     try:
@@ -32,6 +32,10 @@ def add_sparepart(request):
             context = {}
 
             form = SparePartForm(request.POST or None)
+            # queryset = form.fields['services'].queryset
+            # objects_per_page = 10
+            # paginator = Paginator(queryset, objects_per_page)
+            # current_page_objects = paginator.get_page(page_number).object_list
             if (form.is_valid() and request.method == 'POST'):
                 form.save()
                 # sparepart = form.save()  # save the book with the selected authors
@@ -71,7 +75,7 @@ def delete_sparepart(request, id):
             spareparts = SparePart.objects.all().values()
             response = {'spareparts': spareparts, 'username': request.session['username'],
                         'jabatan': request.session['jabatan']}
-            return render(request, 'list-spare-part.html', response)
+            return redirect('/list-sparepart')
         else:
             return HttpResponseRedirect("/")
     else:

@@ -507,7 +507,10 @@
       <br>
     <div class="bs-example">
       <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Verify</button>
-      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+      <a class="btn btn-success" href="/list-appointment">Kembali</a>
+      {% if jabatan != 'Service Advisor' %}
+        <a class="btn btn-success" href="/update-final-inspection/{{ appointment.id }}">Update</a>
+      {% endif %}
     </div>
 </form>
 {% endblock content %}

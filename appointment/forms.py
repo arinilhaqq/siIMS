@@ -33,3 +33,14 @@ class AppointmentForm(forms.ModelForm):
             appointment.save()
             
         return appointment
+    
+class AppointmentSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False)
+
+URUTAN_CHOICES = (
+    ('Terbaru', 'Terbaru'),
+    ('Terlama', 'Terlama'),
+)
+
+class AppointmentSortForm(forms.Form):
+    pilihan = forms.ChoiceField(choices=URUTAN_CHOICES, required=False)

@@ -1,0 +1,65 @@
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
+<title>Appointment | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+    <!-- <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form> -->
+
+
+  <h1 align="center">Possible Service</h1>
+  <p align="center">Pengisian Service yang akan dibutuhkan pada Appointment</p>
+
+  <br> 
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="id_appointment">Appointment:</label> 
+            <input type="text" class="form-control" name="appointment" id="id_appointment" value="{{ appointment.id }}" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="id_services">Possible Service:</label>
+            <select name="services" id="id_services" class="form-select" multiple data-search="true">
+                {% for service in listservice %}
+                <option value="{{ service.id }}" {% if service in appointment.services.all %}selected{% endif %}>{{ service.nama }}</option>
+                {% endfor %}
+                <!-- <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+                <option value="5">Option 5</option> -->
+              </select>
+          </div>
+        </div>
+        <br>
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+            Close
+        </button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function() {
+          $('.form-select').select2({
+            width: '100%',
+            placeholder: 'Pilih Possible Service',
+            closeOnSelect: false,
+            allowClear: true,
+          });
+        });
+    </script>
+
+{% endblock %}

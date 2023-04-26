@@ -212,7 +212,7 @@ def list_service_appointment(request, id):
         list_status = list(status_sparepart.values())
         for status in list_status:
             if status == "Tidak Cukup":
-                all_cukup == False
+                all_cukup = False
                 break
 
         print(services)
@@ -237,16 +237,116 @@ def estimasi_appointment(request, id):
     if is_authenticated(request):
         appointment = Appointment.objects.get(id=id)
         services = appointment.services.all().values()
+        service_ids = [item['id'] for item in services]
+
+        total_harga_service = {}
+        total_lama_pengerjaan = {
+            'Bulan': 0,
+            'Minggu': 0,
+            'Hari': 0,
+            'Jam': 0,
+            'Menit': 0,
+        }
+
+        for service_id in service_ids:
+            cursor = connection.cursor()
+            cursor.execute("SET search_path TO public")
+            cursor.execute(
+                'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+                '"services_service_kebutuhan_spare_part"."service_id"=%s',
+                [service_id])
+            rows = cursor.fetchall()
+            print(rows)
+            for j in range(len(rows)):
+                id_service = rows[j][1]
+                id_sparepart = rows[j][2]
+                kuantitas_sparepart = rows[j][3]
+                if kuantitas_sparepart == None:
+                    kuantitas_sparepart = 0
+                if id_service == service_id:
+                    sparepart = SparePart.objects.get(id=id_sparepart)
+                    servis = Service.objects.get(id=service_id)
+                    harga = sparepart.harga
+                    total = harga*kuantitas_sparepart
+                    total += servis.harga
+                    total_harga_service[service_id] = total
+            
+            serv = Service.objects.get(id=service_id)
+            if serv.satuan_waktu == 'Bulan':
+                total_lama_pengerjaan['Bulan'] += serv.jumlah_estimasi_pengerjaan
+            elif serv.satuan_waktu == 'Minggu':
+                total_lama_pengerjaan['Minggu'] += serv.jumlah_estimasi_pengerjaan
+            elif serv.satuan_waktu == 'Hari':
+                total_lama_pengerjaan['Hari'] += serv.jumlah_estimasi_pengerjaan
+            elif serv.satuan_waktu == 'Jam':
+                total_lama_pengerjaan['Jam'] += serv.jumlah_estimasi_pengerjaan
+            else:
+                total_lama_pengerjaan['Menit'] += serv.jumlah_estimasi_pengerjaan
+                
+        list_harga = list(total_harga_service.values())
         total_harga = 0
-        for service in services:
-            total_harga += service['harga']
+        for price in list_harga:
+            total_harga += price
+        
+        total_lama = ""
+
+        for key, value in total_lama_pengerjaan.items():
+            if value > 0:
+                total_lama += "{} {} ".format(value, key)
+
         context = {
             'appointment': appointment,
             'services': services,
+            'total_harga_service': total_harga_service,
             'total_harga': total_harga,
+            'total_lama': total_lama,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
         }
         return render(request, 'estimasi-appointment.html', context)
+    else:
+        return HttpResponseRedirect("/login")
+    
+def cancel_appointment(request, id):
+    if is_authenticated(request):
+        appoint_cancel = Appointment.objects.get(id=id)
+        appoint_cancel.status = 'Canceled'
+        appoint_cancel.save()
+
+        return redirect('/list-appointment/')
+    else:
+        return HttpResponseRedirect("/login")
+    
+def approve_appointment(request, id):
+    if is_authenticated(request):
+        appointment = Appointment.objects.get(id=id)
+
+        appointment.status = 'Approved'
+
+        appointment.save()
+
+        services = appointment.services.all().values()
+        
+        service_ids = [item['id'] for item in services]
+
+        for service_id in service_ids:
+            cursor = connection.cursor()
+            cursor.execute("SET search_path TO public")
+            cursor.execute(
+                'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+                '"services_service_kebutuhan_spare_part"."service_id"=%s',
+                [service_id])
+            rows = cursor.fetchall()
+            print(rows)
+
+            for j in range(len(rows)):
+                id_service = rows[j][1]
+                id_sparepart = rows[j][2]
+                kuantitas_sparepart = rows[j][3]
+                sparepart = SparePart.objects.get(id=id_sparepart)
+                sparepart.stok -= kuantitas_sparepart
+                sparepart.save()
+
+        return redirect('/list-appointment/')
     else:
         return HttpResponseRedirect("/login")

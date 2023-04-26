@@ -10,4 +10,6 @@ urlpatterns = [
     path('possible-service/<int:id>', views.possible_service),
     path('service-appointment/<int:id>', views.list_service_appointment),
     path('estimasi-appointment/<int:id>', views.estimasi_appointment),
+    path('cancel-appointment/<int:id>', views.cancel_appointment),
+    path('approve-appointment/<int:id>', views.approve_appointment),
 ]

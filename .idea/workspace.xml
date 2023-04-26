@@ -27,10 +27,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1416bcd4-9d4c-422f-bd36-b8452dacc108" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/templates/add_kebutuhan_spare_part.html" beforeDir="false" afterPath="$PROJECT_DIR$/services/templates/add_kebutuhan_spare_part.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/templates/create-services.html" beforeDir="false" afterPath="$PROJECT_DIR$/services/templates/create-services.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/templates/update-services.html" beforeDir="false" afterPath="$PROJECT_DIR$/services/templates/update-services.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sparepart/templates/list-spare-part.html" beforeDir="false" afterPath="$PROJECT_DIR$/sparepart/templates/list-spare-part.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sparepart/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/sparepart/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

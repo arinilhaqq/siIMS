@@ -122,12 +122,16 @@ def update_appointment(request, id):
             if form.is_valid():
                 appointment = form.save(commit=False) 
                 teknisi_id = request.POST.get('teknisi', None)
+                keluhan = request.POST.get('keluhan', None)
+
                 if teknisi_id:
                     teknisi = Karyawan.objects.get(id=teknisi_id)
                     appointment.teknisi = teknisi
                     appointment.status = 'On going'
-                appointment.save()
-                form.save()
+                
+                if keluhan:
+                    appointment.keluhan = keluhan
+            appointment.save()
             return redirect('/list-appointment/')
         return render(request, "update-appointment.html", response)
     else:

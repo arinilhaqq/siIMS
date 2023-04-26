@@ -109,14 +109,19 @@
           
                   <div class="modal-footer">
                     {% if appoint.teknisi %}
-                      {% for init in initial %}
-                        {% if init.appointment.id == appoint.id %}
-                          <a class="btn btn-success" href="/detail-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
-                        {% else %}
-                          <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
-                        {% endif %}
-                      {% endfor %}
+                      {% if initial %}
+                        {% for init in initial %}
+                            {% if init.appointment.id == appoint.id %}
+                              <a class="btn btn-success" href="/detail-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
+                            {% else %}
+                              <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
+                            {% endif %}
+                        {% endfor %}
+                      {% else %}
+                        <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a> 
+                      {% endif %}
                     {% endif %}
+                    
                     {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
                       <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
                       <a class="btn btn-danger" href="/delete-appointment/{{ appoint.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        

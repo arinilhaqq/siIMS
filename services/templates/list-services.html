@@ -24,7 +24,7 @@
         {% for s in services %}
           <td>{{ forloop.counter }}.</td>
           <td>{{ s.nama }}</td>
-          <td>{{ s.harga }}</td>
+          <td>{{ s.harga|intcomma }}</td>
           <td>{{ s.jumlah_estimasi_pengerjaan }}</td>
           <td>{{ s.satuan_waktu }}</td>
           <td>
@@ -56,8 +56,8 @@
                           </div>
                           <div class="row">
                             <div class="form-group col-md-12">
-                              <label>Harga (Rp):</label>
-                                <p>{{ s.harga }}</p>
+                              <label for="id_harga">Harga (Rp):</label> 
+                                <p>{{ s.harga|intcomma }}</p>
                             </div>
                           </div>
                           <br>

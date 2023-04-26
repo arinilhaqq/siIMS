@@ -19,7 +19,7 @@ def create_initial_inspection(request, id):
                 form.appointment = Appointment.objects.get(id=id)
                 initial_inspection = form.save()
 
-                return redirect('/detail-initial-inspection/' + str(initial_inspection.id), initial_inspection.id)
+                return redirect('/detail-initial-inspection/' + str(id), id)
         else:
             form = InitialInspectionForm()
 

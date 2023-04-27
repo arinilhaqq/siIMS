@@ -4,9 +4,6 @@ from services.models import Service
 from sparepart.models import SparePart
 
 class ServiceForm(forms.ModelForm):
-
-    quantities = forms.CharField()
-
     class Meta:
         model = Service
         fields = ['nama',
@@ -16,7 +13,7 @@ class ServiceForm(forms.ModelForm):
                   'kebutuhan_spare_part'
                   ]
         widgets = {
-            'kebutuhan_spare_part': forms.CheckboxSelectMultiple()
+            'kebutuhan_spare_part': forms.CheckboxSelectMultiple(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -33,3 +30,6 @@ URUTAN_CHOICES = (
 
 class ServiceSortForm(forms.Form):
     pilihan = forms.ChoiceField(choices=URUTAN_CHOICES, required=False)
+
+class SparePartItemForm(forms.Form):
+    quantity = forms.IntegerField()

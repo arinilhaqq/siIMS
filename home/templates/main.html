@@ -91,7 +91,9 @@
                     <li class="nav-item dropdown" >
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Appointment</a>
                         <div class="dropdown-menu">
-                            <a href="/create-appointment/" class="dropdown-item">Add Appointment</a>
+                            {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
+                                <a href="/create-appointment/" class="dropdown-item">Add Appointment</a>
+                            {% endif %}
                             <a href="/list-appointment/" class="dropdown-item">List Appointment</a>
                         </div>
                     </li>
@@ -103,7 +105,9 @@
                   <li class="nav-item dropdown {% if request.path == '/create-pelanggan/' or request.path == '/list-pelanggan/' %} active{% endif %}">
                       <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pelanggan</a>
                       <div class="dropdown-menu">
+                        {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
                           <a href="/create-pelanggan/" class="dropdown-item">Add Pelanggan</a>
+                        {% endif %}
                           <a href="/list-pelanggan/" class="dropdown-item">List Pelanggan</a>
                       </div>
                   </li>
@@ -115,7 +119,9 @@
                   <li class="nav-item dropdown {% if request.path == '/create-karyawan/' or request.path == '/list-karyawan/' %} active{% endif %}">
                       <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Karyawan</a>
                       <div class="dropdown-menu">
+                        {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
                           <a href="/create-karyawan/" class="dropdown-item">Add Karyawan</a>
+                        {% endif %}
                           <a href="/list-karyawan/" class="dropdown-item">List Karyawan</a>
                       </div>
                   </li>
@@ -124,10 +130,15 @@
                 
                 {% if jabatan == 'Admin' or jabatan == 'Owner' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
                 <ul class="nav navbar-nav">
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown 
+                    {% if request.path == '/create-sparepart/' or request.path == '/list-sparepart/'%} 
+                    active
+                    {% endif %}">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Spare Part</a>
                         <div class="dropdown-menu">
+                        {% if jabatan == 'Admin' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
                             <a href="/create-sparepart/" class="dropdown-item">Add Spare Part</a>
+                        {% endif %}
                             <a href="/list-sparepart" class="dropdown-item">List Spare Part</a>
                         </div>
                     </li>
@@ -139,7 +150,9 @@
                     <li class="nav-item dropdown {% if request.path == '/create-services/' or request.path == '/list-services/' %} active{% endif %}">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
                         <div class="dropdown-menu">
+                        {% if jabatan == 'Admin' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
                             <a href="/create-services/" class="dropdown-item">Add Services</a>
+                        {% endif %}
                             <a href="/list-services/" class="dropdown-item">List Services</a>
                         </div>
                     </li>

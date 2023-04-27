@@ -11,7 +11,7 @@
 
   <h1 align="center">Add Appointment</h1>
   <p align="center">Pengisian Appoinment Service Inter Motor Sport</p>
-
+  <!-- <p>{{ form.teknisi }}</p> -->
   <br> 
   <form method="post">
     {% csrf_token %}
@@ -37,12 +37,19 @@
             <input type="text" list="teknisilist" Placeholder="Pilih Teknisi.." class="form-control" id="teknisi-input" autocomplete="off">
             <datalist id="teknisilist">
               {% for teknisi in listTeknisi %}
-                <option value="{{ teknisi.nama_karyawan }}" data-teknisi-id="{{ teknisi.id }}">
+                <option value="{{ teknisi.nama_karyawan }}" data-teknisi-id="{{ teknisi.id }}"></option>
               {% endfor %}
             </datalist>
             <input type="hidden" name="teknisi" id="teknisi-id">
           </div>
         </div>
+      {% else %}
+      <div class=" col-md-6">
+        <div class="form-group">
+          <label for="teknisi">Teknisi</label>
+          <p>Teknisi sedang tidak tersedia.</p>
+        </div>
+      </div>
       {% endif %}
     </div>
     </div>

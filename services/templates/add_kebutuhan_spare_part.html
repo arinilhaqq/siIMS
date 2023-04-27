@@ -1,17 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form method="post">
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Services | si-IMS</title>
+{% endblock meta %} {% block content %}
+    <style>
+      .required:after {
+        content:" *";
+        color: red;
+      }
+    </style>
+
+    <h1 align="center">Add Kuantitas Spare Parts</h1>
+    <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
+
+    <br>
+
+<form action="" method="POST">
   {% csrf_token %}
-  {{ formset.management_form }}
-  {% for form in formset %}
-    {{ form.as_p }}
-  {% endfor %}
-  <button type="submit">Save</button>
+  <div class="row">
+    <div class="col-md-6">
+    <table class="table">
+      <thead>
+        <tr>
+            <th width="10">No.</th>
+            <th>Nama Spare Parts</th>
+        </tr>
+    </thead>
+      <tbody>
+        {{ formset.management_form }}
+        {% for n in nama_spare_part %}
+        <tr>
+          <td style="line-height: 2.16em;">{{ forloop.counter }}.</td>
+          <td style="line-height: 2.16em;">{{ n }}</td>
+        {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="col-md-6">
+      <table class="table">
+      <thead>
+          <tr>
+              <th>Kuantitas</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td>
+          {{ formset.management_form }}
+          {% for form in formset %}
+            {{ form.as_p }}
+          {% endfor %}
+        </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <br>
+    <br>
+  <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?')">Submit</button>
 </form>
-</body>
-</html>
+
+{% endblock content %}

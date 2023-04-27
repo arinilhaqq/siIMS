@@ -14,10 +14,6 @@ def is_authenticated(request):
 def create_karyawan(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] !='Service Advisor':
-            context = {}
-            username = request.session['username']
-            context['username'] = request.session['username']
-            context['jabatan'] = request.session['jabatan']
             form = KaryawanForm(request.POST or None)
             context['form'] = form
             if request.method == 'POST':
@@ -29,6 +25,12 @@ def create_karyawan(request):
                     if form.is_valid():
                         form.save()
                         return redirect('/list-karyawan/')
+                
+            context = {
+                'username' : request.session['username'],
+                'jabatan' : request.session['jabatan'],
+                'form' : form,
+            }
             return render(request, "create-karyawan.html", context)
         else:
             return HttpResponseRedirect("/")

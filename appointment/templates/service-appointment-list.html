@@ -18,13 +18,16 @@
     <tbody>
       <tr>
         {% for service in services %}
-        <td>{{ forloop.counter }}.</td>
-        <td>{{ service.nama }}</td>
-        {% for key, value in status_sparepart.items %}
-        {% if service.id == key %}
-        <td>{{ value }}</td>
-        {% endif %}
-        {% endfor %}
+          <td>{{ forloop.counter }}.</td>
+          <td>{{ service.nama }}</td>
+
+          {% for key, value in status_sparepart.items %}
+
+            {% if service.id == key %}
+            <td>{{ value }}</td>
+            {% endif %}
+            
+          {% endfor %}
         <!-- {% for status in status_sparepart %}
         <td>{{ status.service }}</td>
         {% endfor %} -->

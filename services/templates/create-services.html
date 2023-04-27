@@ -29,7 +29,7 @@
             </div>
             <div class="row">
             <div class="form-group col-md-4">
-                <label for="id_jumlah_estimasi_pengerjaan">Jumlah estimasi Pengerjaan:</label>
+                <label for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
                 <input type="text" class="form-control" name="jumlah_estimasi_pengerjaan" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
@@ -46,20 +46,18 @@
         <br>
         <div class="form-group">
             <label>Kebutuhan Spare Parts:</label>
-<<<<<<< HEAD
                 {{ form.kebutuhan_spare_parts }}
         </div>
         <div class="form-group">
             <label>Kuantitas:</label>
             {{ form.quantities }}
-        </div>
-=======
                 {{ form.kebutuhan_spare_part }}
         </div>
->>>>>>> a8a6b82b05b48c3ccf85412e2a6f702ae9c1ebd6
+                {{ form.kebutuhan_spare_part }}
+        </div>
         <br>
         <div class="bs-example">
-            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?')">Submit</button>
+            <button type="submit" class="btn btn-primary">Next</button>
             <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
         </div>
     </form>

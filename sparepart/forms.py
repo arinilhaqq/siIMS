@@ -25,7 +25,7 @@ class SparepartSearchForm(forms.Form):
 
 URUTAN_CHOICES = (
     ('Terbanyak', 'Terbanyak'),
-    ('Terbanyak', 'Terdikit'),
+    ('Terdikit', 'Terdikit'),
 )
 
 class SparepartSortForm(forms.Form):

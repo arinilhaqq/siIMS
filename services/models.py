@@ -18,8 +18,3 @@ class Service(models.Model):
 
     def __str__(self):
         return self.nama
-
-# class ServicePart(models.Model):
-#     service = models.ForeignKey('services.Service', on_delete=models.CASCADE)
-#     part = models.ForeignKey('sparepart.SparePart', on_delete=models.CASCADE)
-#     quantity = models.IntegerField(default=0)

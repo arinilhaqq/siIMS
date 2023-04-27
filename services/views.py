@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from .models import Service
-from .forms import ServiceForm, ServiceSearchForm, ServiceSortForm
+from sparepart.models import SparePart
+from .forms import ServiceForm, SparePartItemForm, ServiceSearchForm, ServiceSortForm
 from django.forms import formset_factory
 from django.db import connection
 
@@ -37,7 +38,9 @@ def services_list(request):
                     elif pilihan == 'Termurah':
                         services = services.order_by("harga")
 
-            response = {'form':form, 'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+            response = {'form':form, 'form_sort': form_sort, 'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+            
+            
             return render(request, 'list-services.html', response)
         else:
             return HttpResponseRedirect("/")
@@ -51,9 +54,9 @@ def add_service(request):
 
             form = ServiceForm(request.POST or None)
             if (form.is_valid() and request.method == 'POST'):
-                form.save()
-                return redirect('/list-services')
-                # return redirect('/add-spareparts')
+                ids = form.save()
+                id_service = ids.id
+                return redirect(f"/add-spareparts/{id_service}")
 
             context['form'] = form
             context['username'] = request.session['username']
@@ -68,10 +71,14 @@ def add_service(request):
 def detail_service(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
+            service_by_id = Service.objects.get(id=id)
+            
             context = {}
-            context["data"] = Service.objects.get(id=id)
+            context['data'] = service_by_id
             context['username'] = request.session['username']
             context['jabatan'] = request.session['jabatan']
+            context['kebutuhan_spare_part'] = service_by_id.kebutuhan_spare_part
+
             return render(request, "list-services.html", context)
         else:
             return HttpResponseRedirect("/")
@@ -122,6 +129,18 @@ def add_kebutuhan_spare_parts(request, id):
             spare_part_id = []
             for j in range(len(rows)):
                 spare_part_id.append(rows[j][2])
+
+            nama_spare_part = []
+            for h in range(len(spare_part_id)):
+                cursor.execute('SELECT nama  FROM public."sparepart_sparepart" WHERE '
+                               ' "id"=%s', [spare_part_id[h]])
+                rows1 = cursor.fetchall()
+                cursor.execute('SELECT variasi  FROM public."sparepart_sparepart" WHERE '
+                               ' "id"=%s', [spare_part_id[h]])
+                rows2 = cursor.fetchall()
+                nama_fix = rows1[0][0] + " " + rows2[0][0]
+                nama_spare_part.append(nama_fix)
+
             if len(rows) > 0:
                 SparePartFormSet = formset_factory(SparePartItemForm, extra=len(rows))
                 if request.method == 'POST':
@@ -139,7 +158,7 @@ def add_kebutuhan_spare_parts(request, id):
 
                 else:
                     formset = SparePartFormSet
-                    response = {'formset': formset, 'username': request.session['username'],
+                    response = {'formset': formset, 'nama_spare_part': nama_spare_part, 'username': request.session['username'],
                                 'jabatan': request.session['jabatan']}
                     return render(request, "add_kebutuhan_spare_part.html", response)
         else:

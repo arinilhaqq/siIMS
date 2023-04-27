@@ -19,7 +19,7 @@ def create_initial_inspection(request, id):
                 form.appointment = Appointment.objects.get(id=id)
                 initial_inspection = form.save()
 
-                return redirect('/detail-initial-inspection/' + str(initial_inspection.id), initial_inspection.id)
+                return redirect('/detail-initial-inspection/' + str(id), id)
         else:
             form = InitialInspectionForm()
 
@@ -41,8 +41,34 @@ def detail_initial_inspection(request, id):
             'inspection': initial_inspection,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
+            'appointment': Appointment.objects.get(id=id)
         }
         return render(request, 'detail-initial-inspection.html', context)
+    else:
+        return HttpResponseRedirect("/login")
+
+def update_initial_inspection(request, id):
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor':
+            initial_inspection = InitialInspection.objects.get(appointment=id)
+            appointment = Appointment.objects.get(id=id)
+            response = {
+            'inspection': initial_inspection,
+            'username': request.session['username'],
+            'jabatan': request.session['jabatan'],
+            'appointment': appointment,
+            }
+            
+            if request.method == "POST":
+                form = InitialInspectionForm(request.POST, instance=initial_inspection)      
+                if form.is_valid():
+                    print (form.cleaned_data)
+                    form.save()
+                return redirect('/detail-initial-inspection/' + str(appointment.id), appointment.id)
+
+            return render(request, "update-initial-inspection.html", response)
+        else:
+            return HttpResponseRedirect ('/detail-initial-inspection/' + str(appointment.id), appointment.id)
     else:
         return HttpResponseRedirect("/login")
 

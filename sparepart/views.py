@@ -41,7 +41,7 @@ def sparepart_list(request):
                     elif pilihan == 'Terdikit':
                         sparepart = sparepart.order_by("stok")
 
-            response = {'form':form, 'sparepart': sparepart, 'username': request.session['username'],
+            response = {'form':form, 'form_sort': form_sort, 'sparepart': sparepart, 'username': request.session['username'],
                         'jabatan': request.session['jabatan']}
             
             return render(request, 'list-spare-part.html', response)
@@ -100,7 +100,7 @@ def delete_sparepart(request, id):
             spareparts = SparePart.objects.all().values()
             response = {'spareparts': spareparts, 'username': request.session['username'],
                         'jabatan': request.session['jabatan']}
-            return render(request, 'list-spare-part.html', response)
+            return redirect('/list-sparepart')
         else:
             return HttpResponseRedirect("/")
     else:

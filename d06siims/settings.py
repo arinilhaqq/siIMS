@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'appointment',
     'initialinspection',
     'sparepart',
+    'finalinspection',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,414 @@
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
+<title>Final Inspection | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
+  <h1 align="center">Update Final Inspection</h1>
+  <p align="center">Laporan akhir kondisi kendaraan pelanggan PT Inter Motor Sport</p>
+
+  <br> 
+  <form action="" method="POST">
+    {% csrf_token %}
+
+    <h5><strong>Informasi Kendaraan Akhir</strong></h5>
+    <p>Checklist apabila ditemukan kerusakan pada bagian yang ditampilkan!</p>
+      <img src="https://cdn.discordapp.com/attachments/896935170333081613/1097355208859852832/Initial_Inspection.png" alt="Gambar Report Mobil"> 
+      <p><strong>Front Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_front_1">1.</label>
+          {% if inspection.front_1 %}
+          <input type="checkbox" name="front_1" value="id_front_1" id="id_front_1" checked>
+          {% else %}
+          <input type="checkbox" name="front_1" value="id_front_1" id="id_front_1">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_2">2.</label>
+          {% if inspection.front_2 %}
+          <input type="checkbox" name="front_2" value="id_front_2" id="id_front_2" checked>
+          {% else %}
+          <input type="checkbox" name="front_2" value="id_front_2" id="id_front_2">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_3">3.</label>
+          {% if inspection.front_3 %}
+          <input type="checkbox" name="front_3" value="id_front_3" id="id_front_3" checked>
+          {% else %}
+          <input type="checkbox" name="front_3" value="id_front_3" id="id_front_3">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_4">4.</label>
+          {% if inspection.front_4 %}
+          <input type="checkbox" name="front_4" value="id_front_4" id="id_front_4" checked>
+          {% else %}
+          <input type="checkbox" name="front_4" value="id_front_4" id="id_front_4">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_front_5">5.</label>
+          {% if inspection.front_5 %}
+          <input type="checkbox" name="front_5" value="id_front_5" id="id_front_5" checked>
+          {% else %}
+          <input type="checkbox" name="front_5" value="id_front_5" id="id_front_5">
+          {% endif %}
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Back Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_back_6">6.</label>
+          {% if inspection.back_6 %}
+          <input type="checkbox" name="back_6" value="id_back_6" id="id_back_6" checked>
+          {% else %}
+          <input type="checkbox" name="back_6" value="id_back_6" id="id_back_6">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_7">7.</label>
+          {% if inspection.back_7 %}
+          <input type="checkbox" name="back_7" value="id_back_7" id="id_back_7" checked>
+          {% else %}
+          <input type="checkbox" name="back_7" value="id_back_7" id="id_back_7">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_8">8.</label>
+          {% if inspection.back_8 %}
+          <input type="checkbox" name="back_8" value="id_back_8" id="id_back_8" checked>
+          {% else %}
+          <input type="checkbox" name="back_8" value="id_back_8" id="id_back_8">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_9">9.</label>
+          {% if inspection.back_9 %}
+          <input type="checkbox" name="back_9" value="id_back_9" id="id_back_9" checked>
+          {% else %}
+          <input type="checkbox" name="back_9" value="id_back_9" id="id_back_9">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_back_10">10.</label>
+          {% if inspection.back_10 %}
+          <input type="checkbox" name="back_10" value="id_back_10" id="id_back_10" checked>
+          {% else %}
+          <input type="checkbox" name="back_10" value="id_back_10" id="id_back_10">
+          {% endif %}
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Passenger Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_passenger_11">11.</label>
+          {% if inspection.passenger_11 %}
+          <input type="checkbox" name="passenger_11" value="id_passenger_11" id="id_passenger_11" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_11" value="id_passenger_11" id="id_passenger_11">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_12">12.</label>
+          {% if inspection.passenger_12 %}
+          <input type="checkbox" name="passenger_12" value="id_passenger_12" id="id_passenger_12" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_12" value="id_passenger_12" id="id_passenger_12">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_13">13.</label>
+          {% if inspection.passenger_13 %}
+          <input type="checkbox" name="passenger_13" value="id_passenger_13" id="id_passenger_13" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_13" value="id_passenger_13" id="id_passenger_13">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_14">14.</label>
+          {% if inspection.passenger_14 %}
+          <input type="checkbox" name="passenger_14" value="id_passenger_14" id="id_passenger_14" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_14" value="id_passenger_14" id="id_passenger_14">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_15">15.</label>
+          {% if inspection.passenger_15 %}
+          <input type="checkbox" name="passenger_15" value="id_passenger_15" id="id_passenger_15" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_15" value="id_passenger_15" id="id_passenger_15">
+          {% endif %}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_passenger_16">16.</label>
+          {% if inspection.passenger_16 %}
+          <input type="checkbox" name="passenger_16" value="id_passenger_16" id="id_passenger_16" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_16" value="id_passenger_16" id="id_passenger_16">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_17">17.</label>
+          {% if inspection.passenger_17 %}
+          <input type="checkbox" name="passenger_17" value="id_passenger_17" id="id_passenger_17" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_17" value="id_passenger_17" id="id_passenger_17">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_18">18.</label>
+          {% if inspection.passenger_18 %}
+          <input type="checkbox" name="passenger_18" value="id_passenger_18" id="id_passenger_18" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_18" value="id_passenger_18" id="id_passenger_18">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_passenger_19">19.</label>
+          {% if inspection.passenger_19 %}
+          <input type="checkbox" name="passenger_19" value="id_passenger_19" id="id_passenger_19" checked>
+          {% else %}
+          <input type="checkbox" name="passenger_19" value="id_passenger_19" id="id_passenger_19">
+          {% endif %}
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Top Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_top_20">20.</label>
+          {% if inspection.top_20 %}
+          <input type="checkbox" name="top_20" value="id_top_20" id="id_top_20" checked>
+          {% else %}
+          <input type="checkbox" name="top_20" value="id_top_20" id="id_top_20">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_top_21">21.</label>
+          {% if inspection.top_21 %}
+          <input type="checkbox" name="top_21" value="id_top_21" id="id_top_21" checked>
+          {% else %}
+          <input type="checkbox" name="top_21" value="id_top_21" id="id_top_21">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_top_22">22.</label>
+          {% if inspection.top_22 %}
+          <input type="checkbox" name="top_22" value="id_top_22" id="id_top_22" checked>
+          {% else %}
+          <input type="checkbox" name="top_22" value="id_top_22" id="id_top_22">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_top_23">23.</label>
+          {% if inspection.top_23 %}
+          <input type="checkbox" name="top_23" value="id_top_23" id="id_top_23" checked>
+          {% else %}
+          <input type="checkbox" name="top_23" value="id_top_23" id="id_top_23">
+          {% endif %}
+        </div>
+      </div>
+      <br>
+
+      <p><strong>Driver Side</strong></p>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_driver_24">24.</label>
+          {% if inspection.driver_24 %}
+          <input type="checkbox" name="driver_24" value="id_driver_24" id="id_driver_24" checked>
+          {% else %}
+          <input type="checkbox" name="driver_24" value="id_driver_24" id="id_driver_24">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_25">25.</label>
+          {% if inspection.driver_25 %}
+          <input type="checkbox" name="driver_25" value="id_driver_25" id="id_driver_25" checked>
+          {% else %}
+          <input type="checkbox" name="driver_25" value="id_driver_25" id="id_driver_25">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_26">26.</label>
+          {% if inspection.driver_26 %}
+          <input type="checkbox" name="driver_26" value="id_driver_26" id="id_driver_26" checked>
+          {% else %}
+          <input type="checkbox" name="driver_26" value="id_driver_26" id="id_driver_26">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_27">27.</label>
+          {% if inspection.driver_27 %}
+          <input type="checkbox" name="driver_27" value="id_driver_27" id="id_driver_27" checked>
+          {% else %}
+          <input type="checkbox" name="driver_27" value="id_driver_27" id="id_driver_27">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_28">28.</label>
+          {% if inspection.driver_28 %}
+          <input type="checkbox" name="driver_28" value="id_driver_28" id="id_driver_28" checked>
+          {% else %}
+          <input type="checkbox" name="driver_28" value="id_driver_28" id="id_driver_28">
+          {% endif %}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="form-group col-md-2">
+          <label for="id_driver_29">29.</label>
+          {% if inspection.driver_29 %}
+          <input type="checkbox" name="driver_29" value="id_driver_29" id="id_driver_29" checked>
+          {% else %}
+          <input type="checkbox" name="driver_29" value="id_driver_29" id="id_driver_29">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_30">30.</label>
+          {% if inspection.driver_30 %}
+          <input type="checkbox" name="driver_30" value="id_driver_30" id="id_driver_30" checked>
+          {% else %}
+          <input type="checkbox" name="driver_30" value="id_driver_30" id="id_driver_30">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_31">31.</label>
+          {% if inspection.driver_31 %}
+          <input type="checkbox" name="driver_31" value="id_driver_31" id="id_driver_31" checked>
+          {% else %}
+          <input type="checkbox" name="driver_31" value="id_driver_31" id="id_driver_31">
+          {% endif %}
+        </div>
+        <div class="form-group col-md-2">
+          <label for="id_driver_32">32.</label>
+          {% if inspection.driver_32 %}
+          <input type="checkbox" name="driver_32" value="id_driver_32" id="id_driver_32" checked>
+          {% else %}
+          <input type="checkbox" name="driver_32" value="id_driver_32" id="id_driver_32">
+          {% endif %}
+        </div>
+      </div>
+      <br>
+    
+    <div class="form-group col-md-12">
+      <label for="id_catatan">Catatan:</label>
+      <textarea name="catatan" class="form-control" cols="40" rows="5" value="id_catatan" id="id_catatan">{{inspection.catatan}}</textarea>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <h5><strong>Kondisi Interior Akhir</strong></h5>
+    <p>Kosongkan jika tidak ada permasalahan pada interior!</p>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="id_karpet">Karpet:</label>
+        <select class="form-control" name="karpet" value="id_karpet" id="id_karpet">
+            <option value="" {% if inspection.karpet == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.karpet == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.karpet == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.karpet == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.karpet == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.karpet == 'C' %}selected{% endif %}>Cracked</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="id_kursi">Kursi:</label>
+          <select class="form-control" name="kursi" value="id_kursi" id="id_kursi">
+            <option value="" {% if inspection.kursi == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.kursi == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.kursi == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.kursi == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.kursi == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.kursi == 'C' %}selected{% endif %}>Cracked</option>
+          </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="id_headliner">Headliner:</label>
+        <select class="form-control" name="headliner" value="id_headliner" id="id_headliner">
+          <option value="" {% if inspection.karpet == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.headliner == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.headliner == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.headliner == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.headliner == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.headliner == 'C' %}selected{% endif %}>Cracked</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="id_door_panels">Door panels:</label>
+        <select class="form-control" name="door_panels" value="id_door_panels" id="id_door_panels">
+          <option value="" {% if inspection.door_panels == '' %}selected{% endif %}>-----</option>
+            <option value="W" {% if inspection.door_panels == 'W' %}selected{% endif %}>Worn</option>
+            <option value="B" {% if inspection.door_panels == 'B' %}selected{% endif %}>Burns</option>
+            <option value="R" {% if inspection.door_panels == 'R' %}selected{% endif %}>Ripped</option>
+            <option value="S" {% if inspection.door_panels == 'S' %}selected{% endif %}>Stain</option>
+            <option value="C" {% if inspection.door_panels == 'C' %}selected{% endif %}>Cracked</option>  
+        </select>
+      </div>
+    </div>
+    <br>
+    <input type="hidden" name="appointment" id="appointment" value="{{ appointment.id }}">
+    <input type="hidden" name="checked" id="checked" value=False>
+    <input type="hidden" name="approved" id="approved" value=False>
+    <div class="bs-example">
+      <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Update</button>
+      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    </div>
+  </form>
+  <!-- <script>
+    var id_front_1 = document.getElementById("id_front_1").value = "{{inspection.front_1}}";
+    var id_front_2 = document.getElementById("id_front_2").value = "{{inspection.front_2}}";
+    var id_front_3 = document.getElementById("id_front_3").value = "{{inspection.front_3}}";
+    var id_front_4 = document.getElementById("id_front_4").value = "{{inspection.front_4}}";
+    var id_front_5 = document.getElementById("id_front_5").value = "{{inspection.front_5}}";
+    var id_back_6 = document.getElementById("id_back_6").value = "{{inspection.back_6}}";
+    var id_back_7 = document.getElementById("id_back_7").value = "{{inspection.back_7}}";
+    var id_back_8 = document.getElementById("id_back_8").value = "{{inspection.back_8}}";
+    var id_back_9 = document.getElementById("id_back_9").value = "{{inspection.back_9}}";
+    var id_back_10 = document.getElementById("id_back_10").value = "{{inspection.back_10}}";
+    var id_passenger_11 = document.getElementById("id_passenger_11").value = "{{inspection.passenger_11}}";
+    var id_passenger_12 = document.getElementById("id_passenger_12").value = "{{inspection.passenger_12}}";
+    var id_passenger_13 = document.getElementById("id_passenger_13").value = "{{inspection.passenger_13}}";
+    var id_passenger_14 = document.getElementById("id_passenger_14").value = "{{inspection.passenger_14}}";
+    var id_passenger_15 = document.getElementById("id_passenger_15").value = "{{inspection.passenger_15}}";
+    var id_passenger_16 = document.getElementById("id_passenger_16").value = "{{inspection.passenger_16}}";
+    var id_passenger_17 = document.getElementById("id_passenger_17").value = "{{inspection.passenger_17}}";
+    var id_passenger_18 = document.getElementById("id_passenger_18").value = "{{inspection.passenger_18}}";
+    var id_passenger_19 = document.getElementById("id_passenger_19").value = "{{inspection.passenger_19}}";
+    var id_top_20 = document.getElementById("id_top_20").value = "{{inspection.top_20}}";
+    var id_top_21 = document.getElementById("id_top_21").value = "{{inspection.top_21}}";
+    var id_top_22 = document.getElementById("id_top_22").value = "{{inspection.top_22}}";
+    var id_top_23 = document.getElementById("id_top_23").value = "{{inspection.top_23}}";
+    var id_driver_24 = document.getElementById("id_driver_24").value = "{{inspection.driver_24}}";
+    var id_driver_25 = document.getElementById("id_driver_25").value = "{{inspection.driver_25}}";
+    var id_driver_26 = document.getElementById("id_driver_26").value = "{{inspection.driver_26}}";
+    var id_driver_27 = document.getElementById("id_driver_27").value = "{{inspection.driver_27}}";
+    var id_driver_28 = document.getElementById("id_driver_28").value = "{{inspection.driver_28}}";
+    var id_driver_29 = document.getElementById("id_driver_29").value = "{{inspection.driver_29}}";
+    var id_driver_30 = document.getElementById("id_driver_30").value = "{{inspection.driver_30}}";
+    var id_driver_31 = document.getElementById("id_driver_31").value = "{{inspection.driver_31}}";
+    var id_driver_32 = document.getElementById("id_driver_32").value = "{{inspection.driver_32}}";
+    var id_karpet = document.getElementById("id_karpet").value = "{{inspection.karpet}}";
+    var id_kursi = document.getElementById("id_kursi").value = "{{inspection.krusi}}";
+    var id_headliner = document.getElementById("id_headliner").value = "{{inspection.headliner}}";
+    var id_door_panels = document.getElementById("id_door_panels").value = "{{inspection.door_panels}}";
+
+</script> -->
+{% endblock %}

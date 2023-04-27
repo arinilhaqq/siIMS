@@ -146,19 +146,61 @@
           
                   <div class="modal-footer">
                     {% if appoint.teknisi %}
-                      {% for init in initial %}
-                        {% if init.appointment.id == appoint.id %}
+                      {% if initial %}
+                        {% if appoint in appointment_initial_inspection %}
                           <a class="btn btn-success" href="/detail-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
                         {% else %}
-                          <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
+                          {% if jabatan == 'Admin' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
+                            <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a>
+                          {% endif %}
                         {% endif %}
-                      {% endfor %}
+                      {% else %}
+                        {% if jabatan == 'Admin' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
+                          <a class="btn btn-success" href="/create-initial-inspection/{{ appoint.id }}">Initial Inspection</a> 
+                        {% endif %}
+                      {% endif %}
                     {% endif %}
-                    {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
+                    
+                    {% if jabatan == 'Admin' or jabatan == 'Teknisi' %}
+                      {% if appoint.status == 'Finished' %}
+                        {% if final %}
+                          {% if appoint in appointment_final_inspection %}
+                            <a class="btn btn-warning" href="/verify-final-inspection/{{ appoint.id }}">Final Inspection</a>
+                          {% else %}
+                              <a class="btn btn-warning" href="/create-final-inspection/{{ appoint.id }}">Final Inspection</a>
+                          {% endif %}
+                        {% else %}
+                            <a class="btn btn-warning" href="/create-final-inspection/{{ appoint.id }}">Final Inspection</a> 
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+
+                    {% if jabatan == 'Service Advisor' %}
+                      {% if appoint.status == 'Finished' %}
+                        {% if final %}
+                          {% if appoint in appointment_final_inspection %}
+                            <a class="btn btn-warning" href="/verify-final-inspection/{{ appoint.id }}">Final Inspection</a>
+                          {% endif %}
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                    
+                    {% if appoint.services %}
+                      <a class="btn btn-info" href="/service-appointment/{{ appoint.id }}">Service</a>
+                    {% else %}
+                      {% if jabatan == 'Admin' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
+                        <a class="btn btn-info" href="/possible-service/{{ appoint.id }}">Service</a>
+                      {% endif %}
+                    {% endif %}
+                      
+
+                    {% if jabatan == 'Admin' and appoint.status != 'Finished' or jabatan == 'Service Advisor' and appoint.status != 'Finished' %}
                       <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
+                    {% endif %}
+
+                    {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
                       <a class="btn btn-danger" href="/delete-appointment/{{ appoint.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
                     {% endif %}
-                    <a class="btn btn-warning" href="/possible-service/{{ appoint.id }}">Service</a>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kembali</button>
                   </div>
                 </div>

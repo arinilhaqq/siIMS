@@ -69,9 +69,15 @@
           <td>{{ appoint.pelanggan.nomor_polisi }}</td>
           <td>{{ appoint.pelanggan.nama_mobil }}</td>
           {% if jabatan == 'Teknisi' and appoint.status != 'Finished' %}
+            {% if appoint.status != 'Canceled' %}
             <td>
               <a class="btn btn-primary" href="/finished-appointment/{{ appoint.id }}">Confirm</a>
             </td>
+            {% else %}
+            <td>
+              <button type="button" class="btn btn-danger" disabled>Canceled</button>
+            </td>
+            {% endif %}
           {% elif jabatan == 'Teknisi' and appoint.status == 'Finished' %}
             <td>
               <button type="button" class="btn btn-success" disabled>Done</button>
@@ -144,7 +150,6 @@
                       </div>   
                     </div>
                   </div>
-          
                   <div class="modal-footer">
                     {% if appoint.teknisi %}
                       {% if initial %}

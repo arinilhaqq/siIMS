@@ -110,7 +110,9 @@
                           <div class="row">
                             <div class="form-group col-md-12">
                               <label>Kebutuhan Spare Part:</label>
-                             <p>{{ kebutuhan_spare_part }}</p>
+                              <p>{% for sparepart in s.kebutuhan_spare_part.all %}
+                                  <li>{{ sparepart.nama }} {{ sparepart.variasi }}</li>
+                              {% endfor %}</p>
                             </div>
                           </div>
                        <br>

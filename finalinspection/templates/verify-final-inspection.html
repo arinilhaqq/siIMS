@@ -11,7 +11,7 @@
   <h1 class="text-center">Final Inspection</h1>
   <br>
   <div class="container">
-    <h3>Informasi Kendaraan Awal</h3>
+    <h3>Informasi Kendaraan Akhir</h3>
     <img src="https://cdn.discordapp.com/attachments/896935170333081613/1097355208859852832/Initial_Inspection.png" alt="Gambar Report Mobil"> 
     <div class="row">
       <div class="col-md-6">
@@ -462,7 +462,7 @@
     <div class="form-group col-md-3">
       <p><strong>Diperiksa:</strong></p>
       <label for="checked">Teknisi Final Inspector</label>
-      {% if jabatan != 'Teknisi' %}
+      {% if jabatan != 'Teknisi' and jabatan != 'Admin' %}
         {% if inspection.checked %}
           <input type="checkbox" name="checked" value="checked" id="checked" disabled checked>
           <input type="hidden" name="checked" id="checked" value="checked">
@@ -482,7 +482,7 @@
     <div class="form-group col-md-2">
       <p><strong>Disetujui:</strong></p>
       <label for="approved">Service Advisor</label>
-      {% if jabatan != 'Service Advisor' %}
+      {% if jabatan != 'Service Advisor' and jabatan != 'Admin' %}
        {% if inspection.approved %}
           <input type="checkbox" name="approved" value="approved" id="approved" disabled checked>
           <input type="hidden" name="approved" value="approved" id="approved">

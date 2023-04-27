@@ -1,38 +1,52 @@
 {% extends 'main.html' %} {% load static %} {% block meta %}
 <title>Spare Parts | si-IMS</title>
 {% endblock meta %} {% block content %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <style>
+        .required:after {
+          content:" *";
+          color: red;
+        }
+    </style>
 
     <h1 align="center">Update Spare Part</h1>
     <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
 
     <br>
-
+    
     <form action="" method="POST">
         {% csrf_token %}
         <div class="row">
             <div class="form-group col-md-4">
-                <label for="id_nama">Nama:</label>
+                <label class="required" for="id_nama">Nama:</label>
                 <input type="text" class="form-control" name="nama" value="{{ sparepart.nama }}" maxlength="30" required id="id_nama"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label for="id_variasi">Variasi:</label>
+                <label class="required" for="id_variasi">Variasi:</label>
                 <input type="text" class="form-control" name="variasi" value="{{ sparepart.variasi }}" maxlength="30" required id="id_variasi"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label for="id_harga">Harga:</label>
+                <label class="required" for="id_harga">Harga:</label>
                 <input type="text" class="form-control" name="harga" value="{{ sparepart.harga }}" maxlength="10" required id="id_harga"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label for="id_stok">Stok:</label>
-                <input type="text" class="form-control" name="estimasi_pengerjaan" value="{{ sparepart.stok }}" maxlength="10" required id="id_stok"
+                <label class="required" for="id_stok">Stok:</label>
+                <input type="text" class="form-control" name="stok" value="{{ sparepart.stok }}" maxlength="10" required id="id_stok"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-6">
-                <label>Kebutuhan Jenis Services:</label>
-                {{ form.services }}
+                <label class="required">Kebutuhan Jenis Services:</label>
+                <select name="services" id="id_services" class="form-select" multiple data-search="true">
+                    {% for service in listservices %}
+                    <option value="{{ service.id }}" {% if service in sparepart.services.all %}selected{% endif %}>{{ service.nama }}</option>
+                    {% endfor %}
+                </select>
+                <!-- {{ form.services }} -->
             </div>
         </div>
         <br>
@@ -42,5 +56,15 @@
             <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
         </div>
     </form>
+    <script>
+        $(document).ready(function() {
+          $('.form-select').select2({
+            width: '100%',
+            placeholder: 'Pilih Kebutuhan Spareparts',
+            closeOnSelect: false,
+            allowClear: true,
+          });
+        });
+    </script>
 
 {% endblock content %}

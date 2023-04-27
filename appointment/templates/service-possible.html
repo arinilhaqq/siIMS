@@ -36,12 +36,7 @@
                 {% for service in listservice %}
                 <option value="{{ service.id }}" {% if service in appointment.services.all %}selected{% endif %}>{{ service.nama }}</option>
                 {% endfor %}
-                <!-- <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-                <option value="4">Option 4</option>
-                <option value="5">Option 5</option> -->
-              </select>
+            </select>
           </div>
         </div>
         <br>

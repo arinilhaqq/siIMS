@@ -12,9 +12,9 @@ class ServiceForm(forms.ModelForm):
                   'satuan_waktu',
                   'kebutuhan_spare_part'
                   ]
-        widgets = {
-            'kebutuhan_spare_part': forms.CheckboxSelectMultiple(),
-        }
+        # widgets = {
+        #     'kebutuhan_spare_part': forms.CheckboxSelectMultiple(),
+        # }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

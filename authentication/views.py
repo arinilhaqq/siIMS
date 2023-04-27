@@ -26,8 +26,11 @@ def login(request) :
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             cursor.execute("SET search_path TO public")
-            cursor.execute('SELECT * FROM public."karyawan_karyawan" WHERE "karyawan_karyawan"."username"=%s AND "karyawan_karyawan"."password"=%s', [username, password])
+            cursor.execute('SELECT * FROM public."karyawan_karyawan" WHERE LOWER("karyawan_karyawan"."username") = LOWER(%s) AND LOWER("karyawan_karyawan"."password") = LOWER(%s)', [username.lower(), password.lower()])
             user = cursor.fetchall()
+            # username_database_raw = user[0][9]
+            # username_database = username_database_raw.lower()
+            # username_low = username.lower()
             print(user)
             if len(user) > 0:
                 request.session["username"] = user[0][9]

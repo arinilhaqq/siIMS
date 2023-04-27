@@ -1,6 +1,15 @@
 {% extends 'main.html' %} {% load static %} {% block meta %}
 <title>Services | si-IMS</title>
 {% endblock meta %} {% block content %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <style>
+        .required:after {
+          content:" *";
+          color: red;
+        }
+    </style>
 
     <h1 align="center">Update Jenis Services</h1>
     <p align="center">Pastikan seluruh data sudah terisi dengan benar!</p>
@@ -12,18 +21,18 @@
         <!-- {{ form.as_p }} -->
         <div class="row">
             <div class="form-group col-md-4">
-                <label for="id_nama">Nama:</label>
+                <label class="required" for="id_nama">Nama:</label>
                 <input type="text" class="form-control" name="nama" value="{{ service.nama }}" maxlength="30" required id="id_nama"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label for="id_harga">Harga:</label> 
+                <label class="required" for="id_harga">Harga:</label> 
                 <input type="text" class="form-control" name="harga" value="{{ service.harga }}" maxlength="10" required id="id_harga"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-4">
-                <label for="id_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
-                <input type="text" class="form-control" name="estimasi_pengerjaan" value="{{ service.jumlah_estimasi_pengerjaan }}" maxlength="10" required id="id_estimasi_pengerjaan"
+                <label class="required" for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
+                <input type="text" class="form-control" name="jumlah_estimasi_pengerjaan" value="{{ service.jumlah_estimasi_pengerjaan }}" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <br>
@@ -31,15 +40,20 @@
             <br>
             <br>
             <div class="form-group col-md-4">
-                <label>Satuan waktu:</label>
+                <label class="required">Satuan waktu:</label>
                 {{ form.satuan_waktu }}
             </div>
             </div>
         </div>
         <br>
         <div class="form-group">
-            <label>Kebutuhan Spare Parts:</label>
-                {{ form.kebutuhan_spare_part }}
+            <label class="required">Kebutuhan Spare Parts:</label>
+            <select name="kebutuhan_spare_part" id="id_kebutuhan_spare_part" class="form-select" multiple data-search="true">
+                {% for sparepart in listsparepart %}
+                <option value="{{ sparepart.id }}" {% if sparepart in service.kebutuhan_spare_part.all %}selected{% endif %}>{{ sparepart.nama }}</option>
+                {% endfor %}
+            </select>
+                <!-- {{ form.kebutuhan_spare_part }} -->
         </div>
 <!--        <div class="form-group">-->
 <!--            <label>Kuantitas:</label>-->
@@ -51,5 +65,15 @@
             <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
         </div>
     </form>
+    <script>
+        $(document).ready(function() {
+          $('.form-select').select2({
+            width: '100%',
+            placeholder: 'Pilih Kebutuhan Spareparts',
+            closeOnSelect: false,
+            allowClear: true,
+          });
+        });
+    </script>
 
 {% endblock content %}

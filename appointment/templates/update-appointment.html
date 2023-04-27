@@ -75,8 +75,10 @@
   <div class="form-group col-md-12">
     <label class="required" for="id_keluhan">Keluhan:</label> 
     <textarea name="keluhan" class="form-control" cols="10" rows="5" id="id_keluhan"
-    required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">{{ appointment.keluhan }}</textarea>  </div>
+    required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">{{ appointment.keluhan }}</textarea>  
+  </div>
   <br>
+  <p> </p>
   <div class="bs-example">
     <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Submit</button>
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>

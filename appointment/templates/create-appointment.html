@@ -19,28 +19,25 @@
     <div class="row">
       <div class=" col-md-6">
         <div class="form-group">
-          <label for="pelanggan">Pelanggan</label>
-
-          <input type="text" list="pelangganlist" Placeholder="Pilih Pelanggan.." class="form-control" id="pelanggan-input" autocomplete="off">
-          <datalist id="pelangganlist">
+          <label class="required" for="pelanggan">Pelanggan</label>
+          <select name="pelanggan" id="id_pelanggan" class="form-control">
+            <option value="" selected>Pilih Pelanggan..</option>
             {% for pelanggan in listPelanggan %}
-              <option value="{{ pelanggan.nama_pelanggan }}" data-pelanggan-id="{{ pelanggan.id }}">{{ pelanggan.nomor_polisi }} {{ pelanggan.nama_mobil }}</option>
+              <option  value="{{ pelanggan.id }}">{{ pelanggan.nomor_polisi }} {{ pelanggan.nama_mobil }} - {{ pelanggan.nama_pelanggan }}</option>
             {% endfor %}
-          </datalist>
-          <input type="hidden" name="pelanggan" id="pelanggan-id">
+          </select>
         </div>
       </div>
       {% if listTeknisi %}
         <div class=" col-md-6">
           <div class="form-group">
             <label for="teknisi">Teknisi</label>
-            <input type="text" list="teknisilist" Placeholder="Pilih Teknisi.." class="form-control" id="teknisi-input" autocomplete="off">
-            <datalist id="teknisilist">
+            <select name="teknisi" id="id_teknisi" class="form-control">
+              <option value="" selected>Pilih Teknisi..</option>
               {% for teknisi in listTeknisi %}
-                <option value="{{ teknisi.nama_karyawan }}" data-teknisi-id="{{ teknisi.id }}"></option>
+                <option value="{{ teknisi.id }}">{{ teknisi.nama_karyawan }}</option>
               {% endfor %}
-            </datalist>
-            <input type="hidden" name="teknisi" id="teknisi-id">
+            </select>
           </div>
         </div>
       {% else %}

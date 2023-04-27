@@ -7,6 +7,7 @@
   
   <br>
 
+
   <form method='get' name="form_search">
     <div class="row">
       <div class="col-sm-7">
@@ -149,6 +150,7 @@
                       </div>   
                     </div>
                   </div>
+          
                   <div class="modal-footer">
                     {% if appoint.teknisi %}
                       {% if initial %}
@@ -166,21 +168,24 @@
                       {% endif %}
                     {% endif %}
                     
-                    {% if jabatan == 'Admin' or jabatan == 'Teknisi' %}
                       {% if appoint.status == 'Finished' %}
                         {% if final %}
                           {% if appoint in appointment_final_inspection %}
                             <a class="btn btn-warning" href="/verify-final-inspection/{{ appoint.id }}">Final Inspection</a>
                           {% else %}
+                            {% if jabatan == 'Admin' or jabatan == 'Teknisi' %}
                               <a class="btn btn-warning" href="/create-final-inspection/{{ appoint.id }}">Final Inspection</a>
+                            {% endif %}
                           {% endif %}
                         {% else %}
-                            <a class="btn btn-warning" href="/create-final-inspection/{{ appoint.id }}">Final Inspection</a> 
+                          {% if jabatan == 'Admin' or jabatan == 'Teknisi' %}
+                            <a class="btn btn-warning" href="/create-final-inspection/{{ appoint.id }}">Final Inspection</a>
+                          {% endif %} 
                         {% endif %}
                       {% endif %}
-                    {% endif %}
+                  
 
-                    {% if jabatan == 'Service Advisor' %}
+                    <!-- {% if jabatan == 'Service Advisor' %}
                       {% if appoint.status == 'Finished' %}
                         {% if final %}
                           {% if appoint in appointment_final_inspection %}
@@ -188,13 +193,15 @@
                           {% endif %}
                         {% endif %}
                       {% endif %}
-                    {% endif %}
+                    {% endif %} -->
                     
-                    {% if appoint.services %}
-                      <a class="btn btn-info" href="/service-appointment/{{ appoint.id }}">Service</a>
-                    {% else %}
-                      {% if jabatan == 'Admin' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
-                        <a class="btn btn-info" href="/possible-service/{{ appoint.id }}">Service</a>
+                    {% if appoint in appointment_initial_inspection %}
+                      {% if appoint.services.exists %}
+                        <a class="btn btn-info" href="/service-appointment/{{ appoint.id }}">Service</a>
+                      {% else %}
+                        {% if jabatan == 'Admin' or jabatan == 'Service Advisor' or jabatan == 'Teknisi' or jabatan == 'Inventori' %}
+                          <a class="btn btn-info" href="/possible-service/{{ appoint.id }}">Service</a>
+                        {% endif %}
                       {% endif %}
                     {% endif %}
                       
@@ -206,11 +213,12 @@
                     {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
                       <a class="btn btn-danger" href="/delete-appointment/{{ appoint.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
                     {% endif %}
+
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kembali</button>
                   </div>
                 </div>
               </div>
-            </div>            
+              </div>            
           </td>
           <td>{{ appoint.status }}</td>
       </tr>
@@ -225,3 +233,4 @@
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
   </div>
 {% endblock content %}
+          

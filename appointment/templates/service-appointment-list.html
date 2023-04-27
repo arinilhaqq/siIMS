@@ -143,8 +143,9 @@
   {% endif %}
   <div class="bs-example">
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    <a class="btn btn-warning" href="/possible-service/{{ appointment.id }}">Edit</a>
     {% if all_cukup %}
-    <a class="btn btn-warning" href="/estimasi-appointment/{{ appointment.id }}">Cek Estimasi</a>
+    <a class="btn btn-success" href="/estimasi-appointment/{{ appointment.id }}">Cek Estimasi</a>
     {% endif %}
   </div>
 {% endblock content %}

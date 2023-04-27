@@ -16,7 +16,7 @@ def is_authenticated(request):
 def services_list(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
-            services = Service.objects.all().values() 
+            services = Service.objects.prefetch_related('kebutuhan_spare_part').all() 
 
             form = ServiceSearchForm(request.GET)
             form_sort =ServiceSortForm(request.GET)
@@ -38,8 +38,13 @@ def services_list(request):
                     elif pilihan == 'Termurah':
                         services = services.order_by("harga")
 
-            response = {'form':form, 'form_sort': form_sort, 'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
-            
+            response = {
+                'form':form,
+                'form_sort': form_sort,
+                'services': services,
+                'username':request.session['username'],
+                'jabatan':request.session['jabatan']
+            }
             
             return render(request, 'list-services.html', response)
         else:
@@ -51,16 +56,20 @@ def add_service(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
             context = {}
+            all_sparepart = SparePart.objects.all()
 
             form = ServiceForm(request.POST or None)
             if (form.is_valid() and request.method == 'POST'):
+
                 ids = form.save()
                 id_service = ids.id
                 return redirect(f"/add-spareparts/{id_service}")
 
             context['form'] = form
+            context['listsparepart'] = all_sparepart
             context['username'] = request.session['username']
             context['jabatan'] = request.session['jabatan']
+
             return render(request, 'create-services.html', context)
         else:
             return HttpResponseRedirect("/")
@@ -91,8 +100,14 @@ def delete_service(request, id):
             service = Service.objects.get(id=id)
             service.delete()
             services = Service.objects.all().values()
-            response = {'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
-            return render(request, 'list-services.html', response)
+
+            response = {
+                'services': services,
+                'username':request.session['username'],
+                'jabatan':request.session['jabatan']
+            }
+
+            return redirect('/list-services')
         else:
             return HttpResponseRedirect("/")
     else:
@@ -102,12 +117,26 @@ def delete_service(request, id):
 def update_service(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
-            obj = get_object_or_404(Service, id=id)
+            all_sparepart = SparePart.objects.all()
+            obj = Service.objects.prefetch_related('kebutuhan_spare_part').get(id=id)
+            # obj = get_object_or_404(Service, id=id)
             form = ServiceForm(request.POST or None, instance=obj)
+
             if form.is_valid():
-                form.save()
-                return redirect('/list-services')
-            response = {'form': form, 'service': obj, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+                # form.save()
+                # return redirect('/list-services')
+                ids = form.save()
+                id_service = ids.id
+                return redirect(f"/add-spareparts/{id_service}")
+
+            response = {
+                'form': form,
+                'listsparepart': all_sparepart,
+                'service': obj,
+                'username':request.session['username'],               
+                'jabatan':request.session['jabatan']
+            }
+
             return render(request, "update-services.html", response)
         else:
             return HttpResponseRedirect("/")

@@ -22,7 +22,7 @@ def create_appointment(request):
 
             if request.method == 'POST':
                 form = AppointmentForm(request.POST)
-
+                print(form.errors)
                 if form.is_valid():
                     appointment = form.save(commit=False)
 
@@ -38,8 +38,8 @@ def create_appointment(request):
             else:
                 form = AppointmentForm()
 
-            listTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir').exclude(appointment__teknisi__isnull=False, appointment__status='On going')
-
+            listTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir').exclude(appointment__teknisi__isnull=False, appointment__status='On going').exclude(appointment__teknisi__isnull=False, appointment__status='Approved')
+            
             context = {
                 'listPelanggan': pelanggan,
                 'listTeknisi': listTeknisi,
@@ -52,24 +52,10 @@ def create_appointment(request):
             return HttpResponseRedirect ("/")
     else:
         return HttpResponseRedirect("/login")
-
+    
 def list_appointment(request):
     # Initial Inspection
     initial_inspection = InitialInspection.objects.all()
-    services = Service.objects.all().values()
-    service_ids = [item['id'] for item in services]
-    appoint_id_service = []
-
-    # for service_id in service_ids:
-    #     cursor = connection.cursor()
-    #     cursor.execute("SET search_path TO public")
-    #     cursor.execute(
-    #         'SELECT * FROM public."appointment_appointment_services"')
-    #     rows = cursor.fetchall()
-    #     for j in range(len(rows)):
-    #         id_appoint = rows[j][1]
-    #         appoint_id_service.append(id_appoint)
-    
     appointment_initial_inspection = []
 
     for init in initial_inspection:
@@ -126,6 +112,24 @@ def list_appointment(request):
                 'appointment_final_inspection': appointment_final_inspection,
             }
 
+            return render(request, 'appointment-list.html', context)
+        
+        elif request.session['jabatan'] == 'Teknisi':
+            appointment = Appointment.objects.filter(teknisi__nama_karyawan=request.session['nama_karyawan'])
+
+            form = AppointmentSearchForm(request.GET)
+            form_sort = AppointmentSortForm(request.GET)
+
+            context = {
+                'appointment': appointment,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+                'initial': initial_inspection,
+                'final': final_inspection,
+                'appointment_initial_inspection': appointment_initial_inspection,
+                'appointment_final_inspection': appointment_final_inspection,
+            }
+
             if form.is_valid():
                 search_query = form.cleaned_data.get('search_query')
                 
@@ -140,44 +144,10 @@ def list_appointment(request):
                         appointment = appointment.order_by("-id")
                     elif pilihan == 'Terlama':
                         appointment = appointment.order_by("id")
-
+            
             context = {
                 "form": form,
                 'form_sort': form_sort,
-                'services': services,
-                'appointment': appointment,
-                'appoint_id_service':appoint_id_service,
-                'username': request.session['username'],
-                'jabatan': request.session['jabatan'],
-                'initial': initial_inspection
-            }
-            
-            return render(request, 'appointment-list.html', context)
-        
-        elif request.session['jabatan'] == 'Teknisi':
-            appointment = Appointment.objects.filter(teknisi__nama_karyawan=request.session['nama_karyawan'])
-
-            form = AppointmentSearchForm(request.GET)
-
-            context = {
-                'appointment': appointment,
-                'username': request.session['username'],
-                'jabatan': request.session['jabatan'],
-                'initial': initial_inspection,
-                'final': final_inspection,
-                'appointment_initial_inspection': appointment_initial_inspection,
-                'appointment_final_inspection': appointment_final_inspection,
-            }
-
-            if form.is_valid():
-                search_query = form.cleaned_data.get('search_query')
-                
-                if search_query:
-                    appointment = appointment.filter(pelanggan__nama_pelanggan__icontains=search_query) | appointment.filter(status__icontains=search_query)
-                    
-
-            context = {
-                "form": form,
                 'appointment': appointment,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
@@ -192,6 +162,128 @@ def list_appointment(request):
             return HttpResponseRedirect ("/")
     else:
         return HttpResponseRedirect("/login")
+
+# def list_appointment(request):
+#     # Initial Inspection
+#     initial_inspection = InitialInspection.objects.all()
+#     services = Service.objects.all().values()
+
+#     appoint_id_service = []
+    
+#     appointment_initial_inspection = []
+
+#     for init in initial_inspection:
+#         appointment_initial_inspection.append(init.appointment)
+
+#     # Final Inspection
+#     final_inspection = FinalInspection.objects.all()
+#     appointment_final_inspection = []
+
+#     for final in final_inspection:
+#         appointment_final_inspection.append(final.appointment)
+    
+#     print(appointment_initial_inspection)
+
+#     if is_authenticated(request):
+#         if request.session['jabatan'] != 'Teknisi':
+#             appointment = Appointment.objects.all()
+
+#             form = AppointmentSearchForm(request.GET)
+#             form_sort = AppointmentSortForm(request.GET)
+
+#             context = {
+#                 'appointment': appointment,
+#                 'username': request.session['username'],
+#                 'jabatan': request.session['jabatan'],
+#                 'initial': initial_inspection,
+#                 'final': final_inspection,
+#                 'appointment_initial_inspection': appointment_initial_inspection,
+#                 'appointment_final_inspection': appointment_final_inspection,
+#             }
+
+#             if form.is_valid():
+#                 search_query = form.cleaned_data.get('search_query')
+                
+#                 if search_query:
+#                     appointment = appointment.filter(pelanggan__nama_pelanggan__icontains=search_query) | appointment.filter(status__icontains=search_query)
+
+#             if form_sort.is_valid():
+#                 pilihan = form_sort.cleaned_data.get('pilihan')
+
+#                 if pilihan:
+#                     if pilihan == 'Terbaru':
+#                         appointment = appointment.order_by("-id")
+#                     elif pilihan == 'Terlama':
+#                         appointment = appointment.order_by("id")
+
+#             context = {
+#                 "form": form,
+#                 'form_sort': form_sort,
+#                 'appointment': appointment,
+#                 'username': request.session['username'],
+#                 'jabatan': request.session['jabatan'],
+#                 'initial': initial_inspection,
+#                 'final': final_inspection,
+#                 'appointment_initial_inspection': appointment_initial_inspection,
+#                 'appointment_final_inspection': appointment_final_inspection,
+#             }
+
+#             if form.is_valid():
+#                 search_query = form.cleaned_data.get('search_query')
+                
+#                 if search_query:
+#                     appointment = appointment.filter(pelanggan__nama_pelanggan__icontains=search_query) | appointment.filter(status__icontains=search_query)
+
+#             if form_sort.is_valid():
+#                 pilihan = form_sort.cleaned_data.get('pilihan')
+
+#                 if pilihan:
+#                     if pilihan == 'Terbaru':
+#                         appointment = appointment.order_by("-id")
+#                     elif pilihan == 'Terlama':
+#                         appointment = appointment.order_by("id")
+
+            
+#             return render(request, 'appointment-list.html', context)
+        
+#         elif request.session['jabatan'] == 'Teknisi':
+#             appointment = Appointment.objects.filter(teknisi__nama_karyawan=request.session['nama_karyawan'])
+
+#             form = AppointmentSearchForm(request.GET)
+
+#             context = {
+#                 'appointment': appointment,
+#                 'username': request.session['username'],
+#                 'jabatan': request.session['jabatan'],
+#                 'initial': initial_inspection,
+#                 'final': final_inspection,
+#                 'appointment_initial_inspection': appointment_initial_inspection,
+#                 'appointment_final_inspection': appointment_final_inspection,
+#             }
+
+#             if form.is_valid():
+#                 search_query = form.cleaned_data.get('search_query')
+                
+#                 if search_query:
+#                     appointment = appointment.filter(pelanggan__nama_pelanggan__icontains=search_query) | appointment.filter(status__icontains=search_query)
+                    
+
+#             context = {
+#                 "form": form,
+#                 'appointment': appointment,
+#                 'username': request.session['username'],
+#                 'jabatan': request.session['jabatan'],
+#                 'initial': initial_inspection,
+#                 'final': final_inspection,
+#                 'appointment_initial_inspection': appointment_initial_inspection,
+#                 'appointment_final_inspection': appointment_final_inspection,
+#             }        
+
+#             return render(request, 'appointment-list.html', context)
+#         else:
+#             return HttpResponseRedirect ("/")
+#     else:
+#         return HttpResponseRedirect("/login")
     
 def teknisi_finished_appointment(request, id):
     if is_authenticated(request):
@@ -210,7 +302,7 @@ def update_appointment(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori':
             appointment = Appointment.objects.get(id=id)
-            finalTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir').exclude(appointment__teknisi__isnull=False, appointment__status='On going')
+            finalTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir').exclude(appointment__teknisi__isnull=False, appointment__status='On going').exclude(appointment__teknisi__isnull=False, appointment__status='Approved')
             response = {'appointment': appointment, 'username':request.session['username'], 'jabatan':request.session['jabatan'], 'listTeknisi': finalTeknisi}
             
             if request.method == 'POST':
@@ -235,18 +327,6 @@ def update_appointment(request, id):
             return HttpResponseRedirect ("/")
     else:
         return HttpResponseRedirect("/login")
-
-def delete_appointment(request, id):
-    if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi':
-            appointment_by_id = Appointment.objects.get(id=id)
-            appointment_by_id.delete()
-
-            return redirect('/list-appointment/')
-        else:
-            return HttpResponseRedirect ("/")
-    else:
-            return HttpResponseRedirect("/login")
     
 def possible_service(request, id):
     if is_authenticated(request):
@@ -461,12 +541,13 @@ def approve_appointment(request, id):
     else:
         return HttpResponseRedirect("/login")
     
-
 def delete_appointment(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi':
             appointment_by_id = Appointment.objects.get(id=id)
-            appointment_by_id.delete()
+
+            if (appointment_by_id.status == 'Not Ready' or appointment_by_id.status == 'Canceled'):
+                appointment_by_id.delete()
 
             return redirect('/list-appointment/')
         else:
@@ -669,6 +750,8 @@ def approve_appointment(request, id):
                 id_service = rows[j][1]
                 id_sparepart = rows[j][2]
                 kuantitas_sparepart = rows[j][3]
+                if (kuantitas_sparepart == None):
+                    kuantitas_sparepart = 0
                 sparepart = SparePart.objects.get(id=id_sparepart)
                 sparepart.stok -= kuantitas_sparepart
                 sparepart.save()

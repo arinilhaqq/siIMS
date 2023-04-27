@@ -55,6 +55,7 @@ def add_sparepart(request):
     if is_authenticated(request):
         if request.session['jabatan'] != 'Akuntan':
             context = {}
+            all_services = Service.objects.all()
 
             form = SparePartForm(request.POST or None)
             # queryset = form.fields['services'].queryset
@@ -69,6 +70,7 @@ def add_sparepart(request):
                 return redirect('/list-sparepart')
 
             context['form'] = form
+            context['listservices'] = all_services
             context['username'] = request.session['username']
             context['jabatan'] = request.session['jabatan']
             return render(request, 'create-spare-part.html', context)
@@ -110,12 +112,13 @@ def delete_sparepart(request, id):
 def update_sparepart(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] != 'Akuntan':
+            all_services = Service.objects.all()
             obj = get_object_or_404(SparePart, id=id)
             form = SparePartForm(request.POST or None, instance=obj)
             if form.is_valid():
                 form.save()
                 return redirect('/list-sparepart')
-            response = {'form': form, 'sparepart': obj, 'username': request.session['username'],
+            response = {'listservices': all_services, 'form': form, 'sparepart': obj, 'username': request.session['username'],
                         'jabatan': request.session['jabatan']}
             return render(request, "update-spare-part.html", response)
         else:

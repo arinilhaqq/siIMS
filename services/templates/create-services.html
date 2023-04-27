@@ -1,6 +1,9 @@
 {% extends 'main.html' %} {% load static %} {% block meta %}
 <title>Services | si-IMS</title>
 {% endblock meta %} {% block content %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <style>
       .required:after {
         content:" *";
@@ -39,21 +42,28 @@
             <br>
             <div class="form-group col-md-4">
                 <label>Satuan waktu:</label>
-                {{ form.satuan_waktu }}
+                <select class="form-select" name="satuan_waktu">
+                    <option selected>Satuan Waktu</option>
+                    <option value="Menit">Menit</option>
+                    <option value="Jam">Jam</option>
+                    <option value="Hari">Hari</option>
+                    <option value="Minggu">Minggu</option>
+                    <option value="Bulan">Bulan</option>
+                  </select>
+                <!-- {{ form.satuan_waktu }} -->
             </div>
             </div>
         </div>
         <br>
         <div class="form-group">
             <label>Kebutuhan Spare Parts:</label>
-                {{ form.kebutuhan_spare_parts }}
-        </div>
-        <div class="form-group">
-            <label>Kuantitas:</label>
-            {{ form.quantities }}
-                {{ form.kebutuhan_spare_part }}
-        </div>
-                {{ form.kebutuhan_spare_part }}
+            <select name="kebutuhan_spare_part" id="id_kebutuhan_spare_part" class="form-select-ini" multiple data-search="true">
+                {% for sparepart in listsparepart %}
+                <option value="{{ sparepart.id }}">{{ sparepart.nama }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- {{ form.kebutuhan_spare_part }} -->
         </div>
         <br>
         <div class="bs-example">
@@ -61,5 +71,15 @@
             <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
         </div>
     </form>
+    <script>
+        $(document).ready(function() {
+          $('.form-select-ini').select2({
+            width: '100%',
+            placeholder: 'Pilih Kebutuhan Spareparts',
+            closeOnSelect: false,
+            allowClear: true,
+          });
+        });
+    </script>
 
 {% endblock content %}

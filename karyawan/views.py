@@ -15,7 +15,7 @@ def create_karyawan(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] !='Service Advisor':
             form = KaryawanForm(request.POST or None)
-            context['form'] = form
+            
             if request.method == 'POST':
                 username_new = request.POST['username']
                 print(username_new)

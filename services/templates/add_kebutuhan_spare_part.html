@@ -15,26 +15,46 @@
 
 <form action="" method="POST">
   {% csrf_token %}
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th width="10">No.</th>
-                <th>Nama Spare Parts</th>
-            </tr>
-        </thead>
-        <tbody>
+  <div class="row">
+    <div class="col-md-6">
+    <table class="table">
+      <thead>
+        <tr>
+            <th width="10">No.</th>
+            <th>Nama Spare Parts</th>
+        </tr>
+    </thead>
+      <tbody>
+        {{ formset.management_form }}
         {% for n in nama_spare_part %}
         <tr>
-          <td>{{ forloop.counter }}.</td>
-          <td>{{ n }}</td>
+          <td style="line-height: 2.16em;">{{ forloop.counter }}.</td>
+          <td style="line-height: 2.16em;">{{ n }}</td>
+        {% endfor %}
         </tr>
-        {% endfor %}
-        </tbody>
+      </tbody>
     </table>
-    {{ formset.management_form }}
-        {% for form in formset %}
-        {{ form.as_p }}
-        {% endfor %}
+    </div>
+    <div class="col-md-6">
+      <table class="table">
+      <thead>
+          <tr>
+              <th>Kuantitas</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td>
+          {{ formset.management_form }}
+          {% for form in formset %}
+            {{ form.as_p }}
+          {% endfor %}
+        </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
     <br>
     <br>
   <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?')">Submit</button>

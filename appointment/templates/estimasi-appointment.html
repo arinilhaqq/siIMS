@@ -1,0 +1,47 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Appointment | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+  <h1 class="text-center">Estimasi Appointment</h1>
+  <p class="text-center">Estimasi pengerjaan dan harga pada appointment dengan ID {{ appointment.id }}</p>
+
+  <br>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Service</th>
+        <th>Estimasi Pengerjaan</th>
+        <th>Estimasi Harga</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% load humanize %}
+      <tr>
+        {% for service in services %}
+        <td>{{ forloop.counter }}.</td>
+        <td>{{ service.nama }}</td>
+        <td>{{ service.jumlah_estimasi_pengerjaan }} {{ service.satuan_waktu }}</td>
+        {% for key, value in total_harga_service.items %}
+        {% if service.id == key %}
+        <td>Rp {{ value|intcomma }}</td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="7">Tidak ada service.</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <p>Total Lama Pengerjaan: {{ total_lama }} </p>
+  <p>Total harga: Rp {{ total_harga|intcomma }}</p>
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    <a class="btn btn-danger" href="/cancel-appointment/{{ appointment.id }}" onclick="return confirm('Apakah Anda yakin untuk meng-cancel appointment ini?');">Cancel Appointment</a>
+    <a class="btn btn-primary" href="/approve-appointment/{{ appointment.id }}" onclick="return confirm('Apakah Anda yakin untuk meng-approve appointment ini?');">Approve Appointment</a>
+  </div>
+{% endblock content %}

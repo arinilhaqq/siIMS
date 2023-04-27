@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from .models import Service
+from sparepart.models import SparePart
 from .forms import ServiceForm, SparePartItemForm
 from django.forms import formset_factory
 from django.db import connection
@@ -15,10 +16,13 @@ def is_authenticated(request):
 def services_list(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
-            services = Service.objects.all().values()  
-            response = {'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+            services = Service.objects.all().values()
             
-
+            response = {
+                'services': services,
+                'username':request.session['username'],
+                'jabatan':request.session['jabatan']}
+            
             return render(request, 'list-services.html', response)
         else:
             return HttpResponseRedirect("/")
@@ -50,7 +54,7 @@ def detail_service(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
             service_by_id = Service.objects.get(id=id)
-
+            
             context = {}
             context['data'] = service_by_id
             context['username'] = request.session['username']

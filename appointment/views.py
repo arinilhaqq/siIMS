@@ -242,6 +242,7 @@ def list_service_appointment(request, id):
         sparepart_kuantitas = {}
 
         status_sparepart = {}
+        
 
         all_cukup = True
         
@@ -253,19 +254,24 @@ def list_service_appointment(request, id):
                 '"services_service_kebutuhan_spare_part"."service_id"=%s',
                 [service_id])
             rows = cursor.fetchall()
-            print(rows)
+            # print(rows)
             for j in range(len(rows)):
                 id_sparepart = rows[j][2]
                 kuantitas_sparepart = rows[j][3]
+
                 if kuantitas_sparepart == None:
                     kuantitas_sparepart = 0
+
                 spare_part_ids.append(rows[j][2])
                 sparepart_ybs = SparePart.objects.get(id=id_sparepart)
                 kuantitas_ybs = sparepart_ybs.stok
+                
                 if kuantitas_ybs >= kuantitas_sparepart:
-                    status_sparepart[service_id] = "Cukup"
+                    if (service_id not in status_sparepart or status_sparepart[service_id] != "Tidak Cukup"):
+                        status_sparepart[service_id] = "Cukup"
                 else:
                     status_sparepart[service_id] = "Tidak Cukup"
+                print(status_sparepart)
 
                 
         list_status = list(status_sparepart.values())
@@ -274,11 +280,11 @@ def list_service_appointment(request, id):
                 all_cukup = False
                 break
 
-        print(services)
-        print(service_ids)
-        print(spare_part_ids)
-        print(sparepart_kuantitas)
-        print(status_sparepart)
+        # print(services)
+        # print(service_ids)
+        # print(spare_part_ids)
+        # print(sparepart_kuantitas)
+        # print(status_sparepart)
 
         context = {
             'appointment': appointment,
@@ -403,6 +409,10 @@ def approve_appointment(request, id):
                 id_sparepart = rows[j][2]
                 kuantitas_sparepart = rows[j][3]
                 sparepart = SparePart.objects.get(id=id_sparepart)
+
+                if kuantitas_sparepart == None:
+                    kuantitas_sparepart = 0
+
                 sparepart.stok -= kuantitas_sparepart
                 sparepart.save()
 

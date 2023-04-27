@@ -23,5 +23,13 @@ class ServiceForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['kebutuhan_spare_part'].queryset = SparePart.objects.all()
 
-class SparePartItemForm(forms.Form):
-    quantity = forms.IntegerField()
+class ServiceSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False)
+
+URUTAN_CHOICES = (
+    ('Termahal', 'Termahal'),
+    ('Termurah', 'Termurah'),
+)
+
+class ServiceSortForm(forms.Form):
+    pilihan = forms.ChoiceField(choices=URUTAN_CHOICES, required=False)

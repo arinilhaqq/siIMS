@@ -16,3 +16,11 @@ class PelangganForm(forms.ModelForm):
 
 class PelangganSearchForm(forms.Form):
     search_query = forms.CharField(max_length=100, required=False)
+
+URUTAN_CHOICES = (
+    ('Terbaru', 'Terbaru'),
+    ('Terlama', 'Terlama'),
+)
+
+class PelangganSortForm(forms.Form):
+    pilihan = forms.ChoiceField(choices=URUTAN_CHOICES, required=False)

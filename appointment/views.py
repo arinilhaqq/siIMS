@@ -53,6 +53,19 @@ def create_appointment(request):
 
 def list_appointment(request):
     initial_inspection = InitialInspection.objects.all()
+    services = Service.objects.all().values()
+    service_ids = [item['id'] for item in services]
+    appoint_id_service = []
+
+    # for service_id in service_ids:
+    #     cursor = connection.cursor()
+    #     cursor.execute("SET search_path TO public")
+    #     cursor.execute(
+    #         'SELECT * FROM public."appointment_appointment_services"')
+    #     rows = cursor.fetchall()
+    #     for j in range(len(rows)):
+    #         id_appoint = rows[j][1]
+    #         appoint_id_service.append(id_appoint)
     
     if is_authenticated(request):
         if request.session['jabatan'] != 'Teknisi':
@@ -86,7 +99,9 @@ def list_appointment(request):
             context = {
                 "form": form,
                 'form_sort': form_sort,
+                'services': services,
                 'appointment': appointment,
+                'appoint_id_service':appoint_id_service,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
                 'initial': initial_inspection

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from .models import Service
-from .forms import ServiceForm, SparePartItemForm
+from .forms import ServiceForm, ServiceSearchForm, ServiceSortForm
 from django.forms import formset_factory
 from django.db import connection
 
@@ -15,8 +15,29 @@ def is_authenticated(request):
 def services_list(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
-            services = Service.objects.all().values()  
+            services = Service.objects.all().values() 
+
+            form = ServiceSearchForm(request.GET)
+            form_sort =ServiceSortForm(request.GET)
+
             response = {'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
+
+            if form.is_valid():
+                search_query = form.cleaned_data.get('search_query')
+                
+                if search_query:
+                    services = services.filter(nama__icontains=search_query)
+            
+            if form_sort.is_valid():
+                pilihan = form_sort.cleaned_data.get('pilihan')
+
+                if pilihan:
+                    if pilihan == 'Termahal':
+                        services = services.order_by("-harga")
+                    elif pilihan == 'Termurah':
+                        services = services.order_by("harga")
+
+            response = {'form':form, 'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
             return render(request, 'list-services.html', response)
         else:
             return HttpResponseRedirect("/")

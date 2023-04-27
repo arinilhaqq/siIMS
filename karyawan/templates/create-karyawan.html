@@ -7,6 +7,9 @@
       content:" *";
       color: red;
     }
+    .error {
+      color: red;
+    }
   </style>
 
   <h1 align="center">Add Karyawan</h1>
@@ -22,13 +25,9 @@
         <label class="required" for="id_username">Username: </label> 
         <input type="text" class="form-control" name="username" maxlength="30" id="id_username"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+      {% if error_uname %}
+          <div class="error" >{{ error_uname }}</div>
+      {% endif %}
       </div>
       <div class="form-group col-md-4">
         <label class="required" for="id_password">Password:</label> 

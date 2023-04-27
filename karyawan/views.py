@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Karyawan
-from .forms import KaryawanForm, KaryawanSearchForm
+from .forms import KaryawanForm, KaryawanSearchForm, KaryawanSortForm
 
 def is_authenticated(request):
     try:
@@ -20,13 +20,15 @@ def create_karyawan(request):
             context['jabatan'] = request.session['jabatan']
             form = KaryawanForm(request.POST or None)
             context['form'] = form
-            if (form.is_valid() and request.method == 'POST'):
-                username = request.POST['username']
-                if Karyawan.objects.filter(username=username).exists():
-                    messages.error(request, 'Username sudah dipakai')
+            if request.method == 'POST':
+                username_new = request.POST['username']
+                print(username_new)
+                if Karyawan.objects.filter(username=username_new).exists():
+                    context['error_uname']= "Username sudah dipakai"
                 else:
-                    form.save()
-                    return redirect('/list-karyawan/')
+                    if form.is_valid():
+                        form.save()
+                        return redirect('/list-karyawan/')
             return render(request, "create-karyawan.html", context)
         else:
             return HttpResponseRedirect("/")
@@ -39,6 +41,7 @@ def karyawan_list(request):
             karyawan = Karyawan.objects.all().values()
 
             form = KaryawanSearchForm(request.GET)
+            form_sort = KaryawanSortForm(request.GET)
 
             response = {'karyawan': karyawan, 'username':request.session['username'], 'jabatan':request.session['jabatan'], 'form': form}
             
@@ -47,9 +50,19 @@ def karyawan_list(request):
                 
                 if search_query:
                     karyawan = karyawan.filter(nama_karyawan__icontains=search_query) | karyawan.filter(jabatan__icontains=search_query)
+            
+            if form_sort.is_valid():
+                pilihan = form_sort.cleaned_data.get('pilihan')
+
+                if pilihan:
+                    if pilihan == 'Terbaru':
+                        karyawan = karyawan.order_by("-id")
+                    elif pilihan == 'Terlama':
+                        karyawan = karyawan.order_by("id")
                     
             response = {
                 "form": form,
+                'form_sort': form_sort,
                 "karyawan": karyawan,
                 'username':request.session['username'], 
                 'jabatan':request.session['jabatan']

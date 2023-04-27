@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from .models import SparePart
 from services.models import Service
-from .forms import SparePartForm
+from .forms import SparePartForm, SparepartSearchForm, SparepartSortForm
 # from django.core.paginator import Paginator
 
 def is_authenticated(request):
@@ -17,8 +17,33 @@ def sparepart_list(request):
         if request.session['jabatan'] != 'Akuntan':
             # sparepart = SparePart.objects.all().values()
             sparepart = SparePart.objects.prefetch_related('services').all()
+
+            form = SparepartSearchForm(request.GET)
+            form_sort = SparepartSortForm(request.GET)
+
             response = {'sparepart': sparepart, 'username': request.session['username'],
                         'jabatan': request.session['jabatan']}
+            
+
+            if form.is_valid():
+                search_query = form.cleaned_data.get('search_query')
+                print(search_query)
+                
+                if search_query:
+                    sparepart = sparepart.filter(nama__icontains=search_query) | sparepart.filter(variasi__icontains=search_query)
+            
+            if form_sort.is_valid():
+                pilihan = form_sort.cleaned_data.get('pilihan')
+
+                if pilihan:
+                    if pilihan == 'Terbanyak':
+                        sparepart = sparepart.order_by("-stok")
+                    elif pilihan == 'Terdikit':
+                        sparepart = sparepart.order_by("stok")
+
+            response = {'form':form, 'sparepart': sparepart, 'username': request.session['username'],
+                        'jabatan': request.session['jabatan']}
+            
             return render(request, 'list-spare-part.html', response)
         else:
             return HttpResponseRedirect("/")

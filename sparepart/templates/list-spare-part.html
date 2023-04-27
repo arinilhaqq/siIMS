@@ -7,6 +7,39 @@
 
   <br>
 
+  <form method='get' name="form_search">
+    <div class="row">
+      <div class="col-sm-7">
+      </div>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" name="search_query" maxlength="30" placeholder="Cari berdasarkan nama sparepart atau variasi">
+      </div>
+      <div class="col-sm-1">
+        <input type="submit" class="btn btn-warning" value='Search'/>
+      </div>
+    </div>
+  </form>
+
+  <br>
+  <form method='get' name="form_sort">
+    <div class="row">
+      <div class="col-sm-7">
+      </div>
+      <div class="col-sm-4">
+        <!-- {{ form_sort }} -->
+        <select class="form-select" name="pilihan">
+          <option selected>Urutkan Sparepart</option>
+          <option value="Terbanyak">Terbanyak</option>
+          <option value="Terdikit">Terdikit</option>
+        </select>
+      </div>
+      <div class="col-sm-1">
+        <input type="submit" class="btn btn-warning" value='Urutkan'/>
+      </div>
+    </div>
+  </form>
+  <br>
+
   <table class="table">
     <thead>
       <tr>

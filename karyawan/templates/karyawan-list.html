@@ -20,6 +20,23 @@
  
     </form>
     <br>
+    <form method='get' name="form_sort">
+      <div class="row">
+        <div class="col-sm-7">
+        </div>
+        <div class="col-sm-4">
+          <!-- {{ form_sort }} -->
+          <select class="form-select" name="pilihan">
+            <option selected>Urutkan Karyawan</option>
+            <option value="Terbaru">Terbaru</option>
+            <option value="Terlama">Terlama</option>
+          </select>
+        </div>
+        <div class="col-sm-1">
+          <input type="submit" class="btn btn-warning" value='Urutkan'/>
+        </div>
+      </div>
+    </form>
     <br>
 
     <table class="table table-hover">

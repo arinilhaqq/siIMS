@@ -7,6 +7,38 @@
 
   <br> 
 
+  <form method='get'>
+    <div class="row">
+      <div class="col-sm-7">
+      </div>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" name="search_query" maxlength="30" placeholder="Masukkan nama jenis service">
+      </div>
+      <div class="col-sm-1">
+        <input type="submit" class="btn btn-warning" value='Search'/>
+      </div>
+    </div>
+  </form>
+  <br>
+  <form method='get' name="form_sort">
+    <div class="row">
+      <div class="col-sm-7">
+      </div>
+      <div class="col-sm-4">
+        <!-- {{ form_sort }} -->
+        <select class="form-select" name="pilihan">
+          <option selected>Urutkan Service</option>
+          <option value="Termahal">Termahal</option>
+          <option value="Termurah">Termurah</option>
+        </select>
+      </div>
+      <div class="col-sm-1">
+        <input type="submit" class="btn btn-warning" value='Urutkan'/>
+      </div>
+    </div>
+  </form>
+  <br>
+
   <table class="table">
     <thead>
       <tr>

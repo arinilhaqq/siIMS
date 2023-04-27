@@ -15,7 +15,7 @@ def is_authenticated(request):
 def services_list(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
-            services = Service.objects.all().values()  
+            services = Service.objects.prefetch_related('kebutuhan_spare_part').all()
             response = {'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
             return render(request, 'list-services.html', response)
         else:

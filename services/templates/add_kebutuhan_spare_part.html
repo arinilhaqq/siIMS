@@ -22,20 +22,24 @@
         <tr>
             <th width="10">No.</th>
             <th>Nama Spare Parts</th>
+            <th>Kuantitas</th>
         </tr>
     </thead>
       <tbody>
         {{ formset.management_form }}
         {% for n in nama_spare_part %}
+        {% for form in formset %}
         <tr>
           <td style="line-height: 2.16em;">{{ forloop.counter }}.</td>
           <td style="line-height: 2.16em;">{{ n }}</td>
+          {{ form.as_p }}
+          {% endfor %}
         {% endfor %}
         </tr>
       </tbody>
     </table>
     </div>
-    <div class="col-md-6">
+    <!-- <div class="col-md-6">
       <table class="table">
       <thead>
           <tr>
@@ -53,7 +57,7 @@
         </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
   </div>
     <br>
     <br>

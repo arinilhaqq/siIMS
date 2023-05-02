@@ -156,8 +156,12 @@ def add_kebutuhan_spare_parts(request, id):
                 [id_service])
             rows = cursor.fetchall()
             spare_part_id = []
+            sparepart_id_kuantitas = {}
+            
             for j in range(len(rows)):
                 spare_part_id.append(rows[j][2])
+                sparepart_id_kuantitas[rows[j][2]] = rows[j][3]
+
 
             nama_spare_part = []
             for h in range(len(spare_part_id)):
@@ -187,7 +191,7 @@ def add_kebutuhan_spare_parts(request, id):
 
                 else:
                     formset = SparePartFormSet
-                    response = {'formset': formset, 'nama_spare_part': nama_spare_part, 'username': request.session['username'],
+                    response = {'sparepart_id_kuantitas': sparepart_id_kuantitas, 'formset': formset, 'nama_spare_part': nama_spare_part, 'username': request.session['username'],
                                 'jabatan': request.session['jabatan']}
                     return render(request, "add_kebutuhan_spare_part.html", response)
         else:

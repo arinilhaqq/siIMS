@@ -41,14 +41,20 @@
             <br>
             <div class="form-group col-md-4">
                 <label class="required">Satuan waktu:</label>
-                {{ form.satuan_waktu }}
+                <select class="form-select" name="satuan_waktu">
+                    <option {% if service.satuan_waktu == "Menit" %}selected{% endif %} value="Menit">Menit</option>
+                    <option {% if service.satuan_waktu == "Jam" %}selected{% endif %} value="Jam">Jam</option>
+                    <option {% if service.satuan_waktu == "Hari" %}selected{% endif %} value="Hari">Hari</option>
+                    <option {% if service.satuan_waktu == "Minggu" %}selected{% endif %} value="Minggu">Minggu</option>
+                    <option {% if service.satuan_waktu == "Bulan" %}selected{% endif %} value="Bulan">Bulan</option>
+                  </select>
             </div>
             </div>
         </div>
         <br>
         <div class="form-group">
             <label class="required">Kebutuhan Spare Parts:</label>
-            <select name="kebutuhan_spare_part" id="id_kebutuhan_spare_part" class="form-select" multiple data-search="true">
+            <select name="kebutuhan_spare_part" id="id_kebutuhan_spare_part" class="form-select-ini" multiple data-search="true">
                 {% for sparepart in listsparepart %}
                 <option value="{{ sparepart.id }}" {% if sparepart in service.kebutuhan_spare_part.all %}selected{% endif %}>{{ sparepart.nama }}</option>
                 {% endfor %}
@@ -67,7 +73,7 @@
     </form>
     <script>
         $(document).ready(function() {
-          $('.form-select').select2({
+          $('.form-select-ini').select2({
             width: '100%',
             placeholder: 'Pilih Kebutuhan Spareparts',
             closeOnSelect: false,

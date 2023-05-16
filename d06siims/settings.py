@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'initialinspection',
     'sparepart',
     'finalinspection',
+    'kendala',
+
 ]
 
 MIDDLEWARE = [
@@ -91,7 +93,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'd06propensis',
-        'HOST': 'db.uahmmrbloofthlojatbs.supabase.co',
+        # 'HOST': 'db.uahmmrbloofthlojatbs.supabase.co',
+        'HOST': 'db.psdzpdyijfczpfcmqvzz.supabase.co',
         'PORT': '5432',
     },
 

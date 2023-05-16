@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from initialinspection.models import InitialInspection
 from finalinspection.models import FinalInspection
 from sparepart.models import SparePart
-from appointment.models import Appointment
+from appointment.models import Appointment, AppointmentService
 from .models import Pelanggan, Karyawan, Service
 from .forms import AppointmentForm, AppointmentSearchForm, AppointmentSortForm
 from django.db import connection
@@ -242,8 +242,9 @@ def list_service_appointment(request, id):
         sparepart_kuantitas = {}
 
         status_sparepart = {}
-        
 
+        appointment_service = AppointmentService.objects.all()
+        
         all_cukup = True
         
         for service_id in service_ids:
@@ -280,17 +281,12 @@ def list_service_appointment(request, id):
                 all_cukup = False
                 break
 
-        # print(services)
-        # print(service_ids)
-        # print(spare_part_ids)
-        # print(sparepart_kuantitas)
-        # print(status_sparepart)
-
         context = {
             'appointment': appointment,
             'services': services,
-            'status_sparepart': status_sparepart,
-            'all_cukup': all_cukup,
+            # 'status_sparepart': status_sparepart,
+            # 'all_cukup': all_cukup,
+            'appointment_service': appointment_service,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
         }

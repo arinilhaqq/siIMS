@@ -1,0 +1,94 @@
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
+<title>Kendala | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
+  <h1 align="center">Add Kendala</h1>
+  <p align="center">Pengisian Kendala pada Service</p>
+  <!-- <p>{{ form.teknisi }}</p> -->
+  <br> 
+  <form method="post">
+    {% csrf_token %}
+    
+    <div class="row">
+      <!-- <div class=" col-md-6">
+        <div class="form-group">
+          <label class="required" for="pelanggan">Pelanggan</label>
+          <select name="pelanggan" id="id_pelanggan" class="form-control">
+            <option value="" selected>Pilih Pelanggan..</option>
+            {% for pelanggan in listPelanggan %}
+              <option  value="{{ pelanggan.id }}">{{ pelanggan.nomor_polisi }} {{ pelanggan.nama_mobil }} - {{ pelanggan.nama_pelanggan }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div> -->
+      <input type="hidden" name="appointment_service" id="appointment_service" value="{{ appointment_service }}">
+      <div class="form-group col-md-12">
+        <label class="required" for="id_deskripsi">Deskripsi:</label> 
+        <textarea name="deskripsi" class="form-control" cols="10" rows="5" id="id_deskripsi"
+        required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')"></textarea>
+      </div>
+
+      {% if listTeknisi %}
+        <div class=" col-md-6">
+          <div class="form-group">
+            <label for="teknisi">Teknisi</label>
+            <select name="teknisi" id="id_teknisi" class="form-control">
+              <option value="" selected>Pilih Teknisi..</option>
+              {% for teknisi in listTeknisi %}
+                <option value="{{ teknisi.id }}">{{ teknisi.nama_karyawan }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      {% else %}
+      <div class=" col-md-6">
+        <div class="form-group">
+          <label for="teknisi">Teknisi</label>
+          <p>Teknisi sedang tidak tersedia.</p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    </div>
+    <div class="row">
+    </div>
+    <br>
+    <div class="form-group col-md-12">
+      <label class="required" for="id_keluhan">Keluhan:</label> 
+      <textarea name="keluhan" class="form-control" cols="10" rows="5" id="id_keluhan"
+      required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')"></textarea>
+    </div>
+    <br>
+    <div class="bs-example">
+      <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Submit</button>
+      <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    </div>
+  </form>
+  <script>
+    const teknisiInput = document.getElementById('teknisi-input');
+    const teknisiIdInput = document.getElementById('teknisi-id');
+
+    teknisiInput.addEventListener('change', (event) => {
+      const selectedOption = document.querySelector(`#teknisilist option[value="${event.target.value}"]`);
+      const teknisiId = selectedOption.getAttribute('data-teknisi-id');
+      teknisiIdInput.value = teknisiId;
+    });
+  </script>
+  <script>
+    const pelangganInput = document.getElementById('pelanggan-input');
+    const pelangganIdInput = document.getElementById('pelanggan-id');
+
+    pelangganInput.addEventListener('change', (event) => {
+      const selectedOption = document.querySelector(`#pelangganlist option[value="${event.target.value}"]`);
+      const pelangganId = selectedOption.getAttribute('data-pelanggan-id');
+      pelangganIdInput.value = pelangganId;
+    });
+  </script>
+{% endblock %}

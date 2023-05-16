@@ -12,9 +12,9 @@ class SparePartForm(forms.ModelForm):
                   'stok',
                   'services'
                   ]
-        widgets = {
-            'services': forms.CheckboxSelectMultiple()
-        }
+        # widgets = {
+        #     'services': forms.CheckboxSelectMultiple()
+        # }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

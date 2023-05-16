@@ -57,7 +57,18 @@
           <th>Teknisi</th>
         {% endif %}
         <th>Aksi</th>
-        <th>Status</th>
+        <th>
+          Status
+          <span data-toggle="tooltip" data-placement="top" title="
+          - Not Ready: Belum ada teknisi yang di-assign
+          - On Going: Sudah ada teknisi yang di-assign
+          - Approved: Appointment setuju untuk dikerjakan
+          - Canceled: Appointment di-cancel pelanggan
+          - Finished: Appointment telah selesai dikerjakan dan diconfirm oleh teknisi untuk menuju final inspection
+          ">
+            <i class="fa fa-info-circle"></i>
+          </span>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -232,5 +243,12 @@
   <div class="bs-example">
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
   </div>
+
+  <script>
+      $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+      })
+  </script>
+
 {% endblock content %}
           

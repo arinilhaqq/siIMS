@@ -15,50 +15,26 @@
 
 <form action="" method="POST">
   {% csrf_token %}
-  <div class="row">
-    <div class="col-md-6">
-    <table class="table">
-      <thead>
-        <tr>
-            <th width="10">No.</th>
-            <th>Nama Spare Parts</th>
-            <th>Kuantitas</th>
-        </tr>
-    </thead>
-      <tbody>
-        {{ formset.management_form }}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th width="10">No.</th>
+                <th>Nama Spare Parts</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for n in nama_spare_part %}
-        {% for form in formset %}
         <tr>
-          <td style="line-height: 2.16em;">{{ forloop.counter }}.</td>
-          <td style="line-height: 2.16em;">{{ n }}</td>
-          {{ form.as_p }}
-          {% endfor %}
+          <td>{{ forloop.counter }}.</td>
+          <td>{{ n }}</td>
+        </tr>
         {% endfor %}
-        </tr>
-      </tbody>
-    </table>
-    </div>
-    <!-- <div class="col-md-6">
-      <table class="table">
-      <thead>
-          <tr>
-              <th>Kuantitas</th>
-          </tr>
-      </thead>
-      <tbody>
-        <tr>
-        <td>
-          {{ formset.management_form }}
-          {% for form in formset %}
-            {{ form.as_p }}
-          {% endfor %}
-        </td>
-        </tr>
         </tbody>
-      </table>
-    </div> -->
-  </div>
+    </table>
+    {{ formset.management_form }}
+        {% for form in formset %}
+        {{ form.as_p }}
+        {% endfor %}
     <br>
     <br>
   <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?')">Submit</button>

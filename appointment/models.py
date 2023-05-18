@@ -19,7 +19,7 @@ class Appointment(models.Model):
     time = models.TimeField()
     keluhan = models.TextField()
     status = models.TextField(default='Not Ready')
-    # services = models.ManyToManyField(Service, through='AppointmentService', related_name='appointments')
+    services = models.ManyToManyField(Service, through='AppointmentService', related_name='appointments')
 
     def __str__(self):
         return f"Appointment {self.id} - {self.pelanggan.nama} - {self.date}"

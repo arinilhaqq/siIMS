@@ -1,0 +1,115 @@
+{% extends 'main.html' %} {% load static %}
+{% block meta %}
+<title>Nota | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
+  <h1 align="center">Nota Jasa Bengkel</h1>
+  <!-- <p align="center">Laporan akhir kondisi kendaraan pelanggan PT Inter Motor Sport</p> -->
+
+  <br>
+<html>
+<head>
+    <style>
+        table {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            width: 400px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        th {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            text-align: left;
+        }
+
+        .receipt-header {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .receipt-info {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .receipt-info-left {
+            float: left;
+
+        }
+
+        .receipt-info-right {
+            float: right;
+
+        }
+
+        .receipt-divider {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            border-top: 1px solid black;
+            margin-bottom: 20px;
+        }
+        .receipt-total-label {
+
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .receipt-total-value {
+
+            text-align: left;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-info">
+        <div class="receipt-info-left">
+            <p>Nomor: {{ nomor }}</p>
+            <p>Nomor PKB: {{ nomor_pkb }}</p>
+            <p>Nomor Polisi: {{ nomor_polisi }}</p>
+        </div>
+        <div class="receipt-info-right">
+            <p>Tanggal: {{ tanggal }}</p>
+            <p>Kepada: {{ pelanggan }}</p>
+        </div>
+    </div>
+    <div class="receipt-divider"></div>
+    <table>
+        <tr>
+            <th>Rincian Upah/Jasa</th>
+            <th>Harga</th>
+        </tr>
+        {% for service in services %}
+        <tr>
+            <td>{{ service.name }}</td>
+            <td>{{ service.price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td class="receipt-total-label"><strong>Total Harga: </strong></td>
+            <td class="receipt-total-value">{{ total_price }}</td>
+        </tr>
+        </tr>
+    </table>
+</body>
+</html>
+{% endblock content %}

@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'sparepart',
     'finalinspection',
     'kendala',
-
+    'nota',
 ]
 
 MIDDLEWARE = [

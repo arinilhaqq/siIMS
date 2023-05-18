@@ -1,0 +1,164 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Services | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+  <h1 align="center">List Nota</h1>
+  <p align="center">List nota dari seluruh finished appointment di PT Inter Motor Sports</p>
+
+  <br>
+
+<!--  <form method='get'>-->
+<!--    <div class="row">-->
+<!--      <div class="col-sm-7">-->
+<!--      </div>-->
+<!--      <div class="col-sm-4">-->
+<!--        <input type="text" class="form-control" name="search_query" maxlength="30" placeholder="Masukkan nama jenis service">-->
+<!--      </div>-->
+<!--      <div class="col-sm-1">-->
+<!--        <input type="submit" class="btn btn-warning" value='Search'/>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--  <br>-->
+<!--  <form method='get' name="form_sort">-->
+<!--    <div class="row">-->
+<!--      <div class="col-sm-7">-->
+<!--      </div>-->
+<!--      <div class="col-sm-4">-->
+<!--        &lt;!&ndash; {{ form_sort }} &ndash;&gt;-->
+<!--        <select class="form-select" name="pilihan">-->
+<!--          <option selected>Urutkan Service</option>-->
+<!--          <option value="Termahal">Termahal</option>-->
+<!--          <option value="Termurah">Termurah</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="col-sm-1">-->
+<!--        <input type="submit" class="btn btn-warning" value='Urutkan'/>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--  <br>-->
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Pelanggan</th>
+        <th>ID Appointment</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% load humanize %}
+      <tr>
+        {% for a in appointment %}
+          <td>{{ forloop.counter }}.</td>
+          <td>{{ a.pelanggan.nomor_polisi }} {{ a.pelanggan.nama_mobil }} - {{ a.pelanggan.nama_pelanggan }}</td>
+          <td>{{ a.id }}</td>
+          <td>
+            <button type="button" class="btn btn-dark" onclick="#">
+            Nota Gabungan
+            </button>
+            <button type="button" class="btn btn-dark" onclick="callFunction()">
+            Nota Barang
+            </button>
+
+            <!--  belum berfungsi-->
+            <script>
+                function callFunction() {
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('GET', 'notabarang', true);
+                  xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    }
+                  };
+                xhr.send();
+                }
+            </script>
+
+            <button type="button" class="btn btn-dark" onclick="#">
+            Nota Jasa
+            </button>
+<!--            <div class="modal fade" id="Modal{{ s.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">-->
+<!--              <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                  <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="cardModalLabel">-->
+<!--                      Detail Jenis Service-->
+<!--                    </h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                  </div>-->
+<!--                  <div class="modal-body">-->
+<!--                    <div class="col-md-7 px-3">-->
+<!--                      <div class="card-block px-6">-->
+<!--                        <div class="card-body">-->
+<!--                          <h5 class="card-title">-->
+<!--                          </h5>-->
+<!--                          <p class="card-text text-left">-->
+<!--                          <div class="row">-->
+<!--                            <div class="form-group col-md-12">-->
+<!--                              <label>Nama Jenis Service:</label>-->
+<!--                              <p>{{ s.nama }}</p>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                          <br>-->
+<!--                          <div class="row">-->
+<!--                            <div class="form-group col-md-12">-->
+<!--                              <label>Harga:</label>-->
+<!--                                <p>Rp {{ s.harga|intcomma }}</p>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                          <br>-->
+<!--                          <div class="row">-->
+<!--                            <div class="form-group col-md-12">-->
+<!--                              <label>Jumlah Estimasi Pengerjaan:</label>-->
+<!--                              <p>{{ s.jumlah_estimasi_pengerjaan }}</p>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                            <br>-->
+<!--                          <div class="row">-->
+<!--                            <div class="form-group col-md-12">-->
+<!--                              <label>Satuan Waktu:</label>-->
+<!--                              <p>{{ s.satuan_waktu }}</p>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                            <br>-->
+<!--                          <div class="row">-->
+<!--                            <div class="form-group col-md-12">-->
+<!--                              <label>Kebutuhan Spare Part:</label>-->
+<!--                              <p>{% for sparepart in s.kebutuhan_spare_part.all %}-->
+<!--                                  <li>{{ sparepart.nama }} {{ sparepart.variasi }}</li>-->
+<!--                              {% endfor %}</p>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                       <br>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="modal-footer">-->
+<!--                    <a class="btn btn-warning" href="/update-services/{{ s.id }}">Update</a>-->
+<!--                    <a class="btn btn-danger" href="/delete-services/{{ s.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>-->
+<!--                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">-->
+<!--                      Kembali-->
+<!--                    </button>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+          </td>
+          <!-- <td><a href="{{ s.id }}"><button>Detail</button></a></td>
+          <td><a href="{{ s.id }}/delete"><button>Delete</button></a></td>
+          <td><a href="{{ s.id }}/update"><button>Update</button></a></td> -->
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+
+{% endblock content %}

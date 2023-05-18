@@ -95,13 +95,17 @@
     <div class="receipt-divider"></div>
     <table>
         <tr>
-            <th>Rincian Upah/Jasa</th>
+            <th>Nama Bahan</th>
+            <th>Banyak</th>
+            <th>Harga Satuan</th>
             <th>Harga</th>
         </tr>
-        {% for service in services %}
+        {% for b in barang %}
         <tr>
-            <td>{{ service.name }}</td>
-            <td>{{ service.price }}</td>
+            <td>{{ b.nama }}</td>
+            <td>{{ b.banyak }}</td>
+            <td>{{ b.harga_satuan }}</td>
+            <td>{{ b.harga_total }}</td>
         </tr>
         {% endfor %}
         <tr>
@@ -110,6 +114,19 @@
         </tr>
         </tr>
     </table>
+    <br>
+    <br>
+    <br>
+<!--    <div class="row">-->
+<!--        <div class="form-group col-md-4">-->
+<!--          <label for="id_petugas_gudang">Petugas Gudang:</label>-->
+<!--          <input type="checkbox" id="id_petugas_gudang" checked>-->
+<!--        </div>-->
+<!--        <div class="form-group col-md-4">-->
+<!--          <label for="id_petugas_bengkel">Petugas Bengkel:</label>-->
+<!--          <input type="checkbox" id="id_petugas_bengkel" checked>-->
+<!--        </div>-->
+<!--    </div>-->
 </body>
 </html>
 {% endblock content %}

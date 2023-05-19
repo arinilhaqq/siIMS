@@ -7,6 +7,7 @@ from appointment.models import Appointment, AppointmentService
 from .models import Pelanggan, Karyawan, Service
 from .forms import AppointmentForm, AppointmentSearchForm, AppointmentSortForm
 from django.db import connection
+from datetime import date
 
 def is_authenticated(request):
     try:
@@ -155,8 +156,7 @@ def list_appointment(request):
                 'final': final_inspection,
                 'appointment_initial_inspection': appointment_initial_inspection,
                 'appointment_final_inspection': appointment_final_inspection,
-            }        
-
+            }       
             return render(request, 'appointment-list.html', context)
         else:
             return HttpResponseRedirect ("/")

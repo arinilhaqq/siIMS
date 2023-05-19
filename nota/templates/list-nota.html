@@ -56,15 +56,15 @@
           <td>{{ a.pelanggan.nomor_polisi }} {{ a.pelanggan.nama_mobil }} - {{ a.pelanggan.nama_pelanggan }}</td>
           <td>{{ a.id }}</td>
           <td>
-            <button type="button" class="btn btn-dark" onclick="#">
+            <button type="button" class="btn btn-dark" href="/nota/notagabungan/{{ a.id }}">
             Nota Gabungan
             </button>
-            <button type="button" class="btn btn-dark" onclick="callFunction()">
+            <button type="button" class="btn btn-dark" href="/nota/notabarang/{{ a.id }}">
             Nota Barang
             </button>
 
             <!--  belum berfungsi-->
-            <script>
+            <!-- <script>
                 function callFunction() {
                   var xhr = new XMLHttpRequest();
                   xhr.open('GET', 'notabarang', true);
@@ -75,9 +75,9 @@
                   };
                 xhr.send();
                 }
-            </script>
+            </script> -->
 
-            <button type="button" class="btn btn-dark" onclick="#">
+            <button type="button" class="btn btn-dark" href="/nota/notajasa/{{ a.id }}">
             Nota Jasa
             </button>
 <!--            <div class="modal fade" id="Modal{{ s.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">-->

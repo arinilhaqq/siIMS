@@ -223,17 +223,14 @@ def barang_view(request, id):
 
     serpis = []
     sperpart = []
-    kuantitas = []
     harga_total_peritem = []
             
     for i in appointment.services.all():
         serpis.append(i)
         for c in i.kebutuhan_spare_part.all():
-            sperpart.append(c)
+            if c not in sperpart:
+                sperpart.append(c)
             tampung3[c.nama] = c.harga 
-            
-            # tampung1.append(c.nama)
-            # tampung2.append(c.nama)
 
     cursor = connection.cursor()
     cursor.execute("SET search_path TO public")           
@@ -243,28 +240,44 @@ def barang_view(request, id):
             '"services_service_kebutuhan_spare_part"."service_id"=%s',
             [serpis[i].id])
         rows = cursor.fetchall()
+        print(len(rows))
         for j in range(len(rows)):
-            if sperpart[j].nama in tampung1:
+            # print(len(rows))
+            # print(j)
+            # print(sperpart[j].nama)
+            if sperpart[j].nama in tampung1.keys():
                 angka = rows[j][3] + tampung1[sperpart[j].nama]
-                kuantitas.append(angka)
+                # kuantitas.append(angka)
+                # print(kuantitas)
                 tampung1[sperpart[j].nama] = angka
+                # print(sperpart[j].nama)
+                # print(tampung1)
+                # print ("--------------")
+                # print(sperpart)
             else:
-                kuantitas.append(rows[j][3])
+                # kuantitas.append(rows[j][3])
+                # print(kuantitas)
                 tampung1[sperpart[j].nama] = rows[j][3] #buat kuantitas
+                # print(tampung1)
+                # print(sperpart)
+                
 
     for k in range(len(sperpart)):
         if sperpart[k].nama in tampung2:
             total = tampung2[sperpart[k].nama]
-            total += sperpart[k].harga * kuantitas[k]
+            total += sperpart[k].harga * tampung1[sperpart[k].nama]
             harga_total_peritem.append(total)
         else:
-            tampung2[sperpart[k].nama] = sperpart[k].harga * kuantitas[k]
-            harga_total_peritem.append(sperpart[k].harga * kuantitas[k])
+            tampung2[sperpart[k].nama] = sperpart[k].harga * tampung1[sperpart[k].nama]
+            harga_total_peritem.append(sperpart[k].harga * tampung1[sperpart[k].nama])
 
-    print(kuantitas)
-    print(sperpart[k].harga) 
-    print(tampung1)
-    print(tampung2)                   
+    # print(kuantitas)
+    # print(sperpart[k].harga) 
+    # print(tampung1)
+    # print(sperpart)
+    # print(tampung2) 
+    # print(tampung3)
+    print(sperpart)                   
 
     context = {
         'nota_barang': nota_barang,
@@ -273,10 +286,10 @@ def barang_view(request, id):
         'nomor_polisi' : nomor_polisi,
         'tanggal' : tanggal,
         'sperpart': sperpart,
-        'kuantitas': kuantitas,
+        'serpis': serpis,
         'tampung1' : tampung1,
-        'tampung2' : tampung2
-        # 'harga_total_peritem': harga_total_peritem
+        'tampung2' : tampung2,
+        'tampung3' : tampung3
     }
 
     return render(request, 'notabarang.html', context)

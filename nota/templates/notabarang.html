@@ -100,29 +100,41 @@
             <th>Harga Satuan</th>
             <th>Harga</th>
         </tr>
-        <!-- {% for b in sperpart %} -->
-    <tr>
-      <!-- <td>{{ b.nama }} {{ b.variasi }}</td>
-      Add the for loops with proper syntax -->
-      {% for key, value in tampung1.items %}
-        <td>{{ key }}</td>
-      {% endfor %}
-      {% for key, value in tampung1.items %}
-        <td>{{ value }}</td>
-      {% endfor %}
-      {% for key, value in tampung3.items %}
-        <td>{{ value }}</td>
-      {% endfor %}
-      {% for key, value in tampung2.items %}
-        <td>{{ value }}</td>
-      {% endfor %}
-    </tr>
-    <!-- {% endfor %} -->
-    <tr>
+
+        <tr>
+            <td>
+                {% for s in sperpart %}
+                <tr>
+                <td>{{ s.nama }}</td>
+                </tr>
+                {% endfor %}
+            </td>
+            <td>
+                {% for key, value in tampung1.items %}
+                <tr>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </td>
+            <td>
+                {% for key, value in tampung3.items %}
+                <tr>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </td>
+            <td>
+                {% for key, value in tampung2.items %}
+                <tr>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </td>
+        </tr>
+        
         <tr>
             <td class="receipt-total-label"><strong>Total Harga: </strong></td>
             <td class="receipt-total-value">{{ nota_barang.total_harga_sparepart }}</td>
-        </tr>
         </tr>
     </table>
     <br>

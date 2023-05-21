@@ -414,6 +414,67 @@ def ceklis_notabarang(request, id):
             nota_gabungan = NotaGabungan.objects.get(id=id)
             nota_barang = nota_gabungan.nota_barang
             form = NotaBarangForms(request.POST or None, instance=nota_barang)
+            appointment = nota_gabungan.appointment
+            pelanggan = appointment.pelanggan.nama_pelanggan
+            nomor_pkb = appointment.pelanggan.nomor_pkb
+            nomor_polisi = appointment.pelanggan.nomor_polisi
+            tanggal = nota_gabungan.tanggal
+            id_oper = id
+
+            tampung1 = {} #kuantitas
+            tampung2 = {} #harga total per sparepart
+            tampung3 = {} #harga satuan
+            
+
+            serpis = []
+            sperpart = []
+            harga_total_peritem = []
+                    
+            for i in appointment.services.all():
+                serpis.append(i)
+                for c in i.kebutuhan_spare_part.all():
+                    if c not in sperpart:
+                        sperpart.append(c)
+                    tampung3[c.nama] = c.harga 
+
+            cursor = connection.cursor()
+            cursor.execute("SET search_path TO public")           
+            for i in range(len(serpis)):
+                cursor.execute(
+                    'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+                    '"services_service_kebutuhan_spare_part"."service_id"=%s',
+                    [serpis[i].id])
+                rows = cursor.fetchall()
+                print(len(rows))
+                for j in range(len(rows)):
+                    # print(len(rows))
+                    # print(j)
+                    # print(sperpart[j].nama)
+                    if sperpart[j].nama in tampung1.keys():
+                        angka = rows[j][3] + tampung1[sperpart[j].nama]
+                        # kuantitas.append(angka)
+                        # print(kuantitas)
+                        tampung1[sperpart[j].nama] = angka
+                        # print(sperpart[j].nama)
+                        # print(tampung1)
+                        # print ("--------------")
+                        # print(sperpart)
+                    else:
+                        # kuantitas.append(rows[j][3])
+                        # print(kuantitas)
+                        tampung1[sperpart[j].nama] = rows[j][3] #buat kuantitas
+                        # print(tampung1)
+                        # print(sperpart)
+                        
+
+            for k in range(len(sperpart)):
+                if sperpart[k].nama in tampung2:
+                    total = tampung2[sperpart[k].nama]
+                    total += sperpart[k].harga * tampung1[sperpart[k].nama]
+                    harga_total_peritem.append(total)
+                else:
+                    tampung2[sperpart[k].nama] = sperpart[k].harga * tampung1[sperpart[k].nama]
+                    harga_total_peritem.append(sperpart[k].harga * tampung1[sperpart[k].nama])
 
             if form.is_valid():
                 form.save()
@@ -424,7 +485,17 @@ def ceklis_notabarang(request, id):
                 'form': form,
                 'nota_barang': nota_barang,
                 'username':request.session['username'],               
-                'jabatan':request.session['jabatan']
+                'jabatan':request.session['jabatan'],
+                'nota_barang': nota_barang,
+                'pelanggan' : pelanggan,
+                'nomor_pkb' : nomor_pkb,
+                'nomor_polisi' : nomor_polisi,
+                'tanggal' : tanggal,
+                'sperpart': sperpart,
+                'serpis': serpis,
+                'tampung1' : tampung1,
+                'tampung2' : tampung2,
+                'tampung3' : tampung3,
             }
 
             return render(request, "ceklis-notabarang.html", response)

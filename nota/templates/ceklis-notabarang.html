@@ -165,46 +165,48 @@
     </table>
     <br>
     <br>
-    <div class="form-group col-md-3">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="receipt-info">
+    <div class="receipt-info-left">
         <p><strong>Petugas Gudang:</strong></p>
         <!-- <label for="id_petugas_gudang">Service Advisor</label> -->
         {% if jabatan != 'Inventori' and jabatan != 'Admin'%}
-          {% if nota_barang.id_petugas_gudang %}
-            <input type="checkbox" name="id_petugas_gudang" value="id_petugas_gudang" id="id_petugas_gudang" disabled checked>
-            <input type="hidden" name="id_petugas_gudang" id="id_petugas_gudang" value="id_petugas_gudang">
+          {% if nota_barang.petugas_gudang %}
+            <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled checked>
+            <input type="hidden" name="petugas_gudang" id="petugas_gudang" value="petugas_gudang">
           {% else %}
-            <input type="checkbox" name="id_petugas_gudang" value="id_petugas_gudang" id="id_petugas_gudang" disabled>
+            <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled>
           {% endif %}
         {% else %}
-          {% if nota_barang.id_petugas_gudang %}
-            <input type="checkbox" name="id_petugas_gudang" value="id_petugas_gudang" id="id_petugas_gudang" checked>
+          {% if nota_barang.petugas_gudang %}
+            <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" checked>
           {% else %}
-            <input type="checkbox" name="id_petugas_gudang" value="id_petugas_gudang" id="id_petugas_gudang">
+            <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang">
           {% endif %}
         {% endif %}
       </div>
       <br>
       <br>
-      <form action="" method="POST">
-        {% csrf_token %}
-      <div class="form-group col-md-2">
+      <div class="receipt-info-left">
         <p><strong>Petugas Bengkel:</strong></p>
         <!-- <label for="id_petugas_bengkel">Service Advisor</label> -->
         {% if jabatan != 'Teknisi' and jabatan != 'Admin' %}
-         {% if nota_barang.id_petugas_bengkel %}
-            <input type="id_petugas_bengkel" name="id_petugas_bengkel" value="id_petugas_bengkel" id="id_petugas_bengkel" disabled checked>
-            <input type="hidden" name="id_petugas_bengkel" value="id_petugas_bengkel" id="id_petugas_bengkel">
+         {% if nota_barang.petugas_bengkel %}
+            <input type="petugas_gudang" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled checked>
+            <input type="hidden" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel">
           {% else %}
-          <input type="checkbox" name="id_petugas_bengkel" value="id_petugas_bengkel" id="id_petugas_bengkel"disabled>
+          <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel"disabled>
           {% endif %}
         {% else %}
-          {% if nota_barang.id_petugas_bengkel %}
-            <input type="checkbox" name="id_petugas_bengkel" value="id_petugas_bengkel" id="id_petugas_bengkel" checked>
+          {% if nota_barang.petugas_bengkel %}
+            <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" checked>
           {% else %}
-            <input type="checkbox" name="id_petugas_bengkel" value="id_petugas_bengkel" id="id_petugas_bengkel">
+            <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel">
           {% endif %}
         {% endif %}
       </div>
+    </div>
       <br>
     <br>
     <div class="bs-example">

@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
+from initialinspection.models import InitialInspection
+
 from .models import FinalInspection, Appointment
 from .forms import FinalInspectionForm
 
@@ -14,6 +16,8 @@ def is_authenticated(request):
 def create_final_inspection(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor':
+            appointment = Appointment.objects.get(id=id)
+            initial_inspection=InitialInspection.objects.get(appointment=id)
             if request.method == 'POST':
                 form = FinalInspectionForm(request.POST)
 
@@ -27,7 +31,8 @@ def create_final_inspection(request, id):
 
             context = {
                 'form': form,
-                'appointment': Appointment.objects.get(id=id),
+                'intial_inspection': initial_inspection,
+                'appointment': appointment,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
             }

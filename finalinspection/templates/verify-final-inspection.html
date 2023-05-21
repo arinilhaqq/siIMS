@@ -22,6 +22,36 @@
     #ringring {
       background-color: green;
     } */
+            /* Define custom styles for the checkboxes */
+            .custom-checkbox input[type="checkbox"] {
+        display: none;
+    }
+
+    /* Style the custom checkboxes */
+    .custom-checkbox label {
+        display: inline-block;
+        position: relative;
+        padding-left: 25px;
+        cursor: pointer;
+    }
+
+    /* Customize the appearance of the custom checkboxes */
+    .custom-checkbox label:before {
+        content: "";
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+        margin-right: 10px;
+        position: absolute;
+        left: 0;
+        top: 1px;
+    }
+
+    /* Style the custom checkboxes when checked */
+    .custom-checkbox input[type="checkbox"]:checked + label:before {
+        background-color: green; /* Change the color here */
+    }
 
   </style>
   <h1 class="text-center">Final Inspection</h1>
@@ -479,10 +509,13 @@
       <p><strong>Diperiksa:</strong></p>
       <label for="checked">Teknisi Final Inspector</label>
       {% if jabatan != 'Teknisi' and jabatan != 'Admin' %}
-        {% if inspection.checked %}
-          <input type="checkbox" name="checked" value="checked" id="checked" disabled checked>
+      <div class="custom-checkbox">
+          <input type="checkbox" name="checked" value="checked" id="checked" disabled {% if inspection.checked %}checked{% endif %}>
+          <label for="checked"></label>
+      </div>
+      {% if inspection.checked %}
           <input type="hidden" name="checked" id="checked" value="checked">
-        {% else %}
+          {% else %}
           <input type="checkbox" name="checked" value="checked" id="checked" disabled>
         {% endif %}
       {% else %}
@@ -499,8 +532,11 @@
       <p><strong>Disetujui:</strong></p>
       <label for="approved">Service Advisor</label>
       {% if jabatan != 'Service Advisor' and jabatan != 'Admin' %}
-       {% if inspection.approved %}
-          <input type="checkbox" name="approved" value="approved" id="approved" disabled checked>
+      <div class="custom-checkbox">
+          <input type="checkbox" name="approved" value="approved" id="approved" disabled {% if inspection.approved %}checked{% endif %}>
+          <label for="approved"></label>
+      </div>
+      {% if inspection.approved %}
           <input type="hidden" name="approved" value="approved" id="approved">
         {% else %}
         <input type="checkbox" name="approved" value="approved" id="approved"disabled>

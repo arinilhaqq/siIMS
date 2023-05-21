@@ -50,8 +50,8 @@
           margin-right: auto;
         }
 
-        input:read-only {
-            background-color: rgb(236, 236, 236);
+        input[readonly] {
+        background-color: rgb(236, 236, 236);
         }
 
         .bs-example{
@@ -174,7 +174,7 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{username}}</a>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a href="#" class="dropdown-item">Reports</a>
+                            <a href="/dashboard" class="dropdown-item">Dashboard</a>
                             <a href="/change-password" class="dropdown-item">Change Password</a>
                             <div class="dropdown-divider"></div>
                             <a href="/logout/" class="dropdown-item">Logout</a>

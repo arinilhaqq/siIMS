@@ -94,22 +94,35 @@
     </div>
     <div class="receipt-divider"></div>
     <table>
-        <tr>
-            <th>Rincian Upah/Jasa</th>
-            <th>Harga</th>
-        </tr>
-        {% for service in services %}
-        <tr>
-            <td>{{ service.nama }}</td>
-            <td>{{ service.harga }}</td>
-        </tr>
-        {% endfor %}
+        <thead>
+            <tr>
+                <th>Rincian Upah/Jasa</th>
+                <th>Harga</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% load humanize %}
+            {% for service in services %}
+            <tr>
+                <td>{{ service.nama }}</td>
+                <td>Rp {{ service.harga|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
         <tr>
             <td class="receipt-total-label"><strong>Total Harga: </strong></td>
-            <td class="receipt-total-value">{{ nota_jasa.total_harga_service }}</td>
+            <td class="receipt-total-value">Rp {{ nota_jasa.total_harga_service|intcomma }}</td>
         </tr>
         </tr>
     </table>
+    <br>
+    <div class="receipt-info">
+        <div class="receipt-info-left">
+            <div class="bs-example">
+                <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+            </div>
+        </div>
+    </div> 
 </body>
 </html>
 {% endblock content %}

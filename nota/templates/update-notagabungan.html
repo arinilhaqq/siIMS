@@ -84,8 +84,8 @@
     <div class="receipt-divider"></div>
     <div class="receipt-info">
         <div class="receipt-info-left">
-            <p>Nomor: {{ nomor_gabungan }}</p>
-            <p>Tanggal: {{ tanggal }}</p>
+            <p>Nomor: {{ nota_gabungan.nomor_gabungan }}</p>
+            <p>Tanggal: {{ nota_gabungan.tanggal }}</p>
         </div>
     </div>
     <div class="receipt-divider"></div>
@@ -104,48 +104,39 @@
         {% load humanize %}
         <tr>
             <th>Nota Jasa No.</th>
-            <td>{{Nomor_nota_jasa}}</td>
-            <td>Rp {{total_harga_service|intcomma}}</td>
+            <td>{{nota_gabungan.nota_jasa.nomor_jasa}}</td>
+            <td>Rp {{nota_gabungan.nota_jasa.total_harga_service|intcomma}}</td>
         </tr>
         <tr>
             <th>Nota Suku Cadang No.</th>
-            <td>{{Nomor_nota_barang}}</td>
-            <th>Rp {{total_harga_sparepart|intcomma}}</th>
+            <td>{{nota_gabungan.nota_barang.nomor_barang}}</td>
+            <th>Rp {{nota_gabungan.nota_barang.total_harga_sparepart|intcomma}}</th>
         </tr>
         <tr>
+            <form action="" method="POST">
+                {% csrf_token %}
             <th>Lain-Lain</th>
-            {% if keterangan_lain_lain %}
-                <td>{{keterangan_lain_lain}}</td>
-            {%else%}
-            <td> </td>
-            {%endif%}
-            {% if total_harga_lainlain %}
-                <th>Rp {{total_harga_lainlain|intcomma}}</th>
-            {%else%}
-            <td> </td>
-            {%endif%}
-        </tr>
-        <tr>
-            <td class="receipt-total-label"><strong>Total Harga: </strong></td>
-            <td class="receipt-total-value">Rp {{ total_harga_gabungan|intcomma }}</td>
+            <td>
+                <input type="text" name="keterangan_lain_lain" value="{{ nota_gabungan.keterangan_lain_lain }}" required id="keterangan_lain_lain">
+            </td>
+                <td>
+                <input type="number" name="total_harga_lainlain" value="{{ nota_gabungan.total_harga_lainlain }}" maxlength="30" required id="total_harga_lainlain">
+            </td>
         </tr>
         </tr>
     </table>
     <br>
-    <div class="receipt-info">
-        <div class="receipt-info-left">
-            <tr>Terbilang: {{harga_terbilang}}</tr>
-        </div>
-    </div>  
+
     <br>
     <div class="receipt-info">
         <div class="receipt-info-left">
             <div class="bs-example">
                 <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
-                <a class="btn btn-outline-primary" href="update-notagabungan/{{id_oper}}">Edit</a>
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Submit</button>
             </div>
         </div>
     </div> 
+</form>
     <br> 
     <br>
     <br>

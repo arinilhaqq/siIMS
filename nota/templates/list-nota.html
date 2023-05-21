@@ -56,30 +56,15 @@
           <td>{{ a.pelanggan.nomor_polisi }} {{ a.pelanggan.nama_mobil }} - {{ a.pelanggan.nama_pelanggan }}</td>
           <td>{{ a.id }}</td>
           <td>
-            <button type="button" class="btn btn-dark" href="/nota/notagabungan/{{ a.id }}">
-            Nota Gabungan
-            </button>
-            <button type="button" class="btn btn-dark" href="/nota/notabarang/{{ a.id }}">
-            Nota Barang
-            </button>
+            {% for key, value in id_appointment_nota.items %}
+              {% if a.id == key %}
+                <a class="btn btn-dark" href="/nota/notagabungan/{{ value }}">Nota Gabungan</a>
+                <a class="btn btn-dark" href="/nota/notabarang/{{ value }}">Nota Barang</a>
+                <a class="btn btn-dark" href="/nota/notajasa/{{ value }}">Nota Jasa</a>
+              {% endif %}
+            {% endfor %}
 
-            <!--  belum berfungsi-->
-            <!-- <script>
-                function callFunction() {
-                  var xhr = new XMLHttpRequest();
-                  xhr.open('GET', 'notabarang', true);
-                  xhr.onreadystatechange = function () {
-                  if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(xhr.responseText);
-                    }
-                  };
-                xhr.send();
-                }
-            </script> -->
-
-            <button type="button" class="btn btn-dark" href="/nota/notajasa/{{ a.id }}">
-            Nota Jasa
-            </button>
+            
 <!--            <div class="modal fade" id="Modal{{ s.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">-->
 <!--              <div class="modal-dialog">-->
 <!--                <div class="modal-content">-->

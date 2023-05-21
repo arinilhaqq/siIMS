@@ -14,7 +14,7 @@ class NotaGabungan(models.Model):
     nomor_gabungan = models.IntegerField()
     tanggal = models.DateField()
     appointment = models.OneToOneField('appointment.Appointment', on_delete=models.CASCADE)
-    keterangan_lain_lain = models.CharField(max_length=70, null=True)
+    keterangan_lain_lain = models.TextField(null=True)
     nota_barang = models.ForeignKey(NotaBarang, on_delete=models.CASCADE)
     nota_jasa = models.ForeignKey(NotaJasa, on_delete=models.CASCADE)
     total_harga_service = models.IntegerField()

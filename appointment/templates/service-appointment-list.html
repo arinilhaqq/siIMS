@@ -13,7 +13,21 @@
         <th>No.</th>
         <th>Service</th>
         <th>Status Sparepart</th>
-        <th>Kendala</th>
+        {% if appointment.status == "Approved" %}
+          <th>Kendala</th>
+        
+        {% elif appointment.status == "Finished"  %}
+          {% for sa in service_appointment %}
+          {% for k in kendala %}
+            {% if sa.appointment_id == appointment.id %}
+              {% if sa.id == k.appointment_service_id %}
+                <th>Kendala</th>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% endfor %}
+        {% endif %}
+        
       </tr>
     </thead>
     <tbody>
@@ -22,16 +36,39 @@
           <td>{{ forloop.counter }}.</td>
           <td>{{ service.nama }}</td>
 
-          <!-- {% for key, value in status_sparepart.items %}
+          {% for key, value in status_sparepart.items %}
 
             {% if service.id == key %}
             <td>{{ value }}</td>
             {% endif %}
             
-          {% endfor %} -->
+          {% endfor %}
           <td>
-            <a class="btn btn-primary" href="/create-kendala/{{ service.id }}">Confirm</a>
+
+
+
+
+              {% for sa in service_appointment %}
+              {% if sa.appointment_id == appointment.id and sa.service_id == service.id %}
+                {% with found_kendala=False %}
+                  {% for k in kendala %}
+                    {% if sa.id == k.appointment_service_id %}
+                      {% with found_kendala=True %}
+                        <a class="btn btn-success" href="/detail-kendala/{{ k.id }}">Kendala detail</a>
+                      {% endwith %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if not found_kendala %}
+                    <a class="btn btn-primary" href="/create-kendala/{{ sa.id }}">Create Kendala</a>
+                  {% endif %}
+                {% endwith %}
+              {% endif %}
+            {% endfor %}
+          
+          
+
           </td>
+
       </tr>
     {% empty %}
       <tr>

@@ -12,7 +12,15 @@
       <tr>
         <th>No.</th>
         <th>Service</th>
-        <th>Estimasi Pengerjaan</th>
+        <th>
+          Estimasi Pengerjaan
+          <span data-toggle="tooltip" data-placement="top" title="
+          Jika service mengalami kendala, waktu pengerjaan akan bertambah dan ditampilkan sebagai berikut:
+          Waktu pengerjaan awal + waktu pengerjaan kendala
+          ">
+            <i class="fa fa-info-circle"></i>
+          </span>
+        </th>
         <th>Estimasi Harga</th>
       </tr>
     </thead>
@@ -22,7 +30,18 @@
         {% for service in services %}
         <td>{{ forloop.counter }}.</td>
         <td>{{ service.nama }}</td>
+
+        {% if service.id in list_service_app_kend %}
+        {% for key, value in kendala_app.items %}
+          {% if key == service.id %}
+            <td>{{ service.jumlah_estimasi_pengerjaan }} {{ service.satuan_waktu }} + {{ value.jumlah_estimasi_pengerjaan }} {{ value.satuan_waktu }}</td>
+          {% endif %}
+        {% endfor %}
+        {% else %}
         <td>{{ service.jumlah_estimasi_pengerjaan }} {{ service.satuan_waktu }}</td>
+        {% endif %}
+
+
         {% for key, value in total_harga_service.items %}
         {% if service.id == key %}
         <td>Rp {{ value|intcomma }}</td>

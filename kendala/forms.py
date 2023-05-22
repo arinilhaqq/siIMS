@@ -6,10 +6,4 @@ class KendalaForm(forms.ModelForm):
         model = Kendala
     class Meta:
         model = Kendala
-        fields = ['appointment_service',
-                  'deskripsi',
-                  'status',
-                  'service',
-                  'jumlah_estimasi_pengerjaan',
-                  'satuan_waktu',
-                  ]
+        fields = '__all__'

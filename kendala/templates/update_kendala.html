@@ -1,0 +1,71 @@
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
+<title>Kendala | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+
+  <h1 align="center">Update Kendala</h1>
+  <p align="center">Perbarui Informasi Kendala pada Service</p>
+
+  <br> 
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="row g-3">
+        <input type="hidden" name="appointment_service" value="{{ appointment_service }}">
+        <div class="col">
+          <label class="required" for="id_deskripsi">Deskripsi:</label> 
+          <!-- <textarea name="deskripsi" class="form-control" cols="10" rows="5" id="id_deskripsi"
+          required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">{{ kendala.deskripsi }}</textarea>   -->
+          <textarea name="deskripsi" class="form-control" cols="10" rows="5" id="id_deskripsi"></textarea>
+        </div>
+        <div class="col">
+          <div class="row">
+            <label for="id_status">Status:</label> 
+            <select class="form-select" name="status">
+                <option selected>Status</option>
+                <option {% if kendala.status == "Unsolved" %}selected{% endif %} value="Unsolved">Unsolved</option>
+                <option {% if kendala.status == "Solved" %}selected{% endif %} value="Solved">Solved</option>
+            </select>
+
+      </div>
+          <br>
+          <div class="row">
+            <div class="col">
+                <label for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
+                <input type="text" value="{{ kendala.jumlah_estimasi_pengerjaan }}" class="form-control" name="jumlah_estimasi_pengerjaan" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
+                oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
+            </div>
+            <div class="col">
+                <label>Satuan Waktu:</label>
+                <select class="form-select" name="satuan_waktu">
+                  <option {% if kendala.satuan_waktu == "Menit" %}selected{% endif %} value="Menit">Menit</option>
+                  <option {% if kendala.satuan_waktu == "Jam" %}selected{% endif %} value="Jam">Jam</option>
+                  <option {% if kendala.satuan_waktu == "Hari" %}selected{% endif %} value="Hari">Hari</option>
+                  <option {% if kendala.satuan_waktu == "Minggu" %}selected{% endif %} value="Minggu">Minggu</option>
+                  <option {% if kendala.satuan_waktu == "Bulan" %}selected{% endif %} value="Bulan">Bulan</option>
+                  </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="bs-example">
+        <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Submit</button>
+        <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+      </div>
+  </form>
+
+  <!-- <script>
+    var id_deskripsi = document.getElementById("id_deskripsi").value = "{{ kendala.deskripsi }}";
+  </script>  -->
+<script>
+  var id_deskripsi = document.getElementById("id_deskripsi");
+  id_deskripsi.value = "{{ kendala.deskripsi }}";
+</script>
+{% endblock %}

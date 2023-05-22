@@ -143,12 +143,18 @@
             <div class="bs-example">
                 <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
                 <a class="btn btn-outline-primary" href="update-notagabungan/{{id_oper}}">Edit</a>
+                <!-- <button class="btn btn-outline-primary" onclick="printPdf()">Cetak PDF</button> -->
             </div>
         </div>
     </div> 
     <br> 
     <br>
     <br>
+    <!-- <script>
+        function printPdf() {
+          window.open("{% url 'print_pdf' id_oper %}", "_blank");
+        }
+      </script> -->
 </body>
 </html>
 {% endblock content %}

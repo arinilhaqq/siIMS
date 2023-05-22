@@ -6,6 +6,10 @@ from .models import NotaBarang, NotaGabungan, NotaJasa
 from datetime import date
 from django.db import connection
 from num2words import num2words
+# from django.http import HttpResponse
+# from django.template.loader import get_template
+# from django.conf import settings
+# from weasyprint import HTML
 
 def is_authenticated(request):
     try:
@@ -502,4 +506,160 @@ def ceklis_notabarang(request, id):
         else:
             return HttpResponseRedirect("/")
     else:
+        return HttpResponseRedirect("/login")
+    
+# def print_pdf(request, id):
+#     if is_authenticated(request):
+#         if request.session['jabatan'] == 'Akuntan' or request.session['jabatan'] == 'Admin' or request.session['jabatan'] == 'Service Advisor':
+#             # Retrieve the HTML templates
+#             template_gabungan = get_template('notagabungan.html')
+#             template_barang = get_template('notabarang.html')
+#             template_jasa = get_template('notajasa.html')
+
+#             nota_gabungan = NotaGabungan.objects.get(id=id)
+#             id_oper = id
+#             nota_jasa = nota_gabungan.nota_jasa
+#             nota_barang = nota_gabungan.nota_barang
+#             appointment = nota_gabungan.appointment
+#             pelanggan = appointment.pelanggan.nama_pelanggan
+#             nomor_pkb = appointment.pelanggan.nomor_pkb
+#             nomor_polisi = appointment.pelanggan.nomor_polisi
+#             tanggal = nota_gabungan.tanggal
+#             total_harga_gabungan = nota_gabungan.total_harga_gabungan
+#             total_harga_sparepart = nota_gabungan.total_harga_sparepart
+#             total_harga_service = nota_gabungan.total_harga_service
+#             total_harga_lainlain = nota_gabungan.total_harga_lainlain
+#             keterangan_lain_lain = nota_gabungan.keterangan_lain_lain
+#             jenis = appointment.pelanggan.jenis_mobil
+#             harga_terbilang = num2words(total_harga_gabungan, lang='id')
+
+
+#             context_gabungan = {
+#                 'Nomor_nota_jasa': nota_jasa.nomor_jasa,
+#                 'Nomor_nota_barang': nota_barang.nomor_barang,
+#                 'keterangan_lain_lain' : keterangan_lain_lain,
+#                 'total_harga_sparepart' : total_harga_sparepart,
+#                 'total_harga_service' : total_harga_service,
+#                 'total_harga_lainlain' : total_harga_lainlain,
+#                 'nomor_gabungan': nota_gabungan.nomor_gabungan,
+#                 'total_harga_gabungan' : total_harga_gabungan,
+#                 'harga_terbilang' : harga_terbilang,
+#                 'pelanggan' : pelanggan,
+#                 'nomor_pkb' : nomor_pkb,
+#                 'nomor_polisi' : nomor_polisi,
+#                 'tanggal' : tanggal,
+#                 'jenis': jenis,
+#                 'id_oper': id_oper
+#             }
+#             rendered_gabungan = template_gabungan.render(context_gabungan)
+
+#             tampung1 = {} #kuantitas
+#             tampung2 = {} #harga total per sparepart
+#             tampung3 = {} #harga satuan
+            
+
+#             serpis = []
+#             sperpart = []
+#             harga_total_peritem = []
+                    
+#             for i in appointment.services.all():
+#                 serpis.append(i)
+#                 for c in i.kebutuhan_spare_part.all():
+#                     if c not in sperpart:
+#                         sperpart.append(c)
+#                     tampung3[c.nama] = c.harga 
+
+#             cursor = connection.cursor()
+#             cursor.execute("SET search_path TO public")           
+#             for i in range(len(serpis)):
+#                 cursor.execute(
+#                     'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+#                     '"services_service_kebutuhan_spare_part"."service_id"=%s',
+#                     [serpis[i].id])
+#                 rows = cursor.fetchall()
+#                 print(len(rows))
+#                 for j in range(len(rows)):
+#                     # print(len(rows))
+#                     # print(j)
+#                     # print(sperpart[j].nama)
+#                     if sperpart[j].nama in tampung1.keys():
+#                         angka = rows[j][3] + tampung1[sperpart[j].nama]
+#                         # kuantitas.append(angka)
+#                         # print(kuantitas)
+#                         tampung1[sperpart[j].nama] = angka
+#                         # print(sperpart[j].nama)
+#                         # print(tampung1)
+#                         # print ("--------------")
+#                         # print(sperpart)
+#                     else:
+#                         # kuantitas.append(rows[j][3])
+#                         # print(kuantitas)
+#                         tampung1[sperpart[j].nama] = rows[j][3] #buat kuantitas
+#                         # print(tampung1)
+#                         # print(sperpart)
+                        
+
+#             for k in range(len(sperpart)):
+#                 if sperpart[k].nama in tampung2:
+#                     total = tampung2[sperpart[k].nama]
+#                     total += sperpart[k].harga * tampung1[sperpart[k].nama]
+#                     harga_total_peritem.append(total)
+#                 else:
+#                     tampung2[sperpart[k].nama] = sperpart[k].harga * tampung1[sperpart[k].nama]
+#                     harga_total_peritem.append(sperpart[k].harga * tampung1[sperpart[k].nama])
+
+#             # print(kuantitas)
+#             # print(sperpart[k].harga) 
+#             # print(tampung1)
+#             # print(sperpart)
+#             # print(tampung2) 
+#             # print(tampung3)
+#             # print(sperpart)                   
+
+#             context_barang = {
+#                 'nota_barang': nota_barang,
+#                 'pelanggan' : pelanggan,
+#                 'nomor_pkb' : nomor_pkb,
+#                 'nomor_polisi' : nomor_polisi,
+#                 'tanggal' : tanggal,
+#                 'sperpart': sperpart,
+#                 'serpis': serpis,
+#                 'tampung1' : tampung1,
+#                 'tampung2' : tampung2,
+#                 'tampung3' : tampung3,
+#                 'id_oper': id_oper
+#             }
+#             rendered_barang = template_barang.render(context_barang)
+
+#             serpis = []
+#             for i in appointment.services.all():
+#                 serpis.append(i)
+
+
+#             context_jasa = {
+#                 'nota_jasa': nota_jasa,
+#                 'pelanggan' : pelanggan,
+#                 'nomor_pkb' : nomor_pkb,
+#                 'nomor_polisi' : nomor_polisi,
+#                 'tanggal' : tanggal,
+#                 'appointment':appointment,
+#                 'services': serpis
+#             }
+#             rendered_jasa = template_jasa.render(context_jasa)
+
+#             pdf_gabungan = HTML(string=rendered_gabungan, base_url=request.build_absolute_uri()).write_pdf()
+#             pdf_barang = HTML(string=rendered_barang, base_url=request.build_absolute_uri()).write_pdf()
+#             pdf_jasa = HTML(string=rendered_jasa, base_url=request.build_absolute_uri()).write_pdf()
+
+#             response = HttpResponse(content_type='application/pdf')
+#             response['Content-Disposition'] = 'filename="kwitansi{}.pdf"'.format(nota_gabungan.nomor_gabungan)
+
+#             response.write(pdf_gabungan)
+#             response.write(pdf_barang)
+#             response.write(pdf_jasa)
+
+#             return response
+#         else:
+#             return HttpResponseRedirect("/")
+#     else:
         return HttpResponseRedirect("/login")

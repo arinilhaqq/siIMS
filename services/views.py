@@ -16,12 +16,15 @@ def is_authenticated(request):
 def services_list(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
-            services = Service.objects.prefetch_related('kebutuhan_spare_part').all() 
+            services = Service.objects.prefetch_related('kebutuhan_spare_part').all()
+
+            tampung = {}
+
+            for item in services:
+                tampung[item.id] = ambil_sparepart(item.id)
 
             form = ServiceSearchForm(request.GET)
             form_sort =ServiceSortForm(request.GET)
-
-            response = {'services': services, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
 
             if form.is_valid():
                 search_query = form.cleaned_data.get('search_query')
@@ -43,7 +46,8 @@ def services_list(request):
                 'form_sort': form_sort,
                 'services': services,
                 'username':request.session['username'],
-                'jabatan':request.session['jabatan']
+                'jabatan':request.session['jabatan'],
+                'spareparts': tampung
             }
             
             return render(request, 'list-services.html', response)
@@ -51,6 +55,30 @@ def services_list(request):
             return HttpResponseRedirect("/")
     else:
         return HttpResponseRedirect("/login")
+
+
+def ambil_sparepart(id):
+    cursor = connection.cursor()
+    cursor1 = connection.cursor()
+    cursor.execute("SET search_path TO public")
+    cursor.execute(
+        'SELECT sparepart_id FROM public."sparepart_sparepart_services" WHERE '
+        '"sparepart_sparepart_services"."service_id"=%s',
+        [id])
+    rows = cursor.fetchall()
+
+    tampungsparepart = []
+    cursor1.execute("SET search_path TO public")
+    for k in range(len(rows)):
+        cursor1.execute(
+            'SELECT nama, variasi FROM public."sparepart_sparepart" WHERE '
+            '"sparepart_sparepart"."id"=%s',
+            [rows[k][0]])
+        rows1 = cursor1.fetchone()
+        tampungsparepart.append(rows1[0])
+
+    return tampungsparepart
+
 
 def add_service(request):
     if is_authenticated(request):
@@ -71,24 +99,6 @@ def add_service(request):
             context['jabatan'] = request.session['jabatan']
 
             return render(request, 'create-services.html', context)
-        else:
-            return HttpResponseRedirect("/")
-    else:
-        return HttpResponseRedirect("/login")
-
-
-def detail_service(request, id):
-    if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan':
-            service_by_id = Service.objects.get(id=id)
-            
-            context = {}
-            context['data'] = service_by_id
-            context['username'] = request.session['username']
-            context['jabatan'] = request.session['jabatan']
-            context['kebutuhan_spare_part'] = service_by_id.kebutuhan_spare_part
-
-            return render(request, "list-services.html", context)
         else:
             return HttpResponseRedirect("/")
     else:
@@ -119,12 +129,9 @@ def update_service(request, id):
         if request.session['jabatan'] !='Akuntan':
             all_sparepart = SparePart.objects.all()
             obj = Service.objects.prefetch_related('kebutuhan_spare_part').get(id=id)
-            # obj = get_object_or_404(Service, id=id)
             form = ServiceForm(request.POST or None, instance=obj)
 
             if form.is_valid():
-                # form.save()
-                # return redirect('/list-services')
                 ids = form.save()
                 id_service = ids.id
                 return redirect(f"/add-spareparts/{id_service}")

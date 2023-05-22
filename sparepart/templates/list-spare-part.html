@@ -48,7 +48,6 @@
         <th>Variasi</th>
         <th>Harga</th>
         <th>Stok</th>
-<!--        <th>Kebutuhan Jenis Service</th>-->
         <th>Action</th>
       </tr>
     </thead>
@@ -61,24 +60,18 @@
           <td>{{ s.variasi }}</td>
           <td>Rp {{ s.harga|intcomma }}</td>
           <td>{{ s.stok }}</td>
-<!--          <td>-->
-<!--            <ul>-->
-<!--              {% for service in s.services.all %}-->
-<!--              <li>{{ service.nama }}</li>-->
-<!--              {% endfor %}-->
-<!--            </ul>-->
-<!--          </td>-->
           <td>
             <button type="button" class="btn btn-dark"
             data-bs-toggle="modal" data-bs-target="#Modal{{ s.id }}">
             Detail
             </button>
+
             <div class="modal fade" id="Modal{{ s.id }}" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="cardModalLabel">
-                      Detail Jenis Service
+                      Detail Jenis Spare Part
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
@@ -120,11 +113,16 @@
                           <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Kebutuhan Jenis Service:</label>
-                              <p>
-                                {% for service in s.services.all %}
-                                  <li>{{ service.nama }}</li>
+                                  {% for svc in s.services.all %}
+                                  <li>{{ svc.nama }}</li>
+                                  {% endfor %}</p>
+                                  {% for key, value in serpis.items %}
+                                    {% if key == s.id %}
+                                        {% for serv in value %}
+                                            <li>{{ serv }}</li>
+                                        {% endfor %}
+                                    {% endif %}
                                 {% endfor %}
-                              </p>
                             </div>
                           </div>
                         </div>

@@ -18,11 +18,13 @@ def create_kendala(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Service Advisor':
             form = KendalaForm(request.POST or None)
+            app_service = AppointmentService.objects.get(id=id)
+            app_id = app_service.appointment_id
             
             if request.method == 'POST':
                 if form.is_valid():
                     form.save()
-                    return redirect('/list-appointment/')
+                    return redirect(f'/service-appointment/{app_id}')
                 
             context = {
                 'appointment_service': id,

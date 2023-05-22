@@ -22,7 +22,7 @@ class Appointment(models.Model):
     services = models.ManyToManyField(Service, through='AppointmentService', related_name='appointments')
 
     def __str__(self):
-        return f"Appointment {self.id} - {self.pelanggan.nama} - {self.date}"
+        return f"Appointment {self.id} - {self.pelanggan.nama_pelanggan} - {self.date}"
 
 # class AppointmentService(models.Model):
 #     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)

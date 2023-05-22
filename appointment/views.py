@@ -9,6 +9,9 @@ from kendala.models import Kendala
 from .forms import AppointmentForm, AppointmentSearchForm, AppointmentSortForm
 from django.db import connection
 from django.db.models import Q
+from datetime import date
+from nota.views import add_nota
+import json
 
 def is_authenticated(request):
     try:
@@ -158,8 +161,7 @@ def list_appointment(request):
                 'final': final_inspection,
                 'appointment_initial_inspection': appointment_initial_inspection,
                 'appointment_final_inspection': appointment_final_inspection,
-            }        
-
+            }       
             return render(request, 'appointment-list.html', context)
         else:
             return HttpResponseRedirect ("/")
@@ -172,6 +174,16 @@ def teknisi_finished_appointment(request, id):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori':
             appoint_confirm = Appointment.objects.get(id=id)
             appoint_confirm.status = 'Finished'
+            cursor = connection.cursor()
+            cursor.execute("SET search_path TO public")  
+            cursor.execute('SELECT * FROM public."nota_notagabungan" WHERE '
+                    '"nota_notagabungan"."nomor_gabungan"=%s',
+                    [int(str(appoint_confirm.id) + "03")])
+            result = cursor.fetchone()
+                
+            if not result:
+                add_nota(id)
+
             appoint_confirm.save()
 
             return redirect('/list-appointment/')
@@ -468,12 +480,20 @@ def list_service_appointment(request, id):
         service_appointment = AppointmentService.objects.all()
 
         spare_part_ids = [] 
-        sparepart_kuantitas = {}
-
         status_sparepart = {}
-
         all_cukup = True
 
+        services_id = []
+        kendala_id = []
+        service_kendala_id = {}
+
+        for k in kendala:
+            services_id.append(k.appointment_service_id)
+            kendala_id.append(k.id)
+            service_kendala_id[k.appointment_service_id] = kendala_id 
+        print("S", services_id)
+        print("K", kendala_id)
+        print("SK", service_kendala_id)
         
         for service_id in service_ids:
             cursor = connection.cursor()
@@ -483,7 +503,7 @@ def list_service_appointment(request, id):
                 '"services_service_kebutuhan_spare_part"."service_id"=%s',
                 [service_id])
             rows = cursor.fetchall()
-            print(rows)
+            # print(rows)
             for j in range(len(rows)):
                 id_sparepart = rows[j][2]
                 kuantitas_sparepart = rows[j][3]
@@ -513,6 +533,9 @@ def list_service_appointment(request, id):
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
             'kendala': kendala,
+            'service_kendala_id': service_kendala_id,
+            'services_id': services_id,
+            'kendala_id': kendala_id
         }
         return render(request, 'service-appointment-list.html', context)
     else:
@@ -529,6 +552,8 @@ def estimasi_appointment(request, id):
         kendala_app = {}
         each_estimasi_waktu = {} 
         is_solved = False
+        is_update = False
+        is_ada_kenda = True
 
         total_harga_service = {}
         total_lama_pengerjaan = {
@@ -562,6 +587,30 @@ def estimasi_appointment(request, id):
                     total += servis.harga
                     total_harga_service[service_id] = total
 
+            # each_lama_pengerjaan = {
+            #     'Bulan': 0,
+            #     'Minggu': 0,
+            #     'Hari': 0,
+            #     'Jam': 0,
+            #     'Menit': 0,
+            # }
+            
+            
+            serv = Service.objects.get(id=service_id)
+            if serv.satuan_waktu == 'Bulan':
+                total_lama_pengerjaan['Bulan'] += serv.jumlah_estimasi_pengerjaan
+            elif serv.satuan_waktu == 'Minggu':
+                total_lama_pengerjaan['Minggu'] += serv.jumlah_estimasi_pengerjaan
+            elif serv.satuan_waktu == 'Hari':
+                total_lama_pengerjaan['Hari'] += serv.jumlah_estimasi_pengerjaan
+            elif serv.satuan_waktu == 'Jam':
+                total_lama_pengerjaan['Jam'] += serv.jumlah_estimasi_pengerjaan
+            else:
+                total_lama_pengerjaan['Menit'] += serv.jumlah_estimasi_pengerjaan
+        
+        print("Total Pengerjaan", total_lama_pengerjaan) 
+
+        for service_id in service_ids:
             each_lama_pengerjaan = {
                 'Bulan': 0,
                 'Minggu': 0,
@@ -570,8 +619,8 @@ def estimasi_appointment(request, id):
                 'Menit': 0,
             }
             
-            
             serv = Service.objects.get(id=service_id)
+
             # appointment_service = AppointmentService.objects.get(Q(appointment_id=id) & Q(service_id=service_id))
             list_appointment_service = AppointmentService.objects.all()
             for appointment_service in list_appointment_service:
@@ -579,13 +628,18 @@ def estimasi_appointment(request, id):
                     appointment_service_id = appointment_service.id
                     list_service_appointment.append(appointment_service_id)
 
+            update_waktu = False
+
+
             for s_a in list_service_appointment:
-                print(s_a)
-                for kendala in list_kendala:    
+                # print("SA ", s_a)
+                for kendala in list_kendala:   
+                    # print(s_a == kendala.appointment_service_id) 
                     if s_a == kendala.appointment_service_id:
                         sa = AppointmentService.objects.get(id=s_a)
                         list_service_app_kend.append(sa.service_id)
                         kendala_app[service_id] = kendala
+                        
                         if kendala.status == "Unsolved":
                             # Nambahin waktu dari kendala disimpen ke each_lama_pengerjaan
                             if kendala.satuan_waktu == 'Bulan':
@@ -598,22 +652,31 @@ def estimasi_appointment(request, id):
                                 each_lama_pengerjaan['Jam'] += kendala.jumlah_estimasi_pengerjaan
                             else:
                                 each_lama_pengerjaan['Menit'] += kendala.jumlah_estimasi_pengerjaan
-
+                            each_estimasi_waktu[service_id] = each_lama_pengerjaan
+                            print("Each Estimasi: ", each_estimasi_waktu)
+                            update_waktu = True
+                            break
                         else:
                             is_solved = True
+
+                if update_waktu:
+                    is_update = True
+                    break    
+
+            # print("Total Pengerjaan", total_lama_pengerjaan)          
+            # if serv.satuan_waktu == 'Bulan':
+            #     total_lama_pengerjaan['Bulan'] += serv.jumlah_estimasi_pengerjaan
+            # elif serv.satuan_waktu == 'Minggu':
+            #     total_lama_pengerjaan['Minggu'] += serv.jumlah_estimasi_pengerjaan
+            # elif serv.satuan_waktu == 'Hari':
+            #     total_lama_pengerjaan['Hari'] += serv.jumlah_estimasi_pengerjaan
+            # elif serv.satuan_waktu == 'Jam':
+            #     total_lama_pengerjaan['Jam'] += serv.jumlah_estimasi_pengerjaan
+            # else:
+            #     total_lama_pengerjaan['Menit'] += serv.jumlah_estimasi_pengerjaan
             
-            each_estimasi_waktu[service_id] = each_lama_pengerjaan
-            
-            if serv.satuan_waktu == 'Bulan':
-                total_lama_pengerjaan['Bulan'] += serv.jumlah_estimasi_pengerjaan
-            elif serv.satuan_waktu == 'Minggu':
-                total_lama_pengerjaan['Minggu'] += serv.jumlah_estimasi_pengerjaan
-            elif serv.satuan_waktu == 'Hari':
-                total_lama_pengerjaan['Hari'] += serv.jumlah_estimasi_pengerjaan
-            elif serv.satuan_waktu == 'Jam':
-                total_lama_pengerjaan['Jam'] += serv.jumlah_estimasi_pengerjaan
-            else:
-                total_lama_pengerjaan['Menit'] += serv.jumlah_estimasi_pengerjaan
+            if is_update:
+                break   
 
                 
         list_harga = list(total_harga_service.values())
@@ -622,25 +685,60 @@ def estimasi_appointment(request, id):
             total_harga += price
         
         total_lama = ""
-
-        for service_id in service_ids:
-            if service_id in list_service_app_kend:
-                for key, value in total_lama_pengerjaan.items():
+        # key = service id value dictionary dari 
+        for service_id in service_ids: # kumpulan service yang didalem appointment
+            
+            if service_id in list_service_app_kend: # kumpulan service yang ada di appointment yang punya kendala
+                for key, value in total_lama_pengerjaan.items(): # total pengerjaannya si service tanpa kendala
                     if value > 0:
-                        for key2, value2 in each_lama_pengerjaan.items():
-                            if value2 > 0:
-                                if key == key2:
-                                    each_estimasi_waktu[service_id][key] += value
-                                else:
-                                    if service_id not in each_estimasi_waktu:
-                                        each_estimasi_waktu[service_id] = {}
-                                    each_estimasi_waktu[service_id][key] = value
+                        for key2, value2 in each_estimasi_waktu.items(): # total pengerjaannya si kendala (value2 = each_lama_pengerjaan)
+                            for inner_key, inner_value in value2.items(): # isinya value2: each_lama_pengerjaan (kayak total_lama_pengerjaan tp punyanya kendala)
+                                if inner_value > 0:
+                                    if key == inner_key:
+                                        each_estimasi_waktu[service_id][key] += value
+                                    else:
+                                        print("Debug", each_estimasi_waktu)
+                                        # if service_id in each_estimasi_waktu:
+                                        print("Debug1")
+                                        # each_estimasi_waktu[service_id] = {}
+                                        each_estimasi_waktu[service_id][inner_key] = value
+                                        break
+            else:
+                is_ada_kenda = False
+                for key, value in total_lama_pengerjaan.items():
+                    print(key, value)
+                    if value > 0: 
+                        each_estimasi_waktu[service_id] = {}  
+                        each_estimasi_waktu[service_id][key] = value
 
-        for outer_key, inner_dict in each_estimasi_waktu.items():
-            for inner_key, inner_value in inner_dict.items():
-                if inner_value>0:
-                    total_lama += "{} {} ".format(inner_value, inner_key)
-                    print("{} {} {} ".format(outer_key, inner_value, inner_key))
+        
+        # print("------")
+        # for outer_key, inner_dict in each_estimasi_waktu.items():
+        #     for inner_key, inner_value in inner_dict.items():
+        #         print("{} {} {}".format(outer_key, inner_value, inner_key))
+        # print("------")
+
+        if is_ada_kenda:
+            for outer_key, inner_dict in each_estimasi_waktu.items():
+                for inner_key, inner_value in inner_dict.items():
+                    if inner_value>0:
+                        total_lama += "{} {} ".format(inner_value, inner_key)
+                        print("{} {} {} ".format(outer_key, inner_value, inner_key))
+        else:
+            for key, value in total_lama_pengerjaan.items():
+                if value > 0:
+                    total_lama += "{} {} ".format(value, key)
+
+        # for outer_key, inner_dict in each_estimasi_waktu.items():
+        #     for inner_key, inner_value in inner_dict.items():
+        #         if inner_value>0:
+        #             total_lama += "{} {} ".format(inner_value, inner_key)
+        #             print("{} {} {} ".format(outer_key, inner_value, inner_key))
+                
+        
+        # for key, value in total_lama_pengerjaan.items():
+        #     if value > 0:
+        #         total_lama += "{} {} ".format(value, key)
 
         context = {
             'appointment': appointment,
@@ -658,6 +756,171 @@ def estimasi_appointment(request, id):
         return render(request, 'estimasi-appointment.html', context)
     else:
         return HttpResponseRedirect("/login")
+
+
+# def estimasi_appointment(request, id):
+#     if is_authenticated(request):
+#         appointment = Appointment.objects.get(id=id)
+#         services = appointment.services.all().values()
+#         service_ids = [item['id'] for item in services]
+#         list_service_appointment = []
+#         list_kendala = Kendala.objects.all()
+#         list_service_app_kend = []
+#         kendala_app = {}
+#         each_estimasi_waktu = {} 
+#         is_solved = False
+#         is_ada_kenda = True
+
+#         total_harga_service = {}
+#         total_lama_pengerjaan = {
+#             'Bulan': 0,
+#             'Minggu': 0,
+#             'Hari': 0,
+#             'Jam': 0,
+#             'Menit': 0,
+#         }
+
+#         for service_id in service_ids:
+#             cursor = connection.cursor()
+#             cursor.execute("SET search_path TO public")
+#             cursor.execute(
+#                 'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+#                 '"services_service_kebutuhan_spare_part"."service_id"=%s',
+#                 [service_id])
+#             rows = cursor.fetchall()
+#             print(rows)
+#             for j in range(len(rows)):
+#                 id_service = rows[j][1]
+#                 id_sparepart = rows[j][2]
+#                 kuantitas_sparepart = rows[j][3]
+#                 if kuantitas_sparepart == None:
+#                     kuantitas_sparepart = 0
+#                 if id_service == service_id:
+#                     sparepart = SparePart.objects.get(id=id_sparepart)
+#                     servis = Service.objects.get(id=service_id)
+#                     harga = sparepart.harga
+#                     total = harga*kuantitas_sparepart
+#                     total += servis.harga
+#                     total_harga_service[service_id] = total
+
+#             each_lama_pengerjaan = {
+#                 'Bulan': 0,
+#                 'Minggu': 0,
+#                 'Hari': 0,
+#                 'Jam': 0,
+#                 'Menit': 0,
+#             }
+            
+            
+#             serv = Service.objects.get(id=service_id)
+#             # appointment_service = AppointmentService.objects.get(Q(appointment_id=id) & Q(service_id=service_id))
+#             list_appointment_service = AppointmentService.objects.all()
+#             for appointment_service in list_appointment_service:
+#                 if appointment_service.appointment_id == id and appointment_service.service_id == service_id:
+#                     appointment_service_id = appointment_service.id
+#                     list_service_appointment.append(appointment_service_id)
+
+#             for s_a in list_service_appointment:
+#                 print(s_a)
+#                 for kendala in list_kendala:    
+#                     if s_a == kendala.appointment_service_id:
+#                         sa = AppointmentService.objects.get(id=s_a)
+#                         list_service_app_kend.append(sa.service_id)
+#                         kendala_app[service_id] = kendala
+#                         if kendala.status == "Unsolved":
+#                             # Nambahin waktu dari kendala disimpen ke each_lama_pengerjaan
+#                             if kendala.satuan_waktu == 'Bulan':
+#                                 each_lama_pengerjaan['Bulan'] += kendala.jumlah_estimasi_pengerjaan
+#                             elif kendala.satuan_waktu == 'Minggu':
+#                                 each_lama_pengerjaan['Minggu'] += kendala.jumlah_estimasi_pengerjaan
+#                             elif kendala.satuan_waktu == 'Hari':
+#                                 each_lama_pengerjaan['Hari'] += kendala.jumlah_estimasi_pengerjaan
+#                             elif kendala.satuan_waktu == 'Jam':
+#                                 each_lama_pengerjaan['Jam'] += kendala.jumlah_estimasi_pengerjaan
+#                             else:
+#                                 each_lama_pengerjaan['Menit'] += kendala.jumlah_estimasi_pengerjaan
+
+#                         else:
+#                             is_solved = True
+            
+#             each_estimasi_waktu[service_id] = each_lama_pengerjaan
+            
+#             if serv.satuan_waktu == 'Bulan':
+#                 total_lama_pengerjaan['Bulan'] += serv.jumlah_estimasi_pengerjaan
+#             elif serv.satuan_waktu == 'Minggu':
+#                 total_lama_pengerjaan['Minggu'] += serv.jumlah_estimasi_pengerjaan
+#             elif serv.satuan_waktu == 'Hari':
+#                 total_lama_pengerjaan['Hari'] += serv.jumlah_estimasi_pengerjaan
+#             elif serv.satuan_waktu == 'Jam':
+#                 total_lama_pengerjaan['Jam'] += serv.jumlah_estimasi_pengerjaan
+#             else:
+#                 total_lama_pengerjaan['Menit'] += serv.jumlah_estimasi_pengerjaan
+
+                
+#         list_harga = list(total_harga_service.values())
+#         total_harga = 0
+#         for price in list_harga:
+#             total_harga += price
+        
+#         total_lama = ""
+
+        
+
+#         for service_id in service_ids:
+#             if service_id in kendala_app:
+#                 for key, value in total_lama_pengerjaan.items():
+#                     if value > 0:
+#                         for key2, value2 in each_lama_pengerjaan.items():
+#                             if value2 > 0:
+#                                 if key == key2:
+#                                     each_estimasi_waktu[service_id][key] += value
+#                                 else:
+#                                     if service_id not in each_estimasi_waktu:
+#                                         each_estimasi_waktu[service_id] = {}
+#                                     each_estimasi_waktu[service_id][key] = value
+#             else:
+#                 is_ada_kenda = False
+        
+#         print("------")
+#         for outer_key, inner_dict in each_estimasi_waktu.items():
+#             for inner_key, inner_value in inner_dict.items():
+#                 print("{} {} {}".format(outer_key, inner_value, inner_key))
+#         print("------")
+
+
+#         # for outer_key, inner_dict in each_estimasi_waktu.items():
+#         #     for inner_key, inner_value in inner_dict.items():
+#         #         if inner_value>0:
+#         #             total_lama += "{} {} ".format(inner_value, inner_key)
+#         #             print("{} {} {} ".format(outer_key, inner_value, inner_key))
+#         if is_ada_kenda:
+#             for outer_key, inner_dict in each_estimasi_waktu.items():
+#                 for inner_key, inner_value in inner_dict.items():
+#                     if inner_value>0:
+#                         total_lama += "{} {} ".format(inner_value, inner_key)
+#                         print("{} {} {} ".format(outer_key, inner_value, inner_key))
+#         else:
+#             for key, value in total_lama_pengerjaan.items():
+#                 if value > 0:
+#                     total_lama += "{} {} ".format(value, key)
+
+
+#         context = {
+#             'appointment': appointment,
+#             'services': services,
+#             'total_harga_service': total_harga_service,
+#             'total_harga': total_harga,
+#             'total_lama': total_lama,
+#             'is_solved': is_solved,
+#             'kendala_app': kendala_app,
+#             'list_service_app_kend': list_service_app_kend,
+#             'each_estimasi_waktu': each_estimasi_waktu,
+#             'username': request.session['username'],
+#             'jabatan': request.session['jabatan'],
+#         }
+#         return render(request, 'estimasi-appointment.html', context)
+#     else:
+#         return HttpResponseRedirect("/login")
     
 def cancel_appointment(request, id):
     if is_authenticated(request):

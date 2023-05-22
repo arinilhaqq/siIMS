@@ -1,6 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
+from initialinspection.models import InitialInspection
+from appointment.models import AppointmentService
+from kendala.models import Kendala
 from .models import FinalInspection, Appointment
 from .forms import FinalInspectionForm
 
@@ -14,6 +17,8 @@ def is_authenticated(request):
 def create_final_inspection(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor':
+            appointment = Appointment.objects.get(id=id)
+            initial_inspection=InitialInspection.objects.get(appointment=id)
             if request.method == 'POST':
                 form = FinalInspectionForm(request.POST)
 
@@ -27,7 +32,8 @@ def create_final_inspection(request, id):
 
             context = {
                 'form': form,
-                'appointment': Appointment.objects.get(id=id),
+                'intial_inspection': initial_inspection,
+                'appointment': appointment,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
             }
@@ -65,9 +71,23 @@ def update_final_inspection(request, id):
 def verify_final_inspection(request, id):
     if is_authenticated(request):
         final_inspection = FinalInspection.objects.get(appointment=id)
+        #appointment id --> appointment_id (db sa) --> appointment_service_id (db kendala)
+        service_app_list = AppointmentService.objects.all()
+        list_kendala = Kendala.objects.all()
+        deksripsi_kendala = ''
+        status = ''
 
+        for service_app in service_app_list:
+            if (service_app.appointment_id == id):
+                for kendala in list_kendala:
+                    if kendala.appointment_service_id == service_app.id:
+                        deksripsi_kendala = kendala.deskripsi
+                        status = kendala.status
+        print(status)
         context = {
             'inspection': final_inspection,
+            'deskripsi_kendala': deksripsi_kendala,
+            'status': status,
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
             'appointment': Appointment.objects.get(id=id),

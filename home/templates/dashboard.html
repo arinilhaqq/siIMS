@@ -1,0 +1,46 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Dashboard | si-IMS</title>
+{% endblock meta %} {% block content %}
+    <h1 align="center">Dashboard Laporan si-IMS</h1>
+    <p align="center">Silahkan pilih satu kategori untuk melihat grafik sesuai data.</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-24">
+                <div class="text-center mb-4">
+                    <br>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <p><strong>Appointment :</strong></p>
+                                <a class="btn btn-outline-primary" href="/dashboard-appointment-date/">Date</a>
+                                <a class="btn btn-outline-primary" href="/dashboard-appointment-week/">Week</a>
+                                <a class="btn btn-outline-primary" href="/dashboard-appointment-month/">Month</a>
+                        </div>
+                        <div class="col">
+                            <p><strong>Customer :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_top_customers' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_customers" name="num_top_customers" value="5" min="1">
+                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <p><strong>Teknisi :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_top_karyawan' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_karyawan" name="num_top_karyawan" value="5" min="1">
+                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <p><strong>Sparepart :</strong></p>
+                                <a class="btn btn-outline-primary" href="/dashboard-sparepart-stok">Stok</a>
+                        </div>
+                    </div>
+                    <br>
+                </div>                
+            </div>
+        </div>
+    </div> 
+{% endblock content %}

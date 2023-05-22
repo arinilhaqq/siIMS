@@ -483,17 +483,13 @@ def list_service_appointment(request, id):
         status_sparepart = {}
         all_cukup = True
 
-        services_id = []
-        kendala_id = []
-        service_kendala_id = {}
+        service_kendala = []
+        appointment_service = AppointmentService.objects.all()
 
         for k in kendala:
-            services_id.append(k.appointment_service_id)
-            kendala_id.append(k.id)
-            service_kendala_id[k.appointment_service_id] = kendala_id 
-        print("S", services_id)
-        print("K", kendala_id)
-        print("SK", service_kendala_id)
+            if k.appointment_service in appointment_service:
+                service_kendala.append(k.appointment_service)
+        print("SK", service_kendala)
         
         for service_id in service_ids:
             cursor = connection.cursor()
@@ -533,9 +529,7 @@ def list_service_appointment(request, id):
             'username': request.session['username'],
             'jabatan': request.session['jabatan'],
             'kendala': kendala,
-            'service_kendala_id': service_kendala_id,
-            'services_id': services_id,
-            'kendala_id': kendala_id
+            'service_kendala': service_kendala,
         }
         return render(request, 'service-appointment-list.html', context)
     else:

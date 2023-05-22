@@ -219,7 +219,8 @@
 
                     {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
                       {% if appoint.status != 'Finished' or appoint.status != 'Approved' %}
-                      <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
+                        <a class="btn btn-warning" href="/update-appointment/{{ appoint.id }}">Update</a>
+                      {% endif %}
                     {% endif %}
 
                     {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}

@@ -19,14 +19,13 @@
     <div class="row g-3">
         <input type="hidden" name="appointment_service" value="{{ appointment_service }}">
         <div class="col">
-          <label class="required" for="id_deskripsi">Deskripsi:</label> 
-          <textarea name="deskripsi" class="form-control" cols="10" rows="5" id="id_deskripsi"
-          required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">{{ kendala.deskripsi }}</textarea>  
-          <!-- <textarea name="deskripsi" class="form-control" cols="10" rows="5" id="id_deskripsi"></textarea> -->
+          <label class="required" for="id_deskripsi">Deskripsi: </label> 
+          <textarea name="deskripsi" class="form-control" cols="10" rows="5" value="id_deskripsi" id="id_deskripsi">{{ deskripsi }}</textarea>
+
         </div>
         <div class="col">
           <div class="row">
-            <label for="id_status">Status:</label> 
+            <label class="required" for="id_status">Status:</label> 
             <select class="form-select" name="status">
                 <option selected>Status</option>
                 <option {% if kendala.status == "Unsolved" %}selected{% endif %} value="Unsolved">Unsolved</option>
@@ -37,12 +36,12 @@
           <br>
           <div class="row">
             <div class="col">
-                <label for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
+                <label class="required" for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
                 <input type="text" value="{{ kendala.jumlah_estimasi_pengerjaan }}" class="form-control" name="jumlah_estimasi_pengerjaan" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="col">
-                <label>Satuan Waktu:</label>
+                <label class="required">Satuan Waktu:</label>
                 <select class="form-select" name="satuan_waktu">
                   <option {% if kendala.satuan_waktu == "Menit" %}selected{% endif %} value="Menit">Menit</option>
                   <option {% if kendala.satuan_waktu == "Jam" %}selected{% endif %} value="Jam">Jam</option>
@@ -60,12 +59,4 @@
         <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
       </div>
   </form>
-
-  <!-- <script>
-    var id_deskripsi = document.getElementById("id_deskripsi").value = "{{ kendala.deskripsi }}";
-  </script>  -->
-<script>
-  var id_deskripsi = document.getElementById("id_deskripsi");
-  id_deskripsi.value = "{{ kendala.deskripsi }}";
-</script>
 {% endblock %}

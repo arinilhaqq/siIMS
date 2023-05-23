@@ -14,4 +14,6 @@ urlpatterns = [
     path('dashboard-appointment-customer/', views.appointment_chart_top_customers, name='appointment_chart_top_customers'),
     path('dashboard-sparepart-stok/', views.sparepart_chart_stock, name='sparepart_chart_stock'),
     path('dashboard-appoinment-karyawan/', views.appointment_chart_top_karyawan, name='appointment_chart_top_karyawan'),
+    path('dashboard-appoinment-services/', views.appointment_chart_services, name='appointment_chart_services'),
+    path('dashboard-appoinment-sparepart/', views.appointment_chart_sparepart, name='appointment_chart_sparepart'),
 ]

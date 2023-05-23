@@ -558,6 +558,8 @@ def estimasi_appointment(request, id):
             'Menit': 0,
         }
 
+        print("ini", service_ids)
+
         for service_id in service_ids:
             cursor = connection.cursor()
             cursor.execute("SET search_path TO public")
@@ -694,7 +696,7 @@ def estimasi_appointment(request, id):
                                         print("Debug", each_estimasi_waktu)
                                         # if service_id in each_estimasi_waktu:
                                         print("Debug1")
-                                        # each_estimasi_waktu[service_id] = {}
+                                        each_estimasi_waktu[service_id] = {}
                                         each_estimasi_waktu[service_id][inner_key] = value
                                         break
             else:

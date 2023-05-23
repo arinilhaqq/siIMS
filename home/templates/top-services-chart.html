@@ -76,7 +76,7 @@
                             <form method="GET" action="{% url 'appointment_chart_services' %}">
                                 <div class="d-flex">
                                     <input class="form-control me-sm-2" type="number" id="num_top_services" name="num_top_services" value="5" min="1">
-                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                    <input class="btn btn-success" type="submit" value="Show">
                                 </div>
                             </form>
                         </div>
@@ -86,24 +86,28 @@
                 </div>                
                 <div class="card">
                     <div class="card-body">
-                        <canvas id="sparepartChart" width="15" height="15"></canvas>
+                        <canvas id="customerChart" width="15" height="5"></canvas>
                     </div>
                 </div>
+                <br>
             </div>
         </div>
-    </div>
+    </div>    
+<body>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve the data from the server-side context
             var labels = JSON.parse('{{ labels|safe }}');
             var data = JSON.parse('{{ data|safe }}');
 
-            var ctx = document.getElementById('sparepartChart').getContext('2d');
-            var myChart = new Chart(ctx, {
+            // Create a new chart using Chart.js
+            var ctx = document.getElementById('customerChart').getContext('2d');
+            var chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Stok Barang',
+                        label: 'Banyak Dipesan',
                         data: data,
                         backgroundColor: 'rgba(54, 162, 235, 0.5)',
                         borderColor: 'rgba(54, 162, 235, 1)',
@@ -116,7 +120,7 @@
                             beginAtZero: true,
                             precision: 0,
                             ticks: {
-                                stepSize: 1, // Set the interval between ticks to 1
+                                stepSize: 1,
                                 callback: function (value, index, values) {
                                     if (Number.isInteger(value)) {
                                         return value;

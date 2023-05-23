@@ -83,7 +83,9 @@
   {% endif %}
   <div class="bs-example">
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    {% if appointment.status != "Finished" %}
     <a class="btn btn-warning" href="/possible-service/{{ appointment.id }}">Edit</a>
+    {% endif %}
     {% if all_cukup %}
     <a class="btn btn-success" href="/estimasi-appointment/{{ appointment.id }}">Cek Estimasi</a>
     {% endif %}

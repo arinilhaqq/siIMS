@@ -117,7 +117,7 @@
                 {% csrf_token %}
             <th>Lain-Lain</th>
             <td>
-                <input type="text" name="keterangan_lain_lain" value="{{ nota_gabungan.keterangan_lain_lain }}" required id="keterangan_lain_lain">
+                <textarea name="keterangan_lain_lain" required id="keterangan_lain_lain">{{ nota_gabungan.keterangan_lain_lain }}</textarea>
             </td>
                 <td>
                 <input type="number" name="total_harga_lainlain" value="{{ nota_gabungan.total_harga_lainlain }}" maxlength="30" required id="total_harga_lainlain">

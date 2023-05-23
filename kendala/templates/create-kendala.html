@@ -25,18 +25,18 @@
         </div>
         <div class="col">
           <div class="row">
-            <label for="id_status">Status:</label> 
+            <label class="required" for="id_status">Status:</label> 
             <input type="text" class="form-control" name="status" id="id_status" value="{{ status }}" readonly>
           </div>
           <br>
           <div class="row">
             <div class="col">
-                <label for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
+                <label class="required" for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
                 <input type="text" class="form-control" name="jumlah_estimasi_pengerjaan" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="col">
-                <label>Satuan Waktu:</label>
+                <label class="required">Satuan Waktu:</label>
                 <select class="form-select" name="satuan_waktu">
                     <option selected>Satuan Waktu</option>
                     <option value="Menit">Menit</option>

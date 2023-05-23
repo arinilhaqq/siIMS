@@ -1,15 +1,16 @@
 import calendar
-from datetime import timedelta, timezone
-import datetime
 import json
+from services.models import Service
+from appointment.models import AppointmentService
+from sparepart.models import SparePart
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from appointment.models import Appointment
 from karyawan.models import Karyawan
-from sparepart.models import SparePart
 from django.contrib.auth import update_session_auth_hash
 from django.db import connection
 from django.db.models import Count
+from collections import Counter
 
 def is_authenticated(request):
     try:
@@ -80,182 +81,283 @@ def update_password(request, username):
     return render(request,"update-password.html",context)
 
 def dashboard(request):
-    context= {
-        'username': request.session['username'],
-        'jabatan': request.session['jabatan'],
-    }
-
-    return render(request, 'dashboard.html', context)
+    if is_authenticated(request):
+        context= {
+            'username': request.session['username'],
+            'jabatan': request.session['jabatan'],
+        }
+        return render(request, 'dashboard.html', context)
+    else:
+        return HttpResponseRedirect("/login")
 
 def appointment_chart_date(request):
-    today = datetime.datetime.today()
-    start_date = today - timedelta(days=30)
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
+            appointments = Appointment.objects.values('date').annotate(count=Count('date')).order_by('-date')[:10]
 
-    appointments = Appointment.objects.filter(date__range=(start_date, today)).values('date').annotate(count=Count('id'))
-    print(appointments)
+            labels = []
+            data = []
+            for appointment in appointments:
+                labels.append(appointment['date'].strftime('%Y-%m-%d'))
+                data.append(appointment['count'])
 
-    labels = []
-    data = []
-    for appointment in appointments:
-        labels.append(appointment['date'].strftime('%Y-%m-%d'))
-        data.append(appointment['count'])
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
 
-    # Serialize the data to JSON format
-    labels_json = json.dumps(labels)
-    data_json = json.dumps(data)
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
 
-    context = {
-        'labels': labels_json,
-        'data': data_json,
-        'username': request.session['username'],
-        'jabatan': request.session['jabatan'],
-    }
-
-    return render(request, 'appointment-by-date.html', context)
+            return render(request, 'appointment-by-date.html', context)
+        else:
+                return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")
 
 def appointment_chart_week(request):
-    today = datetime.datetime.today()
-    start_date = today - timedelta(days=7)
-    end_date = today
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
+            appointments = Appointment.objects.extra({'week': "EXTRACT(WEEK FROM date)"}).values('week').annotate(count=Count('id')).order_by('-week')[:10]
 
-    appointments = Appointment.objects.filter(date__range=(start_date, end_date)).\
-        extra({'week': "EXTRACT(WEEK FROM date)"}).\
-        values('week').annotate(count=Count('id'))
-    print(appointments)
+            labels = []
+            data = []
+            for appointment in appointments:
+                week = appointment['week']
+                labels.append(f"Week {week}")
+                data.append(appointment['count'])
 
-    labels = []
-    data = []
-    for appointment in appointments:
-        labels.append(f"{start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
-        data.append(appointment['count'])
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
 
-    # Serialize the data to JSON format
-    labels_json = json.dumps(labels)
-    data_json = json.dumps(data)
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
 
-    context = {
-        'labels': labels_json,
-        'data': data_json,
-        'username': request.session['username'],
-        'jabatan': request.session['jabatan'],
-    }
-
-    return render(request, 'appointment-by-week.html', context)
+            return render(request, 'appointment-by-week.html', context)
+        else:
+            return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")
 
 def appointment_chart_month(request):
-    today = datetime.datetime.today()
-    start_date = today - timedelta(days=30)
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
+            appointments = Appointment.objects.extra({'month': "EXTRACT(month FROM date)", 'year': "EXTRACT(year FROM date)"}) \
+                .values('month', 'year').annotate(count=Count('id')).order_by('-year', '-month')[:10]
 
-    appointments = Appointment.objects.filter(date__range=(start_date, today)) \
-        .extra({'month': "EXTRACT(month FROM date)", 'year': "EXTRACT(year FROM date)"}) \
-        .values('month', 'year') \
-        .annotate(count=Count('id'))
-    print(appointments)
+            labels = []
+            data = []
+            for appointment in appointments:
+                month = appointment['month']
+                year = appointment['year']
+                month_name = calendar.month_name[int(month)]
+                label = f"{month_name} {year}"
+                labels.append(label)
+                data.append(appointment['count'])
 
-    labels = []
-    data = []
-    for appointment in appointments:
-        month = appointment['month']
-        year = appointment['year']
-        month_name = calendar.month_name[int(month)]
-        label = f"{month_name} {year}"
-        labels.append(label)
-        data.append(appointment['count'])
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
 
-    # Serialize the data to JSON format
-    labels_json = json.dumps(labels)
-    data_json = json.dumps(data)
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
 
-    context = {
-        'labels': labels_json,
-        'data': data_json,
-        'username': request.session['username'],
-        'jabatan': request.session['jabatan'],
-    }
-
-    return render(request, 'appointment-by-month.html', context)
+            return render(request, 'appointment-by-month.html', context)
+        else:
+            return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")
 
 def appointment_chart_top_customers(request):
-    num_top_customers = request.GET.get('num_top_customers', 5)
-    print(num_top_customers)
-    try:
-        num_top_customers = int(num_top_customers)
-    except ValueError:
-        num_top_customers = 5  
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
+            num_top_customers = request.GET.get('num_top_customers', 5)
+            print(num_top_customers)
+            try:
+                num_top_customers = int(num_top_customers)
+            except ValueError:
+                num_top_customers = 5  
 
-    today = datetime.datetime.today()
-    start_date = today - timedelta(days=30)
+            top_customers = Appointment.objects \
+                .values('pelanggan__nama_pelanggan') \
+                .annotate(count=Count('id')) \
+                .order_by('-count')[:num_top_customers]
 
-    top_customers = Appointment.objects.filter(date__range=(start_date, today)) \
-        .values('pelanggan__nama_pelanggan') \
-        .annotate(count=Count('id')) \
-        .order_by('-count')[:num_top_customers]
+            labels = []
+            data = []
+            for customer in top_customers:
+                labels.append(customer['pelanggan__nama_pelanggan'])
+                data.append(customer['count'])
 
-    labels = []
-    data = []
-    for customer in top_customers:
-        labels.append(customer['pelanggan__nama_pelanggan'])
-        data.append(customer['count'])
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
 
-    # Serialize the data to JSON format
-    labels_json = json.dumps(labels)
-    data_json = json.dumps(data)
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
 
-    context = {
-        'labels': labels_json,
-        'data': data_json,
-        'username': request.session['username'],
-        'jabatan': request.session['jabatan'],
-    }
-
-    return render(request, 'top-customers-chart.html', context)
+            return render(request, 'top-customers-chart.html', context)
+        else:
+            return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")
 
 def sparepart_chart_stock(request):
-    spareparts = SparePart.objects.all().order_by('-stok')
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Akuntan':
+            spareparts = SparePart.objects.all().order_by('-stok')
 
-    labels = [sparepart.nama for sparepart in spareparts]
-    data = [sparepart.stok for sparepart in spareparts]
+            labels = [sparepart.nama for sparepart in spareparts]
+            data = [sparepart.stok for sparepart in spareparts]
 
-    # Serialize the data to JSON format
-    labels_json = json.dumps(labels)
-    data_json = json.dumps(data)
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
 
-    context = {
-        'labels': labels_json,
-        'data': data_json,
-        'username': request.session['username'],
-        'jabatan': request.session['jabatan'],
-    }
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
 
-    return render(request, 'sparepart-by-stock.html', context)
+            return render(request, 'sparepart-by-stock.html', context)
+        else:
+            return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")
 
 def appointment_chart_top_karyawan(request):
-    num_top_karyawan = request.GET.get('num_top_karyawan', 5)
-    try:
-        num_top_karyawan = int(num_top_karyawan)
-    except ValueError:
-        num_top_karyawan = 5  
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
+            num_top_karyawan = request.GET.get('num_top_karyawan', 5)
+            try:
+                num_top_karyawan = int(num_top_karyawan)
+            except ValueError:
+                num_top_karyawan = 5  
 
-    top_karyawan = Appointment.objects \
-        .values('teknisi__nama_karyawan') \
-        .annotate(count=Count('id')) \
-        .order_by('-count')[:num_top_karyawan]
+            top_karyawan = Appointment.objects \
+                .values('teknisi__nama_karyawan') \
+                .annotate(count=Count('id')) \
+                .order_by('-count')[:num_top_karyawan]
 
-    labels = []
-    data = []
-    for karyawan in top_karyawan:
-        labels.append(karyawan['teknisi__nama_karyawan'])
-        data.append(karyawan['count'])
+            labels = []
+            data = []
+            for karyawan in top_karyawan:
+                labels.append(karyawan['teknisi__nama_karyawan'])
+                data.append(karyawan['count'])
 
-    # Serialize the data to JSON format
-    labels_json = json.dumps(labels)
-    data_json = json.dumps(data)
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
 
-    context = {
-        'labels': labels_json,
-        'data': data_json,
-        'username': request.session['username'],
-        'jabatan': request.session['jabatan'],
-    }
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
 
-    return render(request, 'top-karyawan-chart.html', context)
+            return render(request, 'top-karyawan-chart.html', context)
+        else:
+            return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")
+
+def appointment_chart_services(request):
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Akuntan':
+            num_top_services = request.GET.get('num_top_services', 5)
+            try:
+                num_top_services = int(num_top_services)
+            except ValueError:
+                num_top_services = 5 
+
+            services = AppointmentService.objects.values('service__nama').annotate(count=Count('service_id')).order_by('-count')[:num_top_services]
+
+            labels = []
+            data = []
+            for service in services:
+                labels.append(service['service__nama'])
+                data.append(service['count'])
+
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
+
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
+
+            return render(request, 'top-services-chart.html', context)
+        else:
+            return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")
+
+def appointment_chart_sparepart(request):
+    if is_authenticated(request):
+        if request.session['jabatan'] !='Akuntan':
+            num_top_services = request.GET.get('num_top_services', 5)
+            try:
+                num_top_services = int(num_top_services)
+            except ValueError:
+                num_top_services = 5 
+
+            service_in_appointment = AppointmentService.objects.values_list('service__id', flat=True)
+            list_services = []
+
+            for id in service_in_appointment:
+                list_services.append(Service.objects.get(id=id))
+
+            list_sparepart = []
+            for service in list_services:
+                spare_parts = service.kebutuhan_spare_part.all()
+                spare_part_names = [spare_part.nama for spare_part in spare_parts]
+                list_sparepart.append(spare_part_names)
+            
+            spareparts = sum(list_sparepart, [])
+            spareparts_count = Counter(spareparts)
+            spareparts_dict = dict(spareparts_count)
+
+            labels = []
+            data = []
+            for key, value in spareparts_dict.items():
+                labels.append(key)
+                data.append(value)
+
+            # Serialize the data to JSON format
+            labels_json = json.dumps(labels)
+            data_json = json.dumps(data)
+
+            context = {
+                'labels': labels_json,
+                'data': data_json,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
+
+            return render(request, 'top-services-chart.html', context)
+        else:
+            return HttpResponseRedirect ("/")
+    else:
+        return HttpResponseRedirect("/login")

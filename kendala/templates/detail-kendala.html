@@ -27,7 +27,7 @@
     <div class="custom-container">
       <h2 class="text-center">Detail Kendala Service</h2>
       <br>
-      <h4 class="text-center">Informasi kendala yang dialami service suatu appointment</h4>
+      <h5 class="text-center">Informasi kendala yang dialami service suatu appointment</h4>
       <br>
       <table class="table">
         <tbody>
@@ -52,8 +52,11 @@
       </table>
       <br>
       <div class="bs-example">
-        <a class="btn btn-success" href="/update-kendala/{{ kendala.id }}">Update</a>
+        {% if appointment.status != "Finished %}
+          <a class="btn btn-success" href="/update-kendala/{{ kendala.id }}">Update</a>
+        {% endif %}
         <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+
       </div>
     </div>
   </div>

@@ -1,0 +1,159 @@
+{% extends 'main.html' %} {% load static %}
+{% block meta %}
+<title>Nota | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content:" *";
+      color: red;
+    }
+  </style>
+  <h1 align="center" >Kwitansi Bengkel</h1>
+  <!-- <p align="center">Laporan akhir kondisi kendaraan pelanggan PT Inter Motor Sport</p> -->
+<html>
+<head>
+    <style>
+        table {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            width: 400px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            border: 1px solid black;
+            padding: 8px;
+            font-size: 15px;
+        }
+
+        th {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            text-align: left;
+        }
+
+        .receipt-header {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .receipt-info {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .receipt-info-left {
+            float: left;
+
+        }
+
+        .receipt-info-right {
+            float: right;
+
+        }
+
+        .receipt-divider {
+            width: 800px; /* Set the width of the body to a fixed value */
+            margin: 0 auto; /* Center the content horizontally */
+            border-top: 1px solid black;
+            margin-bottom: 0.2em;
+        }
+        .receipt-total-label {
+            font-size: 15px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .receipt-total-value {
+            font-size: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .my-paragraph {
+        margin: 0.2em;
+        padding: 0.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-divider"></div>
+    <div class="receipt-info">
+        <div class="receipt-info-left">
+            <p class="my-paragraph" style="font-size: 15px;">Nomor: {{ nomor_gabungan }}</p>
+            <p class="my-paragraph" style="font-size: 15px;">Tanggal: {{ tanggal }}</p>
+        </div>
+    </div>
+    <div class="receipt-divider"></div>
+    <div class="receipt-info">
+        <div class="receipt-info-left">
+            <p class="my-paragraph" style="font-size: 15px;">Sudah Terima Dari: {{ pelanggan }}</p>
+        </div>
+        <div class="receipt-info-right">
+            <p class="my-paragraph" style="font-size: 15px;">Nomor PKB: {{ nomor_pkb }}</p>
+            <p class="my-paragraph" style="font-size: 15px;">Nomor Polisi: {{ nomor_polisi }}</p>
+            <p class="my-paragraph" style="font-size: 15px;">Jenis Mobil: {{ jenis }}</p>
+        </div>
+    </div>    
+    <div class="receipt-divider"></div>
+    <br>
+    <table>
+        {% load humanize %}
+        <tr>
+            <th>Nota Jasa No.</th>
+            <td>{{Nomor_nota_jasa}}</td>
+            <td>Rp {{total_harga_service|intcomma}}</td>
+        </tr>
+        <tr>
+            <th>Nota Suku Cadang No.</th>
+            <td>{{Nomor_nota_barang}}</td>
+            <th>Rp {{total_harga_sparepart|intcomma}}</th>
+        </tr>
+        <tr>
+            <th>Lain-Lain</th>
+            {% if keterangan_lain_lain %}
+                <td>{{keterangan_lain_lain}}</td>
+            {%else%}
+            <td> </td>
+            {%endif%}
+            {% if total_harga_lainlain %}
+                <th>Rp {{total_harga_lainlain|intcomma}}</th>
+            {%else%}
+            <td> </td>
+            {%endif%}
+        </tr>
+        <tr>
+            <td class="receipt-total-label"><strong>Total Harga: </strong></td>
+            <td class="receipt-total-value">Rp {{ total_harga_gabungan|intcomma }}</td>
+        </tr>
+        </tr>
+    </table>
+    <div class="receipt-info" style="margin-bottom: 0.2px;">
+        <div class="receipt-info-left">
+            <tr>Terbilang: {{harga_terbilang}}</tr>
+        </div>
+    </div>  
+    <br>
+    <div class="receipt-info">
+        <div class="receipt-info-left">
+            <div class="bs-example">
+                <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+                {% if jabatan == 'Admin' or jabatan == 'Inventori' or jabatan == 'Akuntan' or jabatan == 'Teknisi' %}
+                <a class="btn btn-outline-primary" href="update-notagabungan/{{id_oper}}">Edit</a>
+                {% endif %}
+                <!-- <button class="btn btn-outline-primary" onclick="printPdf()">Cetak PDF</button> -->
+            </div>
+        </div>
+    </div> 
+    <br> 
+    <br>
+    <br>
+</body>
+</html>
+{% endblock content %}

@@ -3,6 +3,7 @@ from .models import SparePart
 from services.models import Service
 from .forms import SparePartForm, SparepartSearchForm, SparepartSortForm
 # from django.core.paginator import Paginator
+from django.db import connection
 
 def is_authenticated(request):
     try:
@@ -15,14 +16,15 @@ def is_authenticated(request):
 def sparepart_list(request):
     if is_authenticated(request):
         if request.session['jabatan'] != 'Akuntan':
-            # sparepart = SparePart.objects.all().values()
             sparepart = SparePart.objects.prefetch_related('services').all()
+
+            tampung = {}
+
+            for item in sparepart:
+                tampung[item.id] = ambil_service(item.id)
 
             form = SparepartSearchForm(request.GET)
             form_sort = SparepartSortForm(request.GET)
-
-            response = {'sparepart': sparepart, 'username': request.session['username'],
-                        'jabatan': request.session['jabatan']}
             
 
             if form.is_valid():
@@ -42,7 +44,7 @@ def sparepart_list(request):
                         sparepart = sparepart.order_by("stok")
 
             response = {'form':form, 'form_sort': form_sort, 'sparepart': sparepart, 'username': request.session['username'],
-                        'jabatan': request.session['jabatan']}
+                        'jabatan': request.session['jabatan'], 'serpis': tampung}
             
             return render(request, 'list-spare-part.html', response)
         else:
@@ -58,15 +60,8 @@ def add_sparepart(request):
             all_services = Service.objects.all()
 
             form = SparePartForm(request.POST or None)
-            # queryset = form.fields['services'].queryset
-            # objects_per_page = 10
-            # paginator = Paginator(queryset, objects_per_page)
-            # current_page_objects = paginator.get_page(page_number).object_list
             if (form.is_valid() and request.method == 'POST'):
                 form.save()
-                # sparepart = form.save()  # save the book with the selected authors
-                # services = sparepart.services.all()  # get the selected authors
-                # print(services)
                 return redirect('/list-sparepart')
 
             context['form'] = form
@@ -79,19 +74,27 @@ def add_sparepart(request):
     else:
         return HttpResponseRedirect("/login")
 
+def ambil_service(id):
+    cursor = connection.cursor()
+    cursor1 = connection.cursor()
+    cursor.execute("SET search_path TO public")
+    cursor.execute(
+        'SELECT service_id FROM public."services_service_kebutuhan_spare_part" WHERE '
+        '"services_service_kebutuhan_spare_part"."sparepart_id"=%s',
+        [id])
+    rows = cursor.fetchall()
 
-def detail_sparepart(request, id):
-    if is_authenticated(request):
-        if request.session['jabatan'] != 'Akuntan':
-            context = {}
-            context["data"] = SparePart.objects.get(id=id)
-            context['username'] = request.session['username']
-            context['jabatan'] = request.session['jabatan']
-            return render(request, "list-spare-part.html", context)
-        else:
-            return HttpResponseRedirect("/")
-    else:
-        return HttpResponseRedirect("/login")
+    tampungservice = []
+    cursor1.execute("SET search_path TO public")
+    for k in range(len(rows)):
+        cursor1.execute(
+            'SELECT nama FROM public."services_service" WHERE '
+            '"services_service"."id"=%s',
+            [rows[k][0]])
+        rows1 = cursor1.fetchone()
+        tampungservice.append(rows1[0])
+
+    return tampungservice
 
 
 def delete_sparepart(request, id):
@@ -113,6 +116,22 @@ def update_sparepart(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] != 'Akuntan':
             all_services = Service.objects.all()
+
+            # cursor = connection.cursor()
+            # cursor.execute("SET search_path TO public")
+            # cursor.execute(
+            #     'SELECT service_id FROM public."services_service_kebutuhan_spare_part" WHERE '
+            #     '"services_service_kebutuhan_spare_part"."sparepart_id"=%s',
+            #     [id])
+            # rows = cursor.fetchall()
+            # tampungserv = []
+            #
+            # for i in range(len(rows)):
+            #     serv = Service.objects.get(id=rows[i][0])
+            #     tampungserv.append(serv)
+
+            # 'tampungserv': tampungserv
+
             obj = get_object_or_404(SparePart, id=id)
             form = SparePartForm(request.POST or None, instance=obj)
             if form.is_valid():

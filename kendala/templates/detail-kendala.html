@@ -1,0 +1,63 @@
+{% extends 'main.html' %} {% load static %} 
+{% block meta %}
+<title>Detail Kendala | si-IMS</title>
+{% endblock meta %} {% block content %}
+  <style>
+    .required:after {
+      content: "*";
+      color: red;
+    }
+    .center-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 64px); 
+    }
+    .custom-container {
+      border: 1px solid #ccc;
+      padding: 20px;
+      max-width: 1100px; 
+      width: 100%; 
+      box-sizing: border-box; 
+    }
+    
+  </style>
+  
+  <div class="center-container">
+    <div class="custom-container">
+      <h2 class="text-center">Detail Kendala Service</h2>
+      <br>
+      <h5 class="text-center">Informasi kendala yang dialami service suatu appointment</h4>
+      <br>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>
+              <div class="container">
+                <h5 style="font-weight: bold;">Deskripsi Kendala</h5>
+                <td><textarea class="form-control" rows="5" readonly>{{ kendala.deskripsi }}</textarea></td>
+              </div>
+            </td>
+          </tr>
+          <br>
+          <tr>
+            <td><h5 style="font-weight: bold;">Status</h5></td>
+            <td>{{ kendala.status }}</td>
+          </tr>
+          <tr>
+            <td><h5 style="font-weight: bold;">Estimasi Waktu Tambahan</h5></td>
+            <td>{{ kendala.jumlah_estimasi_pengerjaan }} {{ kendala.satuan_waktu }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <div class="bs-example">
+        {% if appointment.status != "Finished %}
+          <a class="btn btn-success" href="/update-kendala/{{ kendala.id }}">Update</a>
+        {% endif %}
+        <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+
+      </div>
+    </div>
+  </div>
+{% endblock content %}

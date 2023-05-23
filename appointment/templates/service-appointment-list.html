@@ -13,7 +13,20 @@
         <th>No.</th>
         <th>Service</th>
         <th>Status Sparepart</th>
+        {% if appointment.status == "Approved" %}
         <th>Kendala</th>
+      
+      {% elif appointment.status == "Finished"  %}
+        {% for sa in service_appointment %}
+        {% for k in kendala %}
+          {% if sa.appointment_id == appointment.id %}
+            {% if sa.id == k.appointment_service_id %}
+              <th>Kendala</th>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% endfor %}
+      {% endif %}
       </tr>
     </thead>
     <tbody>
@@ -22,15 +35,40 @@
           <td>{{ forloop.counter }}.</td>
           <td>{{ service.nama }}</td>
 
-          <!-- {% for key, value in status_sparepart.items %}
+          {% for key, value in status_sparepart.items %}
 
             {% if service.id == key %}
             <td>{{ value }}</td>
             {% endif %}
             
-          {% endfor %} -->
+          {% endfor %}
+          
           <td>
-            <a class="btn btn-primary" href="/create-kendala/{{ service.id }}">Confirm</a>
+            {% if appointment.status == "Approved" %}
+              {% for sa in service_appointment %}
+                {% if sa.appointment_id == appointment.id and sa.service_id == service.id %}
+                  {% if sa in service_kendala %}
+                    {% for k in kendala %}
+                      {% if sa.id == k.appointment_service_id %}
+                          <a class="btn btn-success" href="/detail-kendala/{{ k.id }}">Kendala detail</a>
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                      <a class="btn btn-primary" href="/create-kendala/{{ sa.id }}">Create Kendala</a>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% elif appointment.status == "Finished"  %}
+              {% for sa in service_appointment %}
+                  {% if sa.appointment_id == appointment.id and sa.service_id == service.id %}
+                      {% for k in kendala %}
+                        {% if sa.id == k.appointment_service_id %}
+                            <a class="btn btn-success" href="/detail-kendala/{{ k.id }}">Kendala detail</a>
+                        {% endif %}
+                      {% endfor %}
+                  {% endif %}
+              {% endfor %}
+            {% endif %}
           </td>
       </tr>
     {% empty %}
@@ -45,7 +83,9 @@
   {% endif %}
   <div class="bs-example">
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+    {% if appointment.status != "Finished" %}
     <a class="btn btn-warning" href="/possible-service/{{ appointment.id }}">Edit</a>
+    {% endif %}
     {% if all_cukup %}
     <a class="btn btn-success" href="/estimasi-appointment/{{ appointment.id }}">Cek Estimasi</a>
     {% endif %}

@@ -137,7 +137,7 @@
         <tbody>
           <tr>
             <td>6.</td>
-            {% if inspection.front_6 %}
+            {% if inspection.back_6 %}
               <td>Rusak</td>
             {% else %}
               <td>Ada</td>
@@ -145,7 +145,7 @@
           </tr>
           <tr>
             <td>7.</td>
-            {% if inspection.front_7 %}
+            {% if inspection.back_7 %}
               <td>Rusak</td>
             {% else %}
               <td>Ada</td>
@@ -153,7 +153,7 @@
           </tr>
           <tr>
             <td>8.</td>
-            {% if inspection.front_8 %}
+            {% if inspection.back_8 %}
               <td>Rusak</td>
             {% else %}
               <td>Ada</td>
@@ -161,7 +161,7 @@
           </tr>
           <tr>
             <td>9.</td>
-            {% if inspection.front_9 %}
+            {% if inspection.back_9 %}
               <td>Rusak</td>
             {% else %}
               <td>Ada</td>
@@ -169,7 +169,7 @@
           </tr>
           <tr>
             <td>10.</td>
-            {% if inspection.front_10 %}
+            {% if inspection.back_10 %}
               <td>Rusak</td>
             {% else %}
               <td>Ada</td>
@@ -472,7 +472,9 @@
     
 
   <div class="bs-example">
-    <a class="btn btn-success" href="/update-initial-inspection/{{ appointment.id }}">Update</a> 
+    {% if appointment.status != 'Finished' and appointment.status != 'Approved' %}
+      <a class="btn btn-success" href="/update-initial-inspection/{{ appointment.id }}">Update</a> 
+    {% endif %}
     <a class="btn btn-outline-primary" href="/list-appointment/">Kembali</a> 
   </div>
 {% endblock content %}

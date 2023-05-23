@@ -1,0 +1,138 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Dashboard | si-IMS</title>
+{% endblock meta %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Chart</title>
+    <h1 align="center">Dashboard si-IMS</h1>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-24">
+                <div class="text-center mb-4">
+                    <br>
+                    <div class="row justify-content-center">
+                        <script>
+                            function redirectToPage(selectElement) {
+                              var selectedOption = selectElement.options[selectElement.selectedIndex];
+                              var url = selectedOption.value;
+                              window.location.href = url;
+                            }
+                        </script>
+                        {% if jabatan != 'Teknisi' and jabatan != 'Inventori' %}
+                        <div class="col">
+                            <p><strong>Appointment :</strong></p>
+                            <select class="form-control" onchange="redirectToPage(this)">
+                                <option value="">Pilih satu..</option>
+                                <option value="/dashboard-appointment-date/">Date</option>
+                                <option value="/dashboard-appointment-week/">Week</option>
+                                <option value="/dashboard-appointment-month/">Month</option>
+                            </select>  
+                        </div>
+                        {% endif %}
+
+                        {% if jabatan != 'Teknisi' and jabatan != 'Inventori' and jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Customer :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_top_customers' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_customers" name="num_top_customers" value="5" min="1">
+                                    <input class="btn btn-success" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+
+                        {% if jabatan != 'Teknisi' and jabatan != 'Inventori' and jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Teknisi :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_top_karyawan' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_karyawan" name="num_top_karyawan" value="5" min="1">
+                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+
+                        {% if jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Sparepart :</strong></p>
+                            <select class="form-control" onchange="redirectToPage(this)">
+                                <option value="">Pilih satu..</option>
+                                <option value="/dashboard-sparepart-stok/">Stok</option>
+                                <option value="/dashboard-appoinment-sparepart/">Peminat</option>
+                            </select>  
+                        </div>
+                        {% endif %}
+
+                        {% if jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Service :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_services' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_services" name="num_top_services" value="5" min="1">
+                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <br>
+                </div>                
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="customerChart" width="15" height="5"></canvas>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>    
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve the data from the server-side context
+            var labels = JSON.parse('{{ labels|safe }}');
+            var data = JSON.parse('{{ data|safe }}');
+
+            // Create a new chart using Chart.js
+            var ctx = document.getElementById('customerChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Appointment',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            precision: 0,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function (value, index, values) {
+                                    if (Number.isInteger(value)) {
+                                        return value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock content %}

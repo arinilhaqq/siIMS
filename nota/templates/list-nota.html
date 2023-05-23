@@ -1,0 +1,80 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Services | si-IMS</title>
+{% endblock meta %} {% block content %}
+
+  <h1 align="center">List Nota</h1>
+  <p align="center">List nota dari seluruh finished appointment di PT Inter Motor Sports</p>
+
+  <br>
+
+  <form method='get' name="form_search">
+    <div class="row">
+      <div class="col-sm-7">
+      </div>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" name="search_query" maxlength="30" placeholder="Cari berdasarkan nama pelanggan atau status">
+      </div>
+      <div class="col-sm-1">
+        <input type="submit" class="btn btn-warning" value='Search'/>
+      </div>
+    </div>
+  </form>
+  
+  <br>
+
+  <form method='get' name="form_sort">
+    <div class="row">
+      <div class="col-sm-7">
+      </div>
+      <div class="col-sm-4">
+        <!-- {{ form_sort }} -->
+        <select class="form-select" name="pilihan">
+          <option selected>Urutkan Appointment</option>
+          <option value="Terbaru">Terbaru</option>
+          <option value="Terlama">Terlama</option>
+        </select>
+      </div>
+      <div class="col-sm-1">
+        <input type="submit" class="btn btn-warning" value='Urutkan'/>
+      </div>
+    </div>
+  </form>
+ <br>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Pelanggan</th>
+        <th>ID Appointment</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% load humanize %}
+      <tr>
+        {% for a in appointment %}
+          <td>{{ forloop.counter }}.</td>
+          <td>{{ a.pelanggan.nomor_polisi }} {{ a.pelanggan.nama_mobil }} - {{ a.pelanggan.nama_pelanggan }}</td>
+          <td>{{ a.id }}</td>
+          <td>
+            {% for key, value in id_appointment_nota.items %}
+              {% if a.id == key %}
+                <a class="btn btn-dark" href="/nota/notagabungan/{{ value }}">Nota Gabungan</a>
+                <a class="btn btn-dark" href="/nota/notabarang/{{ value }}">Nota Barang</a>
+                {% if jabatan == 'Admin' or jabatan == 'Owner' or jabatan == 'Akuntan' or jabatan == 'Service Advisor' %}
+                <a class="btn btn-dark" href="/nota/notajasa/{{ value }}">Nota Jasa</a>
+              {% endif %}
+              {% endif %}
+            {% endfor %}
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="bs-example">
+    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
+  </div>
+
+{% endblock content %}

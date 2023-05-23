@@ -27,4 +27,6 @@ urlpatterns = [
     path('', include('initialinspection.urls')),
     path('', include('sparepart.urls')),
     path('', include('finalinspection.urls')),
+    path('', include('kendala.urls')),
+    path('', include('nota.urls')),
 ]

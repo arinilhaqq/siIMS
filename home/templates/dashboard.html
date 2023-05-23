@@ -1,0 +1,84 @@
+{% extends 'main.html' %} {% load static %} {% block meta %}
+<title>Dashboard | si-IMS</title>
+{% endblock meta %} {% block content %}
+    <h1 align="center">Dashboard Laporan si-IMS</h1>
+    <p align="center">Silahkan pilih satu kategori untuk melihat grafik sesuai data.</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-24">
+                <div class="text-center mb-4">
+                    <br>
+                    <img src="https://cdn.discordapp.com/attachments/1079064412645773366/1109861067213000765/Segment-pana.png" alt="Gambar Grafik"> 
+                    <div class="row justify-content-center">
+                        <script>
+                            function redirectToPage(selectElement) {
+                              var selectedOption = selectElement.options[selectElement.selectedIndex];
+                              var url = selectedOption.value;
+                              window.location.href = url;
+                            }
+                        </script>
+                        {% if jabatan != 'Teknisi' and jabatan != 'Inventori' %}
+                            <div class="col">
+                                <p><strong>Appointment :</strong></p>
+                                <select class="form-control" onchange="redirectToPage(this)">
+                                    <option value="">Pilih satu..</option>
+                                    <option value="/dashboard-appointment-date/">Hari</option>
+                                    <option value="/dashboard-appointment-week/">Minggu</option>
+                                    <option value="/dashboard-appointment-month/">Bulan</option>
+                                </select>  
+                            </div>
+                        {% endif %}
+
+                        {% if jabatan != 'Teknisi' and jabatan != 'Inventori' and jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Customer :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_top_customers' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_customers" name="num_top_customers" value="5" min="1">
+                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+
+                        {% if jabatan != 'Teknisi' and jabatan != 'Inventori' and jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Teknisi :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_top_karyawan' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_karyawan" name="num_top_karyawan" value="5" min="1">
+                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+
+                        {% if jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Sparepart :</strong></p>
+                            <select class="form-control" onchange="redirectToPage(this)">
+                                <option value="">Pilih satu..</option>
+                                <option value="/dashboard-sparepart-stok/">Stok</option>
+                                <option value="/dashboard-appoinment-sparepart/">Peminat</option>
+                            </select>  
+                        </div>
+                        {% endif %}
+                        
+                        {% if jabatan != 'Akuntan' %}
+                        <div class="col">
+                            <p><strong>Service :</strong></p>
+                            <form method="GET" action="{% url 'appointment_chart_services' %}">
+                                <div class="d-flex">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_services" name="num_top_services" value="5" min="1">
+                                    <input class="btn btn-outline-primary" type="submit" value="Show">
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <br>
+                </div>               
+            </div>
+        </div>
+    </div> 
+{% endblock content %}

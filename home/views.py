@@ -22,6 +22,22 @@ def is_authenticated(request):
 def homepage(request):
     print(is_authenticated)
     if is_authenticated(request):
+        top_karyawan = Appointment.objects \
+                    .values('teknisi__id') \
+                    .annotate(count=Count('id')) 
+        
+        print(top_karyawan)
+
+        karyawan_keaktifan = {}
+        for karyawan in top_karyawan:
+            karyawan_keaktifan[karyawan['teknisi__id']] = karyawan['count']
+
+        print(karyawan_keaktifan)
+        for idk, count in karyawan_keaktifan.items():
+            karyawan = Karyawan.objects.get(id=idk)
+            karyawan.total_keaktifan = count
+            karyawan.save()
+            
         context = {}
         context['nama_karyawan'] = request.session['nama_karyawan']
         context['username'] = request.session['username']
@@ -93,7 +109,7 @@ def dashboard(request):
 def appointment_chart_date(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
-            appointments = Appointment.objects.values('date').annotate(count=Count('date')).order_by('-date')[:10]
+            appointments = Appointment.objects.values('date').annotate(count=Count('date')).order_by('-date')
 
             labels = []
             data = []
@@ -121,7 +137,7 @@ def appointment_chart_date(request):
 def appointment_chart_week(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
-            appointments = Appointment.objects.extra({'week': "EXTRACT(WEEK FROM date)"}).values('week').annotate(count=Count('id')).order_by('-week')[:10]
+            appointments = Appointment.objects.extra({'week': "EXTRACT(WEEK FROM date)"}).values('week').annotate(count=Count('id')).order_by('-week')
 
             labels = []
             data = []
@@ -151,7 +167,7 @@ def appointment_chart_month(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
             appointments = Appointment.objects.extra({'month': "EXTRACT(month FROM date)", 'year': "EXTRACT(year FROM date)"}) \
-                .values('month', 'year').annotate(count=Count('id')).order_by('-year', '-month')[:10]
+                .values('month', 'year').annotate(count=Count('id')).order_by('-year', '-month')
 
             labels = []
             data = []
@@ -210,6 +226,7 @@ def appointment_chart_top_customers(request):
                 'data': data_json,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
+                'num_top_customers': num_top_customers,
             }
 
             return render(request, 'top-customers-chart.html', context)
@@ -272,6 +289,7 @@ def appointment_chart_top_karyawan(request):
                 'data': data_json,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
+                'num_top_karyawan': num_top_karyawan
             }
 
             return render(request, 'top-karyawan-chart.html', context)
@@ -306,6 +324,7 @@ def appointment_chart_services(request):
                 'data': data_json,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
+                'num_top_services': num_top_services,
             }
 
             return render(request, 'top-services-chart.html', context)
@@ -354,6 +373,7 @@ def appointment_chart_sparepart(request):
                 'data': data_json,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
+                'num_top_services': num_top_services,
             }
 
             return render(request, 'top-services-chart.html', context)

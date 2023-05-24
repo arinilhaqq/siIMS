@@ -31,10 +31,13 @@
 
                         {% if jabatan != 'Teknisi' and jabatan != 'Inventori' and jabatan != 'Akuntan' %}
                         <div class="col">
-                            <p><strong>Customer :</strong></p>
+                            <p><strong>Customer :
+                                <span data-toggle="tooltip" data-placement="top" title="Isi dengan banyak top customer.">
+                                <i class="fa fa-info-circle"></i>
+                            </span></strong></p>
                             <form method="GET" action="{% url 'appointment_chart_top_customers' %}">
                                 <div class="d-flex">
-                                    <input class="form-control me-sm-2" type="number" id="num_top_customers" name="num_top_customers" value="5" min="1">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_customers" name="num_top_customers" placeholder="Ex: 5" min="1">
                                     <input class="btn btn-outline-primary" type="submit" value="Show">
                                 </div>
                             </form>
@@ -43,10 +46,13 @@
 
                         {% if jabatan != 'Teknisi' and jabatan != 'Inventori' and jabatan != 'Akuntan' %}
                         <div class="col">
-                            <p><strong>Teknisi :</strong></p>
+                            <p><strong>Teknisi :
+                                <span data-toggle="tooltip" data-placement="top" title="Isi dengan banyak top karyawan.">
+                                <i class="fa fa-info-circle"></i>
+                            </span></strong></p>
                             <form method="GET" action="{% url 'appointment_chart_top_karyawan' %}">
                                 <div class="d-flex">
-                                    <input class="form-control me-sm-2" type="number" id="num_top_karyawan" name="num_top_karyawan" value="5" min="1">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_karyawan" name="num_top_karyawan" placeholder="Ex: 5" min="1">
                                     <input class="btn btn-outline-primary" type="submit" value="Show">
                                 </div>
                             </form>
@@ -66,10 +72,13 @@
                         
                         {% if jabatan != 'Akuntan' %}
                         <div class="col">
-                            <p><strong>Service :</strong></p>
+                            <p><strong>Service :
+                                <span data-toggle="tooltip" data-placement="top" title="Isi dengan banyak top service.">
+                                <i class="fa fa-info-circle"></i>
+                            </span></strong></p>
                             <form method="GET" action="{% url 'appointment_chart_services' %}">
                                 <div class="d-flex">
-                                    <input class="form-control me-sm-2" type="number" id="num_top_services" name="num_top_services" value="5" min="1">
+                                    <input class="form-control me-sm-2" type="number" id="num_top_services" name="num_top_services" placeholder="Ex: 5" min="1">
                                     <input class="btn btn-outline-primary" type="submit" value="Show">
                                 </div>
                             </form>
@@ -80,5 +89,10 @@
                 </div>               
             </div>
         </div>
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
     </div> 
 {% endblock content %}

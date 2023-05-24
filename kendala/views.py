@@ -16,7 +16,7 @@ def is_authenticated(request):
     
 def create_kendala(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Service Advisor':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Owner':
             form = KendalaForm(request.POST or None)
             app_service = AppointmentService.objects.get(id=id)
             app_id = app_service.appointment_id
@@ -41,12 +41,13 @@ def create_kendala(request, id):
 
 def detail_kendala(request, id):
     if is_authenticated(request):
-        kendala = Kendala.objects.get(id=id)
-        appointment_service_id = kendala.appointment_service_id
-        appointment_service = AppointmentService.objects.get(id=appointment_service_id)
-        appointment_service_id = appointment_service.id
-        appointment_id = appointment_service.appointment_id
-        appointment = Appointment.objects.get(id=appointment_id)
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Owner':
+            kendala = Kendala.objects.get(id=id)
+            appointment_service_id = kendala.appointment_service_id
+            appointment_service = AppointmentService.objects.get(id=appointment_service_id)
+            appointment_service_id = appointment_service.id
+            appointment_id = appointment_service.appointment_id
+            appointment = Appointment.objects.get(id=appointment_id)
 
 
         context = {
@@ -61,7 +62,7 @@ def detail_kendala(request, id):
 
 def update_kendala(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Owner':
             kendala = Kendala.objects.get(id=id)
             appointment_service_id = kendala.appointment_service_id
             appointment_service = AppointmentService.objects.get(id=appointment_service_id)
@@ -82,12 +83,6 @@ def update_kendala(request, id):
             if (form.is_valid() and request.method == 'POST'):
                 form.save()
                 return redirect(f'/service-appointment/{appointment_id}')
-            # if request.method == 'POST':
-            #     form = KendalaForm(request.POST, instance=kendala)
-                
-            #     if form.is_valid():
-            #         form.save()
-            #     return redirect(f'service-appointment/{appointment_id}')
                 
             return render(request, "update_kendala.html", response)
         else:

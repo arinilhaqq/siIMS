@@ -32,7 +32,7 @@
             </div>
             <div class="row">
             <div class="form-group col-md-4">
-                <label for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
+                <label class="required" for="id_jumlah_estimasi_pengerjaan">Jumlah Estimasi Pengerjaan:</label>
                 <input type="text" class="form-control" name="jumlah_estimasi_pengerjaan" maxlength="10" required id="id_jumlah_estimasi_pengerjaan"
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
@@ -41,7 +41,7 @@
             <br>
             <br>
             <div class="form-group col-md-4">
-                <label>Satuan waktu:</label>
+                <label class="required">Satuan waktu:</label>
                 <select class="form-select" name="satuan_waktu">
                     <option selected>Satuan Waktu</option>
                     <option value="Menit">Menit</option>

@@ -43,7 +43,7 @@
                 <label class="required">Kebutuhan Jenis Services:</label>
                 <select name="services" id="id_services" class="form-select" multiple data-search="true">
                     {% for service in listservices %}
-                    <option value="{{ service.id }}" {% if service in sparepart.services.all %}selected{% endif %}>{{ service.nama }}</option>
+                    <option value="{{ service.id }}" {% if service in sparepart.services.all or service == serv or service in serv %}selected{% endif %}>{{ service.nama }}</option>
                     {% endfor %}
                 </select>
                 <!-- {{ form.services }} -->

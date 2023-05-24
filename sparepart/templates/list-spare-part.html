@@ -113,10 +113,7 @@
                           <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Kebutuhan Jenis Service:</label>
-                                  {% for svc in s.services.all %}
-                                  <li>{{ svc.nama }}</li>
-                                  {% endfor %}</p>
-                                  {% for key, value in serpis.items %}
+                                  {% for key, value in listallservice.items %}
                                     {% if key == s.id %}
                                         {% for serv in value %}
                                             <li>{{ serv }}</li>

@@ -117,7 +117,12 @@
                 {% csrf_token %}
             <th>Lain-Lain</th>
             <td>
+                {% if nota_gabungan.keterangan_lain_lain == NULL %}
+                <textarea name="keterangan_lain_lain" required id="keterangan_lain_lain"></textarea>
+                {% else %}
                 <textarea name="keterangan_lain_lain" required id="keterangan_lain_lain">{{ nota_gabungan.keterangan_lain_lain }}</textarea>
+                {% endif %}
+
             </td>
                 <td>
                 <input type="number" name="total_harga_lainlain" value="{{ nota_gabungan.total_harga_lainlain }}" maxlength="30" required id="total_harga_lainlain">

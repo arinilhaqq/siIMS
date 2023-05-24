@@ -78,6 +78,37 @@
             text-align: left;
             font-weight: bold;
         }
+
+        /* Define custom styles for the checkboxes */
+        .custom-checkbox input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Style the custom checkboxes */
+        .custom-checkbox label {
+            display: inline-block;
+            position: relative;
+            padding-left: 25px;
+            cursor: pointer;
+        }
+
+        /* Customize the appearance of the custom checkboxes */
+        .custom-checkbox label:before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            margin-right: 10px;
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+
+        /* Style the custom checkboxes when checked */
+        .custom-checkbox input[type="checkbox"]:checked + label:before {
+            background-color: green; /* Change the color here */
+        }
     </style>
 </head>
 <body>
@@ -173,7 +204,11 @@
         <!-- <label for="id_petugas_gudang">Service Advisor</label> -->
         {% if jabatan != 'Inventori' and jabatan != 'Admin'%}
           {% if nota_barang.petugas_gudang %}
-            <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled checked>
+            <div class="custom-checkbox">
+                <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled {% if nota_barang.petugas_gudang %}checked{% endif %}>
+            <label for="petugas_gudang"></label>
+            </div>
+            <!-- <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled checked> -->
             <input type="hidden" name="petugas_gudang" id="petugas_gudang" value="petugas_gudang">
           {% else %}
             <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled>
@@ -193,7 +228,11 @@
         <!-- <label for="id_petugas_bengkel">Service Advisor</label> -->
         {% if jabatan != 'Teknisi' and jabatan != 'Admin' %}
          {% if nota_barang.petugas_bengkel %}
-            <input type="petugas_gudang" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled checked>
+            <div class="custom-checkbox">
+                <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled {% if nota_barang.petugas_bengkel %}checked{% endif %}>
+            <label for="petugas_bengkel"></label>
+            </div>
+            <!-- <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled checked> -->
             <input type="hidden" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel">
           {% else %}
           <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel"disabled>

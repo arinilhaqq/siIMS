@@ -35,13 +35,18 @@
           <td>{{ forloop.counter }}.</td>
           <td>{{ service.nama }}</td>
 
-          {% for key, value in status_sparepart.items %}
+          {% if service.id in service_ids_baru %}
 
-            {% if service.id == key %}
-            <td>{{ value }}</td>
-            {% endif %}
-            
-          {% endfor %}
+            {% for key, value in status_sparepart.items %}
+
+              {% if service.id == key %}
+              <td>{{ value }}</td>
+              {% endif %}
+              
+            {% endfor %}
+          {% else %} 
+            <td>Belum ada sparepart yang terhubung</td>
+          {% endif %}
           
           <td>
             {% if appointment.status == "Approved" %}

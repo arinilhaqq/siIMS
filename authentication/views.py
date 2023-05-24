@@ -33,11 +33,11 @@ def login(request) :
             # username_low = username.lower()
             print(user)
             if len(user) > 0:
-                request.session["username"] = user[0][9]
+                request.session["username"] = user[0][8]
                 request.session["email"] = user[0][7]
                 request.session["jabatan"] = user[0][4]
                 request.session["nama_karyawan"] = user[0][1]
-                request.session["password"] = user[0][8]
+                request.session["password"] = user[0][9]
                 request.session["id"] = user[0][0]
                 return redirect(home)
             else:

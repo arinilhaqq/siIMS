@@ -56,7 +56,7 @@
             <label class="required">Kebutuhan Spare Parts:</label>
             <select name="kebutuhan_spare_part" id="id_kebutuhan_spare_part" class="form-select-ini" multiple data-search="true">
                 {% for sparepart in listsparepart %}
-                <option value="{{ sparepart.id }}" {% if sparepart in service.kebutuhan_spare_part.all %}selected{% endif %}>{{ sparepart.nama }}</option>
+                <option value="{{ sparepart.id }}" {% if sparepart in service.kebutuhan_spare_part.all or sparepart == spares or sparepart in spares %}selected{% endif %}>{{ sparepart.nama }}</option>
                 {% endfor %}
             </select>
                 <!-- {{ form.kebutuhan_spare_part }} -->

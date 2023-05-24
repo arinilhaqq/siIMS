@@ -5,7 +5,7 @@ from nota.forms import NotaBarangForms, NotaGabunganForms, NotaSearchForm, NotaS
 from .models import NotaBarang, NotaGabungan, NotaJasa
 from datetime import date
 from django.db import connection
-from num2words import num2words
+# from num2words import num2words
 
 def is_authenticated(request):
     try:
@@ -256,7 +256,7 @@ def gabungan_view(request, id):
             jenis = appointment.pelanggan.jenis_mobil
 
 
-            harga_terbilang = num2words(total_harga_gabungan, lang='id')
+            # harga_terbilang = num2words(total_harga_gabungan, lang='id')
 
 
             context = {
@@ -269,10 +269,8 @@ def gabungan_view(request, id):
                 'nomor_gabungan': nota_gabungan.nomor_gabungan,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
-
                 'total_harga_gabungan' : total_harga_gabungan,
-
-                'harga_terbilang' : harga_terbilang,
+                # 'harga_terbilang' : harga_terbilang,
                 'pelanggan' : pelanggan,
                 'nomor_pkb' : nomor_pkb,
                 'nomor_polisi' : nomor_polisi,

@@ -84,21 +84,12 @@ def add_sparepart(request):
         if request.session['jabatan'] != 'Akuntan':
             context = {}
             all_services = Service.objects.all()
-            all_sparepart = SparePart.objects.all()
-            max_id = 0
-            
-            for sparepart in all_sparepart:
-                if sparepart.id > max_id:
-                    max_id = sparepart.id
-            
-            print(max_id)
 
             form = SparePartForm(request.POST or None)
+
             if (form.is_valid() and request.method == 'POST'):
-                sparepart = form.save(commit=False)
-                sparepart.id = max_id + 1  
-                sparepart.save() 
-                print(sparepart.id)
+                form.save()
+
                 return redirect('/list-sparepart')
 
             context['form'] = form
@@ -110,6 +101,7 @@ def add_sparepart(request):
             return HttpResponseRedirect("/")
     else:
         return HttpResponseRedirect("/login")
+
 
 def ambil_service(id):
     cursor = connection.cursor()
@@ -162,7 +154,7 @@ def update_sparepart(request, id):
             if form.is_valid():
                 form.save()
                 return redirect('/list-sparepart')
-            
+
             response = {'listservices': all_services,
                         'form': form,
                         'sparepart': obj,

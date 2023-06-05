@@ -36,7 +36,7 @@ def services_list(request):
                 obj_sparepart = SparePart.objects.get(id=id_sparepart)
                 id_service = rows[j][2]
 
-                if id_sparepart in tampung2:
+                if id_service in tampung2:
                     tampung2[id_service] += [obj_sparepart]
                 else:
                     tampung2[id_service] = [obj_sparepart]
@@ -111,10 +111,10 @@ def add_service(request):
         if request.session['jabatan'] !='Akuntan':
             context = {}
             all_sparepart = SparePart.objects.all()
-            print('ga')
+
             form = ServiceForm(request.POST or None)
             if (form.is_valid() and request.method == 'POST'):
-                print('masuk')
+
                 ids = form.save()
                 id_service = ids.id
                 return redirect(f"/add-spareparts/{id_service}")
@@ -150,16 +150,17 @@ def delete_service(request, id):
     else:
         return HttpResponseRedirect("/login")
 
+
 def update_service(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
-            # Kebutuhan spre part table
             all_sparepart = SparePart.objects.all()
             obj = Service.objects.prefetch_related('kebutuhan_spare_part').get(id=id)
-            form = ServiceForm(request.POST or None, instance=obj) 
 
             # Sparepart services table
             sparepart = SparePart.objects.filter(services=obj)
+
+            form = ServiceForm(request.POST or None, instance=obj)
 
             if form.is_valid():
                 ids = form.save()
@@ -171,7 +172,7 @@ def update_service(request, id):
                 'listsparepart': all_sparepart,
                 'service': obj,
                 'spares': sparepart,
-                'username':request.session['username'],               
+                'username':request.session['username'],
                 'jabatan':request.session['jabatan']
             }
 
@@ -181,12 +182,14 @@ def update_service(request, id):
     else:
         return HttpResponseRedirect("/login")
 
+
 def add_kebutuhan_spare_parts(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan':
             service = Service.objects.get(id=id)
             id_service = service.id
             cursor = connection.cursor()
+            cursor1 = connection.cursor()
             cursor.execute("SET search_path TO public")
             cursor.execute(
                 'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
@@ -201,6 +204,27 @@ def add_kebutuhan_spare_parts(request, id):
                 sparepart_id_kuantitas[rows[j][2]] = rows[j][3]
 
             print(len(rows))
+            print(rows)
+
+            tampung = []
+            for s in range(len(rows)): #ambil semua hasil final
+                cursor1.execute("SET search_path TO public")
+                cursor1.execute(
+                    'SELECT nama, variasi FROM public."sparepart_sparepart" WHERE '
+                    '"sparepart_sparepart"."id"=%s',
+                    [rows[s][2]])
+                rows1 = cursor1.fetchone()
+                print(rows1)
+                tampung.append(rows1[0])
+
+            not_in_subset = [item for item in ambil_sparepart(id) if item not in tampung]
+            cursor2 = connection.cursor()
+            cursor2.execute("SET search_path TO public")
+            cursor2.execute(
+                'DELETE FROM public."sparepart_sparepart_services" WHERE '
+                '"sparepart_id" IN (SELECT id FROM public."sparepart_sparepart" WHERE nama = ANY (%s::text[]))',
+                (not_in_subset,)
+            )
 
             nama_spare_part = []
             for h in range(len(spare_part_id)):

@@ -241,7 +241,7 @@ def sparepart_chart_stock(request):
             spareparts = SparePart.objects.all().order_by('-stok')
 
             labels = [sparepart.nama for sparepart in spareparts]
-            data = [sparepart.stok for sparepart in spareparts]
+            data = [sparepart.stok if sparepart.stok <= 100 else 100 for sparepart in spareparts]
 
             # Serialize the data to JSON format
             labels_json = json.dumps(labels)

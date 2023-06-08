@@ -69,6 +69,8 @@ def sparepart_list(request):
                     elif pilihan == 'Terdikit':
                         sparepart = sparepart.order_by("stok")
 
+            print(tampung)
+
             response = {'form':form, 'form_sort': form_sort, 'sparepart': sparepart, 'username': request.session['username'],
                         'jabatan': request.session['jabatan'], 'listallservice': tampung}
             
@@ -153,6 +155,38 @@ def update_sparepart(request, id):
             print(service)
             if form.is_valid():
                 form.save()
+                # disini
+                id_spr = obj.id
+                cursor = connection.cursor()
+                cursor1 = connection.cursor()
+                cursor.execute("SET search_path TO public")
+                cursor.execute(
+                    'SELECT * FROM public."sparepart_sparepart_services" WHERE '
+                    '"sparepart_sparepart_services"."sparepart_id"=%s',
+                    [id_spr])
+                rows = cursor.fetchall()
+                print(rows)
+
+                tampung = []
+                for s in range(len(rows)):  # ambil semua hasil final
+                    cursor1.execute("SET search_path TO public")
+                    cursor1.execute(
+                        'SELECT nama FROM public."services_service" WHERE '
+                        '"services_service"."id"=%s',
+                        [rows[s][2]])
+                    rows1 = cursor1.fetchone()
+                    print(rows1)
+                    tampung.append(rows1[0])
+
+                not_in_subset = [item for item in ambil_service(id) if item not in tampung]
+                cursor2 = connection.cursor()
+                cursor2.execute("SET search_path TO public")
+                cursor2.execute(
+                    'DELETE FROM public."services_service_kebutuhan_spare_part" WHERE '
+                    '"service_id" IN (SELECT id FROM public."services_service" WHERE nama = ANY (%s::text[]))',
+                    (not_in_subset,)
+                )
+
                 return redirect('/list-sparepart')
 
             response = {'listservices': all_services,

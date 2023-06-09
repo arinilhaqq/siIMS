@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import sparepart_list, add_sparepart, delete_sparepart, update_sparepart, ambil_service
+from .views import sparepart_list, add_sparepart, delete_sparepart, update_sparepart
 
 urlpatterns = [
     path('list-sparepart/', sparepart_list),

@@ -16,7 +16,7 @@ def is_authenticated(request):
     
 def create_final_inspection(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor' and request.session['jabatan'] !='Owner':
             appointment = Appointment.objects.get(id=id)
             initial_inspection=InitialInspection.objects.get(appointment=id)
             if request.method == 'POST':
@@ -45,7 +45,7 @@ def create_final_inspection(request, id):
     
 def update_final_inspection(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor' and request.session['jabatan'] !='Owner':
             final_inspection = FinalInspection.objects.get(appointment=id)
             print(final_inspection)
             response = {

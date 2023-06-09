@@ -43,12 +43,11 @@
             </div>
             <div class="form-group col-md-4">
                 <label class="required" >Kebutuhan Jenis Service:</label>
-                <select name="services" id="id_services" class="form-select" multiple data-search="true">
+                <select name="services" id="id_services" class="form-select-itu" multiple data-search="true">
                     {% for service in listservices %}
                     <option value="{{ service.id }}">{{ service.nama }}</option>
                     {% endfor %}
                 </select>
-                <!-- {{ form.services }} -->
             </div>
         </div>
         <br>
@@ -59,7 +58,7 @@
     </form>
     <script>
         $(document).ready(function() {
-          $('.form-select').select2({
+          $('.form-select-itu').select2({
             width: '100%',
             placeholder: 'Pilih Jenis Service',
             closeOnSelect: false,

@@ -18,7 +18,6 @@
 
     <form action="" method="POST">
         {% csrf_token %}
-<!--        {{ form.as_p }}-->
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="required" for="id_nama">Nama:</label>
@@ -50,7 +49,6 @@
                     <option value="Minggu">Minggu</option>
                     <option value="Bulan">Bulan</option>
                   </select>
-                <!-- {{ form.satuan_waktu }} -->
             </div>
             </div>
         </div>
@@ -63,7 +61,6 @@
                 {% endfor %}
             </select>
 
-            <!-- {{ form.kebutuhan_spare_part }} -->
         </div>
         <br>
         <div class="bs-example">

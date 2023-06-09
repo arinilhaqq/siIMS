@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from .models import SparePart
 from services.models import Service
 from .forms import SparePartForm, SparepartSearchForm, SparepartSortForm
-# from django.core.paginator import Paginator
+
 from django.db import connection
 
 def is_authenticated(request):
@@ -69,6 +69,8 @@ def sparepart_list(request):
                     elif pilihan == 'Terdikit':
                         sparepart = sparepart.order_by("stok")
 
+            print(tampung)
+
             response = {'form':form, 'form_sort': form_sort, 'sparepart': sparepart, 'username': request.session['username'],
                         'jabatan': request.session['jabatan'], 'listallservice': tampung}
             
@@ -81,24 +83,15 @@ def sparepart_list(request):
 
 def add_sparepart(request):
     if is_authenticated(request):
-        if request.session['jabatan'] != 'Akuntan':
+        if request.session['jabatan'] != 'Akuntan' and request.session['jabatan'] !='Owner':
             context = {}
             all_services = Service.objects.all()
-            all_sparepart = SparePart.objects.all()
-            max_id = 0
-            
-            for sparepart in all_sparepart:
-                if sparepart.id > max_id:
-                    max_id = sparepart.id
-            
-            print(max_id)
 
             form = SparePartForm(request.POST or None)
+
             if (form.is_valid() and request.method == 'POST'):
-                sparepart = form.save(commit=False)
-                sparepart.id = max_id + 1  
-                sparepart.save() 
-                print(sparepart.id)
+                form.save()
+
                 return redirect('/list-sparepart')
 
             context['form'] = form
@@ -110,6 +103,7 @@ def add_sparepart(request):
             return HttpResponseRedirect("/")
     else:
         return HttpResponseRedirect("/login")
+
 
 def ambil_service(id):
     cursor = connection.cursor()
@@ -136,7 +130,7 @@ def ambil_service(id):
 
 def delete_sparepart(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] != 'Akuntan':
+        if request.session['jabatan'] != 'Akuntan' and request.session['jabatan'] !='Owner':
             sparepart = SparePart.objects.get(id=id)
             sparepart.delete()
             spareparts = SparePart.objects.all().values()
@@ -151,18 +145,50 @@ def delete_sparepart(request, id):
 
 def update_sparepart(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] != 'Akuntan':
+        if request.session['jabatan'] != 'Akuntan' and request.session['jabatan'] !='Owner':
             all_services = Service.objects.all()
             obj = SparePart.objects.prefetch_related('services').get(id=id)
             form = SparePartForm(request.POST or None, instance=obj)
 
             # Kebutuhan spare part table
             service = Service.objects.filter(kebutuhan_spare_part=obj)
-            print(service)
+            # print(service)
             if form.is_valid():
                 form.save()
+                # disini
+                id_spr = obj.id
+                cursor = connection.cursor()
+                cursor1 = connection.cursor()
+                cursor.execute("SET search_path TO public")
+                cursor.execute(
+                    'SELECT * FROM public."sparepart_sparepart_services" WHERE '
+                    '"sparepart_sparepart_services"."sparepart_id"=%s',
+                    [id_spr])
+                rows = cursor.fetchall()
+                # print(rows)
+
+                tampung = []
+                for s in range(len(rows)):  # ambil semua hasil final
+                    cursor1.execute("SET search_path TO public")
+                    cursor1.execute(
+                        'SELECT nama FROM public."services_service" WHERE '
+                        '"services_service"."id"=%s',
+                        [rows[s][2]])
+                    rows1 = cursor1.fetchone()
+                    print(rows1)
+                    tampung.append(rows1[0])
+
+                not_in_subset = [item for item in ambil_service(id) if item not in tampung]
+                cursor2 = connection.cursor()
+                cursor2.execute("SET search_path TO public")
+                cursor2.execute(
+                    'DELETE FROM public."services_service_kebutuhan_spare_part" WHERE '
+                    '"service_id" IN (SELECT id FROM public."services_service" WHERE nama = ANY (%s::text[]))',
+                    (not_in_subset,)
+                )
+
                 return redirect('/list-sparepart')
-            
+
             response = {'listservices': all_services,
                         'form': form,
                         'sparepart': obj,

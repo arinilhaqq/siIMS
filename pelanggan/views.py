@@ -51,7 +51,7 @@ def pelanggan_list(request):
 
 def create_pelanggan(request):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] != 'Owner':
             context = {}
 
             form = PelangganForm(request.POST or None)
@@ -70,7 +70,7 @@ def create_pelanggan(request):
 
 def delete_pelanggan(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] != 'Owner':
             pelanggan_by_id = Pelanggan.objects.get(id=id)
             pelanggan_by_id.delete()
 
@@ -84,7 +84,7 @@ def delete_pelanggan(request, id):
 
 def detail_pelanggan(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] != 'Owner':
             pelanggan = Pelanggan.objects.get(id=id)
 
             response = {'pelanggan': pelanggan, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
@@ -96,7 +96,7 @@ def detail_pelanggan(request, id):
 
 def update_pelanggan(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] != 'Owner':
             pelanggan = Pelanggan.objects.get(id=id)
             response = {'pelanggan': pelanggan, 'username':request.session['username'], 'jabatan':request.session['jabatan']}
             if request.method == 'POST':

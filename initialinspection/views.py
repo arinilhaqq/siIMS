@@ -12,24 +12,27 @@ def is_authenticated(request):
     
 def create_initial_inspection(request, id):
     if is_authenticated(request):
-        if request.method == 'POST':
-            form = InitialInspectionForm(request.POST)
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor' and request.session['jabatan'] !='Owner':
+            if request.method == 'POST':
+                form = InitialInspectionForm(request.POST)
 
-            if form.is_valid():
-                form.appointment = Appointment.objects.get(id=id)
-                initial_inspection = form.save()
+                if form.is_valid():
+                    form.appointment = Appointment.objects.get(id=id)
+                    initial_inspection = form.save()
 
-                return redirect('/detail-initial-inspection/' + str(id), id)
+                    return redirect('/detail-initial-inspection/' + str(id), id)
+            else:
+                form = InitialInspectionForm()
+
+            context = {
+                'form': form,
+                'appointment': Appointment.objects.get(id=id),
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
+            return render(request, 'create-initial-inspection.html', context)
         else:
-            form = InitialInspectionForm()
-
-        context = {
-            'form': form,
-            'appointment': Appointment.objects.get(id=id),
-            'username': request.session['username'],
-            'jabatan': request.session['jabatan'],
-        }
-        return render(request, 'create-initial-inspection.html', context)
+                return HttpResponseRedirect ("/")
     else:
         return HttpResponseRedirect("/login")
 
@@ -49,7 +52,7 @@ def detail_initial_inspection(request, id):
 
 def update_initial_inspection(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Service Advisor' and request.session['jabatan'] !='Owner':
             initial_inspection = InitialInspection.objects.get(appointment=id)
             appointment = Appointment.objects.get(id=id)
             response = {

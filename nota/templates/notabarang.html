@@ -171,10 +171,16 @@
             <p><strong>Petugas Gudang:</strong></p>
             <div class="custom-checkbox">
                 <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled {% if nota_barang.petugas_gudang %}checked{% endif %}>
-            <label for="petugas_gudang"></label>
+            <label for="petugas_gudang">
+                {% if nota_barang.petugas_gudang %}
+                <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled {% if nota_barang.petugas_gudang %}checked{% endif %}>
+                Terverifikasi
+                {% endif %}
+            </label>
+
             </div>
             {% if not nota_barang.petugas_gudang %}
-                <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled>
+                <input type="checkbox" name="petugas_gudang" value="petugas_gudang" id="petugas_gudang" disabled> 
             {% endif %}
         </div>
         <br>
@@ -183,10 +189,15 @@
             <p><strong>Petugas Bengkel:</strong></p>
             <div class="custom-checkbox">
                 <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled {% if nota_barang.petugas_bengkel %}checked{% endif %}>
-            <label for="petugas_bengkel"></label>
+            <label for="petugas_bengkel">
+                {% if nota_barang.petugas_bengkel %}
+                <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled {% if nota_barang.petugas_bengkel %}checked{% endif %}>
+                Terverifikasi
+                {% endif %}
+            </label>
             </div>
             {% if not nota_barang.petugas_bengkel %}
-                    <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled>
+                    <input type="checkbox" name="petugas_bengkel" value="petugas_bengkel" id="petugas_bengkel" disabled> 
             {% endif %}
         </div>
     </div>

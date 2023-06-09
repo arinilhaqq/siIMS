@@ -18,7 +18,6 @@
 
     <form action="" method="POST">
         {% csrf_token %}
-        <!-- {{ form.as_p }} -->
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="required" for="id_nama">Nama:</label>
@@ -59,12 +58,7 @@
                 <option value="{{ sparepart.id }}" {% if sparepart in service.kebutuhan_spare_part.all or sparepart == spares or sparepart in spares %}selected{% endif %}>{{ sparepart.nama }}</option>
                 {% endfor %}
             </select>
-                <!-- {{ form.kebutuhan_spare_part }} -->
         </div>
-<!--        <div class="form-group">-->
-<!--            <label>Kuantitas:</label>-->
-<!--            {{ form.quantities }}-->
-<!--        </div>-->
         <br>
         <div class="bs-example">
             <button type="submit" class="btn btn-primary">Next</button>

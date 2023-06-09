@@ -24,7 +24,7 @@ def is_authenticated(request):
 
 def create_appointment(request):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi' and request.session['jabatan'] !='Owner':
             pelanggan = Pelanggan.objects.all()
 
             if request.method == 'POST':
@@ -188,6 +188,30 @@ def teknisi_finished_appointment(request, id):
 
             appoint_confirm.save()
 
+            services = appoint_confirm.services.all().values()
+        
+            service_ids = [item['id'] for item in services]
+
+            for service_id in service_ids:
+                cursor = connection.cursor()
+                cursor.execute("SET search_path TO public")
+                cursor.execute(
+                    'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+                    '"services_service_kebutuhan_spare_part"."service_id"=%s',
+                    [service_id])
+                rows = cursor.fetchall()
+                print(rows)
+
+                for j in range(len(rows)):
+                    id_service = rows[j][1]
+                    id_sparepart = rows[j][2]
+                    kuantitas_sparepart = rows[j][3]
+                    if (kuantitas_sparepart == None):
+                        kuantitas_sparepart = 0
+                    sparepart = SparePart.objects.get(id=id_sparepart)
+                    sparepart.stok -= kuantitas_sparepart
+                    sparepart.save()
+
             return redirect('/list-appointment/')
         else:
             return HttpResponseRedirect ("/")
@@ -196,7 +220,7 @@ def teknisi_finished_appointment(request, id):
 
 def update_appointment(request, id):
     if is_authenticated(request):
-        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori':
+        if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Owner':
             appointment = Appointment.objects.get(id=id)
             finalTeknisi = Karyawan.objects.filter(jabatan='Teknisi', kehadiran='Hadir').exclude(appointment__teknisi__isnull=False, appointment__status='On going').exclude(appointment__teknisi__isnull=False, appointment__status='Approved')
             response = {'appointment': appointment, 'username':request.session['username'], 'jabatan':request.session['jabatan'], 'listTeknisi': finalTeknisi}
@@ -517,29 +541,29 @@ def approve_appointment(request, id):
 
         appointment.save()
 
-        services = appointment.services.all().values()
+        # services = appointment.services.all().values()
         
-        service_ids = [item['id'] for item in services]
+        # service_ids = [item['id'] for item in services]
 
-        for service_id in service_ids:
-            cursor = connection.cursor()
-            cursor.execute("SET search_path TO public")
-            cursor.execute(
-                'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
-                '"services_service_kebutuhan_spare_part"."service_id"=%s',
-                [service_id])
-            rows = cursor.fetchall()
-            print(rows)
+        # for service_id in service_ids:
+        #     cursor = connection.cursor()
+        #     cursor.execute("SET search_path TO public")
+        #     cursor.execute(
+        #         'SELECT * FROM public."services_service_kebutuhan_spare_part" WHERE '
+        #         '"services_service_kebutuhan_spare_part"."service_id"=%s',
+        #         [service_id])
+        #     rows = cursor.fetchall()
+        #     print(rows)
 
-            for j in range(len(rows)):
-                id_service = rows[j][1]
-                id_sparepart = rows[j][2]
-                kuantitas_sparepart = rows[j][3]
-                if (kuantitas_sparepart == None):
-                    kuantitas_sparepart = 0
-                sparepart = SparePart.objects.get(id=id_sparepart)
-                sparepart.stok -= kuantitas_sparepart
-                sparepart.save()
+        #     for j in range(len(rows)):
+        #         id_service = rows[j][1]
+        #         id_sparepart = rows[j][2]
+        #         kuantitas_sparepart = rows[j][3]
+        #         if (kuantitas_sparepart == None):
+        #             kuantitas_sparepart = 0
+        #         sparepart = SparePart.objects.get(id=id_sparepart)
+        #         sparepart.stok -= kuantitas_sparepart
+        #         sparepart.save()
 
         return redirect('/list-appointment/')
     else:

@@ -532,6 +532,7 @@
       <div class="custom-checkbox">
           <input type="checkbox" name="checked" value="checked" id="checked" disabled {% if inspection.checked %}checked{% endif %}>
           <label for="checked"></label>
+          <input type="hidden" name="checked" id="checked" value="checked">
       </div>
       {% if inspection.checked %}
           <input type="hidden" name="checked" id="checked" value="checked">
@@ -540,8 +541,12 @@
         {% endif %}
       {% else %}
         {% if inspection.checked %}
-          <input type="checkbox" name="checked" value="checked" id="checked" checked>
-        {% else %}
+        <div class="custom-checkbox">
+          <input type="checkbox" name="checked" value="checked" id="checked" disabled {% if inspection.checked %}checked{% endif %}>
+          <label for="checked"></label>
+          <input type="hidden" name="checked" id="checked" value="checked">
+        </div>
+          {% else %}
           <input type="checkbox" name="checked" value="checked" id="checked">
         {% endif %}
       {% endif %}
@@ -555,6 +560,7 @@
       <div class="custom-checkbox">
           <input type="checkbox" name="approved" value="approved" id="approved" disabled {% if inspection.approved %}checked{% endif %}>
           <label for="approved"></label>
+          <input type="hidden" name="approved" value="approved" id="approved">
       </div>
       {% if inspection.approved %}
           <input type="hidden" name="approved" value="approved" id="approved">
@@ -563,8 +569,12 @@
         {% endif %}
       {% else %}
         {% if inspection.approved %}
-          <input type="checkbox" name="approved" value="approved" id="approved" checked>
-        {% else %}
+        <div class="custom-checkbox">
+          <input type="checkbox" name="approved" value="approved" id="approved" disabled {% if inspection.approved %}checked{% endif %}>
+          <label for="approved"></label>
+          <input type="hidden" name="approved" value="approved" id="approved">
+        </div>
+          {% else %}
           <input type="checkbox" name="approved" value="approved" id="approved">
         {% endif %}
       {% endif %}

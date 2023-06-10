@@ -34,6 +34,8 @@ def pelanggan_list(request):
                         pelanggan = pelanggan.order_by("-id")
                     elif pilihan == 'Terlama':
                         pelanggan = pelanggan.order_by("id")
+                    elif pilihan == 'A-Z':
+                        pelanggan = pelanggan.order_by("nama_pelanggan")
 
             response = {
                 "form": form,

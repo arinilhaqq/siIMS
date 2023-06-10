@@ -26,6 +26,8 @@ class ServiceSearchForm(forms.Form):
 URUTAN_CHOICES = (
     ('Termahal', 'Termahal'),
     ('Termurah', 'Termurah'),
+    ('Terlama', 'Terlama'),
+    ('Tercepat', 'Tercepat'),
 )
 
 class ServiceSortForm(forms.Form):

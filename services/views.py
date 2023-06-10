@@ -14,6 +14,12 @@ def is_authenticated(request):
         return False
     
 def services_list(request):
+    SATUAN_WAKTU = (('Menit', 'Menit'),
+                    ('Jam', 'Jam'),
+                    ('Hari', 'Hari'),
+                    ('Minggu', 'Minggu'),
+                    ('Bulan', 'Bulan'))
+
     if is_authenticated(request):
         if request.session['jabatan'] != 'Akuntan':
             tampung = {}
@@ -64,7 +70,11 @@ def services_list(request):
                 pilihan = form_sort.cleaned_data.get('pilihan')
 
                 if pilihan:
-                    if pilihan == 'Termahal':
+                    if pilihan == 'Terlama':
+                        services = services.order_by("jumlah_estimasi_pengerjaan", "satuan_waktu")
+                    elif pilihan == 'Tercepat':
+                        services = services.order_by("-jumlah_estimasi_pengerjaan", "-satuan_waktu")
+                    elif pilihan == 'Termahal':
                         services = services.order_by("-harga")
                     elif pilihan == 'Termurah':
                         services = services.order_by("harga")

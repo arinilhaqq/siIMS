@@ -1,6 +1,13 @@
 {% extends 'main.html' %} {% load static %} {% block meta %}
 <title>Karyawan | si-IMS</title>
 {% endblock meta %} {% block content %}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p {% if message.tags %} class="alert alert-success" {% endif %}  align="center">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
     <h1 align="center">List Karyawan</h1>
     <p align="center">List Karyawan PT Inter Motor Sport</p>
 

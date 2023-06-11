@@ -24,6 +24,7 @@ def create_karyawan(request):
                 else:
                     if form.is_valid():
                         form.save()
+                        messages.success(request, "Karyawan berhasil ditambahkan")
                         return redirect('/list-karyawan/')
                 
             context = {

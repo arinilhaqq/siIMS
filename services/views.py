@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+from django.db.models import Case, When, CharField
 from .models import Service
 from sparepart.models import SparePart
 from .forms import ServiceForm, SparePartItemForm, ServiceSearchForm, ServiceSortForm
@@ -14,12 +15,6 @@ def is_authenticated(request):
         return False
     
 def services_list(request):
-    SATUAN_WAKTU = (('Menit', 'Menit'),
-                    ('Jam', 'Jam'),
-                    ('Hari', 'Hari'),
-                    ('Minggu', 'Minggu'),
-                    ('Bulan', 'Bulan'))
-
     if is_authenticated(request):
         if request.session['jabatan'] != 'Akuntan':
             tampung = {}
@@ -70,10 +65,30 @@ def services_list(request):
                 pilihan = form_sort.cleaned_data.get('pilihan')
 
                 if pilihan:
-                    if pilihan == 'Terlama':
-                        services = services.order_by("jumlah_estimasi_pengerjaan", "satuan_waktu")
-                    elif pilihan == 'Tercepat':
-                        services = services.order_by("-jumlah_estimasi_pengerjaan", "-satuan_waktu")
+                    if pilihan == 'Tercepat':
+                        # services = services.order_by("jumlah_estimasi_pengerjaan", "satuan_waktu")
+                        services = services.annotate(
+                            custom_order=Case(
+                                When(satuan_waktu='Menit', then=1),
+                                When(satuan_waktu='Jam', then=2),
+                                When(satuan_waktu='Hari', then=3),
+                                When(satuan_waktu='Minggu', then=4),
+                                When(satuan_waktu='Bulan', then=5),
+                                output_field=CharField()
+                            )
+                        ).order_by('custom_order', 'jumlah_estimasi_pengerjaan', 'satuan_waktu')
+                    elif pilihan == 'Terlama':
+                        # services = services.order_by("-jumlah_estimasi_pengerjaan", "-satuan_waktu")
+                        services = services.annotate(
+                            custom_order=Case(
+                                When(satuan_waktu='Menit', then=5),
+                                When(satuan_waktu='Jam', then=4),
+                                When(satuan_waktu='Hari', then=3),
+                                When(satuan_waktu='Minggu', then=2),
+                                When(satuan_waktu='Bulan', then=1),
+                                output_field=CharField()
+                            )
+                        ).order_by('custom_order', '-jumlah_estimasi_pengerjaan', 'satuan_waktu')
                     elif pilihan == 'Termahal':
                         services = services.order_by("-harga")
                     elif pilihan == 'Termurah':

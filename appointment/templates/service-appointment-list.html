@@ -15,17 +15,19 @@
         <th>Status Sparepart</th>
         {% if appointment.status == "Approved" %}
         <th>Kendala</th>
+        {% endif %}
       
-      {% elif appointment.status == "Finished"  %}
-        {% for sa in service_appointment %}
-        {% for k in kendala %}
-          {% if sa.appointment_id == appointment.id %}
-            {% if sa.id == k.appointment_service_id %}
-              <th>Kendala</th>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-        {% endfor %}
+      {% if appointment.status == "Finished"  %}
+        <th>Kendala</th>
+<!--        {% for sa in service_appointment %}-->
+<!--        {% for k in kendala %}-->
+<!--          {% if sa.appointment_id == appointment.id %}-->
+<!--            {% if sa.id == k.appointment_service_id %}-->
+<!--              <th>Kendala</th>-->
+<!--            {% endif %}-->
+<!--          {% endif %}-->
+<!--        {% endfor %}-->
+<!--        {% endfor %}-->
       {% endif %}
       </tr>
     </thead>

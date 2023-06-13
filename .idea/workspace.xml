@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a6b66aa-bf1e-46b8-ad45-f7db19eb50fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/services/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appointment/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/appointment/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appointment/templates/service-appointment-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/appointment/templates/service-appointment-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kendala/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/kendala/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/templates/list-services.html" beforeDir="false" afterPath="$PROJECT_DIR$/services/templates/list-services.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/views.py" afterDir="false" />
     </list>

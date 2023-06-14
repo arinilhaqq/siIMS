@@ -23,7 +23,9 @@ def create_karyawan(request):
                     context['error_uname']= "Username sudah dipakai"
                 else:
                     if form.is_valid():
+                        print("masuk")
                         form.save()
+                        messages.success(request, "Karyawan berhasil ditambahkan")
                         return redirect('/list-karyawan/')
                 
             context = {
@@ -122,8 +124,3 @@ def update_karyawan(request, id):
     else:
         return HttpResponseRedirect("/login")
     
-# def search_karyawan(request):
-#     query = request.GET.get('search_query')
-#     results = Karyawan.objects.filter(nama_karyawan__icontains=query) | Karyawan.objects.filter(content__icontains=query)
-#     context = {'results': results}
-#     return render(request, 'search_results_karyawan.html', context)

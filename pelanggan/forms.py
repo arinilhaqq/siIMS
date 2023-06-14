@@ -20,6 +20,7 @@ class PelangganSearchForm(forms.Form):
 URUTAN_CHOICES = (
     ('Terbaru', 'Terbaru'),
     ('Terlama', 'Terlama'),
+    ('A-Z', 'A-Z'),
 )
 
 class PelangganSortForm(forms.Form):

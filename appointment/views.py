@@ -248,30 +248,6 @@ def update_appointment(request, id):
     else:
         return HttpResponseRedirect("/login")
     
-def possible_service(request, id):
-    if is_authenticated(request):
-        appointment = get_object_or_404(Appointment, pk=id)
-        # appointment = Appointment.objects.get(id=id)
-        all_service = Service.objects.all()
-
-        if request.method == 'POST':
-            print(id)
-            service_ids = request.POST.getlist('services')
-            print(service_ids)
-            services = Service.objects.filter(id__in=service_ids)
-            appointment.services.set(services)
-            return redirect(f"/service-appointment/{id}")
-        context = {
-            'appointment': appointment,
-            'listservice': all_service,
-            'username': request.session['username'],
-            'jabatan': request.session['jabatan'],
-        }
-
-        return  render(request, 'service-possible.html', context)
-    else:
-        return HttpResponseRedirect("/login")
-    
 def delete_appointment(request, id):
     if is_authenticated(request):
         if request.session['jabatan'] !='Akuntan' and request.session['jabatan'] !='Inventori'and request.session['jabatan'] !='Teknisi':

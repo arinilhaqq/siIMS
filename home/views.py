@@ -138,6 +138,7 @@ def appointment_chart_week(request):
     if is_authenticated(request):
         if request.session['jabatan'] !='Inventori' and request.session['jabatan'] !='Teknisi':
             appointments = Appointment.objects.extra({'week': "EXTRACT(WEEK FROM date)"}).values('week').annotate(count=Count('id')).order_by('-week')
+            print(appointments)
 
             labels = []
             data = []
@@ -207,9 +208,16 @@ def appointment_chart_top_customers(request):
                 num_top_customers = 5  
 
             top_customers = Appointment.objects \
+                .exclude(pelanggan=None) \
                 .values('pelanggan__nama_pelanggan') \
                 .annotate(count=Count('id')) \
                 .order_by('-count')[:num_top_customers]
+
+            # Test case
+            warning_text= ''
+            if (len(top_customers) < num_top_customers):
+                warning_text = 'Data top ' + str(num_top_customers) + ' loyalitas customer yang ditampilkan hanya memiliki ' + str(len(top_customers)) + ' data.'
+            print(warning_text)
 
             labels = []
             data = []
@@ -227,6 +235,7 @@ def appointment_chart_top_customers(request):
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
                 'num_top_customers': num_top_customers,
+                'warning_text': warning_text,
             }
 
             return render(request, 'top-customers-chart.html', context)
@@ -241,7 +250,7 @@ def sparepart_chart_stock(request):
             spareparts = SparePart.objects.all().order_by('-stok')
 
             labels = [sparepart.nama for sparepart in spareparts]
-            data = [sparepart.stok for sparepart in spareparts]
+            data = [sparepart.stok if sparepart.stok <= 100 else 100 for sparepart in spareparts]
 
             # Serialize the data to JSON format
             labels_json = json.dumps(labels)
@@ -270,9 +279,16 @@ def appointment_chart_top_karyawan(request):
                 num_top_karyawan = 5  
 
             top_karyawan = Appointment.objects \
+                .exclude(teknisi=None) \
                 .values('teknisi__nama_karyawan') \
                 .annotate(count=Count('id')) \
                 .order_by('-count')[:num_top_karyawan]
+
+            # Test case
+            warning_text= ''
+            if (len(top_karyawan) < num_top_karyawan):
+                warning_text = 'Data top ' + str(num_top_karyawan) + ' loyalitas customer yang ditampilkan hanya memiliki ' + str(len(top_karyawan)) + ' data.'
+            print(warning_text)
 
             labels = []
             data = []
@@ -289,7 +305,8 @@ def appointment_chart_top_karyawan(request):
                 'data': data_json,
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
-                'num_top_karyawan': num_top_karyawan
+                'num_top_karyawan': num_top_karyawan,
+                'warning_text': warning_text,
             }
 
             return render(request, 'top-karyawan-chart.html', context)
@@ -309,6 +326,12 @@ def appointment_chart_services(request):
 
             services = AppointmentService.objects.values('service__nama').annotate(count=Count('service_id')).order_by('-count')[:num_top_services]
 
+            # Test case
+            warning_text= ''
+            if (len(services) < num_top_services):
+                warning_text = 'Data top ' + str(num_top_services) + ' loyalitas customer yang ditampilkan hanya memiliki ' + str(len(services)) + ' data.'
+            print(warning_text)
+
             labels = []
             data = []
             for service in services:
@@ -325,6 +348,7 @@ def appointment_chart_services(request):
                 'username': request.session['username'],
                 'jabatan': request.session['jabatan'],
                 'num_top_services': num_top_services,
+                'warning_text': warning_text,
             }
 
             return render(request, 'top-services-chart.html', context)

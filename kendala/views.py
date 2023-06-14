@@ -50,13 +50,15 @@ def detail_kendala(request, id):
             appointment = Appointment.objects.get(id=appointment_id)
 
 
-        context = {
-            'kendala': kendala,
-            'appointment': appointment,
-            'username': request.session['username'],
-            'jabatan': request.session['jabatan'],
-        }
-        return render(request, 'detail-kendala.html', context)
+            context = {
+                'kendala': kendala,
+                'appointment': appointment,
+                'username': request.session['username'],
+                'jabatan': request.session['jabatan'],
+            }
+            return render(request, 'detail-kendala.html', context)
+        else:
+            return HttpResponseRedirect("/")
     else:
         return HttpResponseRedirect("/login")
 

@@ -202,13 +202,15 @@ def barang_view(request, id):
                     else:
                         tampung1[sperpart[j].nama] = rows[j][3] #buat kuantitas
                         
-
             for k in range(len(sperpart)):
+                print("Sperpart: ", sperpart)
                 if sperpart[k].nama in tampung2:
                     total = tampung2[sperpart[k].nama]
                     total += sperpart[k].harga * tampung1[sperpart[k].nama]
                     harga_total_peritem.append(total)
                 else:
+                    print("Hello its tampung")
+                    print(sperpart[k].nama)
                     tampung2[sperpart[k].nama] = sperpart[k].harga * tampung1[sperpart[k].nama]
                     harga_total_peritem.append(sperpart[k].harga * tampung1[sperpart[k].nama])                 
 

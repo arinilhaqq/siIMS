@@ -23,7 +23,7 @@
     <div class="row">
       <div class="form-group col-md-4">
         <label class="required" for="id_username">Username: </label> 
-        <input type="text" class="form-control" name="username" maxlength="30" id="id_username"
+        <input type="text" class="form-control" name="username" maxlength="30" id="id_username" placeholder="Ex: roni"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       {% if error_uname %}
           <div class="error" >{{ error_uname }}</div>
@@ -55,45 +55,50 @@
     <div class="row">
       <div class="form-group col-md-4">
         <label class="required" for="id_nama_karyawan">Nama:</label> 
-        <input type="text" class="form-control" name="nama_karyawan" maxlength="30" id="id_nama_karyawan"
+        <input type="text" class="form-control" name="nama_karyawan" maxlength="30" id="id_nama_karyawan" placeholder="Ex: Roni Hidayat"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
       <div class="form-group col-md-4">
         <label class="required" for="id_telepon_karyawan">Telepon:</label> 
-        <input type="tel" class="form-control" name="telepon_karyawan" inputmode="tel" pattern="[0-9()+-]*" id="id_telepon_karyawan"
+        <input type="tel" class="form-control" name="telepon_karyawan" inputmode="tel" pattern="[0-9()+-]*" id="id_telepon_karyawan" placeholder="Ex: 081298971527"
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu atau tidak sesuai')" oninput="setCustomValidity('')">
         </div>
       <div class="form-group col-md-4">
         <label class="required" for="id_email">Email:</label> 
-        <input type="email" class="form-control" name="email" maxlength="254" id="id_email" placeholder="example@gmail.com" 
+        <input type="email" class="form-control" name="email" maxlength="254" id="id_email" placeholder="Ex: example@gmail.com" 
         required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
       </div>
     </div>
     <br>
     <div class="form-group col-md-12">
       <label class="required" for="id_alamat_karyawan">Alamat:</label>
-      <textarea name="alamat_karyawan" class="form-control" cols="10" rows="5" id="id_alamat_karyawan"
+      <textarea name="alamat_karyawan" class="form-control" cols="10" rows="5" id="id_alamat_karyawan" placeholder="Ex: Jl. Palm Indah No. 18, Jakarta Barat"
       required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')"></textarea>
     </div>
     <br>
-    <br>
     <div class="row">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label class="required" for="id_jabatan">Jabatan:</label>
-        {{ form.jabatan }}
+        <select class="form-select" name="jabatan">
+            <option selected>Jabatan</option>
+            <option value="Admin">Admin</option>
+            <option value="Owner">Owner</option>
+            <option value="Service Advisor">Service Advisor</option>
+            <option value="Akuntan">Akuntan</option>
+            <option value="Inventori">Inventori</option>
+            <option value="Teknisi">Teknisi</option>
+          </select>
       </div>
-      <!-- <div class="form-group col-md-6">
-          <label for="id_total_keaktifan">Total Keaktifan:</label>
-          <input type="number" class="form-control" id="id_total_keaktifan" placeholder="cth: 0" name="total_keaktifan" 
-          required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
-      </div> -->
     </div>
     <br>
     <div class="row">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label class="required" for="id_kehadiran">Kehadiran:</label>
-        {{ form.kehadiran }}
-        <!-- <input type="text" class="form-control" id="id_kehadiran" placeholder="cth: Hadir" name="kehadiran" required> -->
+        <select class="form-select" name="kehadiran">
+          <option selected>Kehadiran</option>
+          <option value="Hadir">Hadir</option>
+          <option value="Tidak Hadir">Tidak Hadir</option>
+        </select>
       </div>
     </div>
     <br>

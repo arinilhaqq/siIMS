@@ -8,17 +8,6 @@
       color: red;
     }
 
-    /* input[type="checkbox"] {
-      border: 2px solid black;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    input[type="checkbox"]:checked:disabled {
-      background-color: green;
-      border-color: green;
-    }
-
     #ringring {
       background-color: green;
     } */
@@ -53,6 +42,10 @@
         background-color: green; /* Change the color here */
     }
 
+    .hidden-checkbox {
+        display: none;
+    }
+    
   </style>
   <h1 class="text-center">Final Inspection</h1>
   <br>
@@ -505,10 +498,6 @@
     <input type="hidden" name="driver_30" id="id_driver_30" value="{{inspection.driver_30}}">
     <input type="hidden" name="driver_31" id="id_driver_31" value="{{inspection.driver_31}}">
     <input type="hidden" name="driver_32" id="id_driver_32" value="{{inspection.driver_32}}">
-    <!-- <input type="hidden" name="karpet" id="id_karpet" value="{{inspection.karpet}}">
-    <input type="hidden" name="kursi" id="id_kursi" value="{{inspection.kursi}}">
-    <input type="hidden" name="headliner" id="id_headliner" value="{{inspection.headliner}}">
-    <input type="hidden" name="door_panels" id="id_door_panels" value="{{inspection.door_panels}}"> -->
     <input type="hidden" name="catatan" id="id_catatan" value="{{inspection.catatan}}">
     {% if inspection.karpet%}
       <input type="hidden" name="karpet" id="id_karpet"value="{{inspection.karpet}}">
@@ -522,16 +511,15 @@
     {% if inspection.door_panels%}
       <input type="hidden" name="door_panels" id="id_door_panels" value="{{inspection.door_panels}}">
     {%endif%}
-    <!-- <input type="hidden" name="kursi" id="id_kursi" {% if id_kursi!= 'NULL'}value="id_kursi"{%endif}>
-    <input type="hidden" name="headliner" id="id_headliner"  {% if id_headliner!= 'NULL'}value="id_headliner"{%endif}>
-    <input type="hidden" name="door_panels" id="id_door_panels" {% if id_door_panels!= 'NULL'}value="id_door_panels"{%endif}> -->
+
     <div class="form-group col-md-3">
       <p><strong>Diperiksa:</strong></p>
       <label for="checked">Teknisi Final Inspector</label>
       {% if jabatan != 'Teknisi' and jabatan != 'Admin' %}
       <div class="custom-checkbox">
-          <input type="checkbox" name="checked" value="checked" id="checked" disabled {% if inspection.checked %}checked{% endif %}>
+          <input type="checkbox" name="checked" value="checked" id="checked" disabled {% if inspection.checked %}checked class="hidden-checkbox" {% endif %}>
           <label for="checked"></label>
+          <input type="hidden" name="checked" id="checked" value="checked">
       </div>
       {% if inspection.checked %}
           <input type="hidden" name="checked" id="checked" value="checked">
@@ -540,8 +528,12 @@
         {% endif %}
       {% else %}
         {% if inspection.checked %}
-          <input type="checkbox" name="checked" value="checked" id="checked" checked>
-        {% else %}
+        <div class="custom-checkbox">
+          <input type="checkbox" name="checked" value="checked" id="checked" disabled {% if inspection.checked %}checked class="hidden-checkbox" {% endif %}>
+          <label for="checked"></label>
+          <input type="hidden" name="checked" id="checked" value="checked">
+        </div>
+          {% else %}
           <input type="checkbox" name="checked" value="checked" id="checked">
         {% endif %}
       {% endif %}
@@ -553,33 +545,33 @@
       <label for="approved">Service Advisor</label>
       {% if jabatan != 'Service Advisor' and jabatan != 'Admin' %}
       <div class="custom-checkbox">
-          <input type="checkbox" name="approved" value="approved" id="approved" disabled {% if inspection.approved %}checked{% endif %}>
+          <input type="checkbox" name="approved" value="approved" id="approved" disabled {% if inspection.approved %}checked class="hidden-checkbox" {% endif %}>
           <label for="approved"></label>
+          <input type="hidden" name="approved" value="approved" id="approved">
       </div>
       {% if inspection.approved %}
           <input type="hidden" name="approved" value="approved" id="approved">
         {% else %}
         <input type="checkbox" name="approved" value="approved" id="approved"disabled>
-        {% endif %}
+      {% endif %}
       {% else %}
         {% if inspection.approved %}
-          <input type="checkbox" name="approved" value="approved" id="approved" checked>
-        {% else %}
+        <div class="custom-checkbox">
+          <input type="checkbox" name="approved" value="approved" id="approved" disabled {% if inspection.approved %}checked class="hidden-checkbox" {% endif %}>
+          <label for="approved"></label>
+          <input type="hidden" name="approved" value="approved" id="approved">
+        </div>
+          {% else %}
           <input type="checkbox" name="approved" value="approved" id="approved">
         {% endif %}
       {% endif %}
     </div>
     <br>
-      <!-- <div class="form-group col-md-2">
-        <p><strong>Mengetahui:</strong></p>
-        <label for="id_front_3">Pemilik/Kuasa Kendaraan</label>
-        <input type="checkbox" name="front_3" id="id_front_3">
-      </div> -->
-      <br>
-      <br>
+    <br>
+    <br>
     <div class="bs-example">
       <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin untuk menyimpan formulir ini?');">Verify</button>
-      <a class="btn btn-success" href="/list-appointment">Kembali</a>
+      <a class="btn btn-outline-primary" href="/list-appointment">Kembali</a>
       {% if jabatan != 'Service Advisor' %}
         <a class="btn btn-success" href="/update-final-inspection/{{ appointment.id }}">Update</a>
       {% endif %}

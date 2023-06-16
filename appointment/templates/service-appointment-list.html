@@ -16,17 +16,17 @@
         {% if appointment.status == "Approved" %}
         <th>Kendala</th>
       
-      {% elif appointment.status == "Finished"  %}
-        {% for sa in service_appointment %}
-        {% for k in kendala %}
-          {% if sa.appointment_id == appointment.id %}
-            {% if sa.id == k.appointment_service_id %}
-              <th>Kendala</th>
+        {% elif appointment.status == "Finished"  %}
+          {% for sa in service_appointment %}
+          {% for k in kendala %}
+            {% if sa.appointment_id == appointment.id %}
+              {% if sa.id == k.appointment_service_id %}
+                <th>Kendala</th>
+              {% endif %}
             {% endif %}
-          {% endif %}
-        {% endfor %}
-        {% endfor %}
-      {% endif %}
+          {% endfor %}
+          {% endfor %}
+        {% endif %}
       </tr>
     </thead>
     <tbody>

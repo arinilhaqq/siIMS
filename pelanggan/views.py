@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Pelanggan
 from .forms import PelangganForm, PelangganSearchForm, PelangganSortForm
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 def is_authenticated(request):
     try:
@@ -34,6 +35,8 @@ def pelanggan_list(request):
                         pelanggan = pelanggan.order_by("-id")
                     elif pilihan == 'Terlama':
                         pelanggan = pelanggan.order_by("id")
+                    elif pilihan == 'A-Z':
+                        pelanggan = pelanggan.order_by("nama_pelanggan")
 
             response = {
                 "form": form,
@@ -57,6 +60,7 @@ def create_pelanggan(request):
             form = PelangganForm(request.POST or None)
             if (form.is_valid() and request.method == 'POST'):
                 form.save()
+                messages.success(request, "Pelanggan berhasil ditambahkan")
                 return redirect('/list-pelanggan/')
 
             context['form'] = form

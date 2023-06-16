@@ -40,7 +40,7 @@
                 oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi terlebih dahulu')" oninput="setCustomValidity('')">
             </div>
             <div class="form-group col-md-6">
-                <label class="required">Kebutuhan Jenis Services:</label>
+                <label class="required">Kebutuhan Jenis Spare Parts:</label>
                 <select name="services" id="id_services" class="form-select" multiple data-search="true">
                     {% for service in listservices %}
                     <option value="{{ service.id }}" {% if service in sparepart.services.all or service == serv or service in serv %}selected{% endif %}>{{ service.nama }}</option>

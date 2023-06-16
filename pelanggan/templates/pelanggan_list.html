@@ -1,6 +1,13 @@
 {% extends 'main.html' %} {% load static %} {% block meta %}
 <title>Pelanggan | si-IMS</title>
 {% endblock meta %} {% block content %}
+  {% if messages %}
+  <div class="messages">
+      {% for message in messages %}
+      <p {% if message.tags %} class="alert alert-success" {% endif %}  align="center">{{ message }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
 
   <h1 class="text-center">List Pelanggan</h1>
   <p class="text-center">List pelanggan yang terdaftar di PT Inter Motor Sport</p>
@@ -31,6 +38,7 @@
           <option selected>Urutkan Pelanggan</option>
           <option value="Terbaru">Terbaru</option>
           <option value="Terlama">Terlama</option>
+          <option value="A-Z">A-Z</option>
         </select>
       </div>
       <div class="col-sm-1">
@@ -141,7 +149,7 @@
       {% endfor %}
     </tbody>
   </table>
-  <div class="bs-example">
+  <div class="bs-example bawah">
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
   </div>
 {% endblock content %}

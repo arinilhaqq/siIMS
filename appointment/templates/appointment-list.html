@@ -224,10 +224,12 @@
                     {% endif %}
 
                     {% if jabatan == 'Admin' or jabatan == 'Service Advisor' %}
+                      {% if appoint.status == 'Canceled' or appoint.status == 'Not Ready' %}
                       <a class="btn btn-danger" href="/delete-appointment/{{ appoint.id }}" onclick="return confirm('Apakah Anda yakin untuk menghapus item ini?');">Delete</a>        
+                      {% endif %}
                     {% endif %}
 
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kembali</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
                   </div>
                 </div>
               </div>
@@ -242,7 +244,7 @@
     {% endfor %}
     </tbody>
   </table>
-  <div class="bs-example">
+  <div class="bs-example bawah">
     <button type="button" class="btn btn-outline-primary" onclick="history.back()">Kembali</button>
   </div>
 

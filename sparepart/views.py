@@ -69,7 +69,7 @@ def sparepart_list(request):
                     elif pilihan == 'Terdikit':
                         sparepart = sparepart.order_by("stok")
 
-            print(tampung)
+            #print(tampung)
 
             response = {'form':form, 'form_sort': form_sort, 'sparepart': sparepart, 'username': request.session['username'],
                         'jabatan': request.session['jabatan'], 'listallservice': tampung}
